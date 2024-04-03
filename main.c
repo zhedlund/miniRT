@@ -6,11 +6,13 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:45:57 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/03 20:12:34 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/03 20:26:03 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+// compile: cc main.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm 
 
 void ft_pixel_put(t_img *img, int x, int y, int color)
 {
