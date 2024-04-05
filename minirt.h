@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/03 19:56:02 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:56:04 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,36 @@ typedef struct s_data
 	void	*win_ptr;
 	t_img	img;
 }	t_data;
+
+typedef struct s_cam
+{
+	float	x;
+	float	y;
+	float	z;
+	float	dir[3];
+	int		fov;
+}	t_cam;
+
+typedef struct s_sph
+{
+	float	x;
+	float	y;
+	float	z;
+	float	r;
+	int		color;
+}	t_sph;
+
+typedef struct s_obj
+{
+	char			id;
+	void			*obj;
+	struct s_obj	*next;
+}	t_obj;
+
+typedef struct s_scene
+{
+	t_cam	*cam;
+	t_obj	*objs;
+}	t_scene;
 
 #endif
