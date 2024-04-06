@@ -42,4 +42,6 @@ typedef struct s_data
 	t_img	img;
 }	t_data;
 
+void ft_pixel_put(t_img *img, int x, int y, int color);
+
 #endif
