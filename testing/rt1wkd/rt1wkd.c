@@ -8,9 +8,12 @@
 typedef struct
 {
     double e[3]; // x, y, z
+	double x;
+	double y;
+	double z;
 } vec3;
 
-// aliases for vec3, useful for clarity in the code
+// aliases for vec3, used for clarity in the code
 typedef vec3 point3;
 typedef vec3 color;
 
@@ -20,12 +23,12 @@ typedef struct
     vec3 dir;  // Direction of the ray
 } ray;
 
-typedef struct {
+typedef struct
+{
     vec3 center;
     double radius;
 } sphere;
 
-// Utility Functions
 double dot(const vec3 *u, const vec3 *v) 
 {
     return (u->e[0] * v->e[0] + u->e[1] * v->e[1] + u->e[2] * v->e[2]);
@@ -34,12 +37,6 @@ double dot(const vec3 *u, const vec3 *v)
 double vec3_length_squared(const vec3 *v)
 {
     return (v->e[0] * v->e[0] + v->e[1] * v->e[1] + v->e[2] * v->e[2]);
-}
-
-// I/O function
-void vec3_print(const vec3 *v)
-{
-    printf("%f %f %f\n", v->e[0], v->e[1], v->e[2]);
 }
 
 double hit_sphere(const point3 *center, double radius, const ray *r)
@@ -121,7 +118,7 @@ int main()
     vec3 pixel00_loc = {viewport_up_left.e[0] + 0.5 * (pixel_delta_u.e[0] + pixel_delta_v.e[0]),
                         viewport_up_left.e[1] + 0.5 * (pixel_delta_u.e[1] + pixel_delta_v.e[1]),
                         viewport_up_left.e[2]};
-    
+
 	// Render
     printf("P3\n%d %d\n255\n", image_width, image_height);
     int j = 0;
