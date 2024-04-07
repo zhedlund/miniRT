@@ -5,7 +5,6 @@
 // Constants
 #define PI M_PI
 
-
 typedef struct {
     double e[3];
 } vec3;
@@ -293,20 +292,21 @@ color ray_color(const ray *r) {
         vec3 N = { r->orig.e[0] + t * r->dir.e[0], r->orig.e[1] + t * r->dir.e[1], r->orig.e[2] + t * r->dir.e[2] };
         vec3 temp = { 0, 0, -1 };
         vec3 unit_N = { (N.e[0] - temp.e[0]) / radius, (N.e[1] - temp.e[1]) / radius, (N.e[2] - temp.e[2]) / radius };
-        color res = { 0.5 * (unit_N.e[0] + 1), 0.5 * (unit_N.e[1] + 1), 0.5 * (unit_N.e[2] + 1) };
-        return res;
+        color pixel_color = { 0.5 * (unit_N.e[0] + 1), 0.5 * (unit_N.e[1] + 1), 0.5 * (unit_N.e[2] + 1) };
+        return (pixel_color);
     }
-
+	// equation can be used to compute ambient lighting in the scene, now just used for bg
     vec3 unit_direction = { r->dir.e[0] / sqrt(dot(&r->dir, &r->dir)),
                              r->dir.e[1] / sqrt(dot(&r->dir, &r->dir)),
                              r->dir.e[2] / sqrt(dot(&r->dir, &r->dir)) };
     double a = 0.5 * (unit_direction.e[1] + 1.0);
-    color white = { 1.0, 1.0, 1.0 };
-    color blue = { 0.5, 0.7, 1.0 };
-    color term1 = { (1.0 - a) * white.e[0], (1.0 - a) * white.e[1], (1.0 - a) * white.e[2] };
-    color term2 = { a * blue.e[0], a * blue.e[1], a * blue.e[2] };
-    color res = { term1.e[0] + term2.e[0], term1.e[1] + term2.e[1], term1.e[2] + term2.e[2] };
-    return res;
+    color light = { 1.0, 1.0, 1.0 };
+    color dark = { 0.5, 0.7, 1.0 };
+    color ambient = { (1.0 - a) * light.x, (1.0 - a) * light.y, (1.0 - a) * light.z }; // ambient light contribution
+    color diffusion = { a * dark.x, a * dark.y, a * dark.z }; // diffuse reflection contribution
+	// sum of ambient and diffuse light to get final pixel color
+    color pixel_color = { ambient.x + diffusion.x, ambient.y + diffusion.y, ambient.z + diffusion.z };
+    return (pixel_color);
 }
 
 int main() {
