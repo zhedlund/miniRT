@@ -19,6 +19,20 @@ typedef struct
     vec3 dir;  // Direction of the ray
 } ray;
 
+typedef struct {
+    double focal_length;
+    double fov;
+    double viewport_width;
+    double viewport_height;
+    vec3 camera_center;
+    vec3 viewport_u;
+    vec3 viewport_v;
+    vec3 pixel_delta_u;
+    vec3 pixel_delta_v;
+    vec3 viewport_up_left;
+    vec3 pixel00;
+} camera;
+
 typedef struct
 {
     point3 center;
@@ -100,44 +114,40 @@ double hit_sphere(const point3 *center, double radius, const ray *r)
 /* 	Calculates the color of a pixel based on the intersection of a ray with a sphere or plane.
 	Returns a color value based on the normal vector at the intersection point.
 */
-color ray_color(const ray *r)
+color ray_color(const ray *r, const sphere *sp, const plane *pl)
 {
-    sphere sp = {{0, 0, -1}, 0.5}; // point3 center, double radius
-    double ts = hit_sphere(&sp.center, sp.radius, r); // ts = t value sphere
-    plane pl = {{0, -0.4, 0}, {0, 1, 0}}; // point3 point, vec3 normal
-    double tp = hit_plane(&pl, r); // tp = t value plane
+    double ts = hit_sphere(&sp->center, sp->radius, r);
+    double tp = hit_plane(pl, r);
 
     if (ts > 0.0 && (tp < 0 || ts < tp)) // Intersection with the sphere
     {
         point3 intersect = {
-			r->origin.x + (ts * r->dir.x),
-			r->origin.y + (ts * r->dir.y),
-			r->origin.z + (ts * r->dir.z)
-		};
-		// Calculate the normal vector at the intersection point
+            r->origin.x + (ts * r->dir.x),
+            r->origin.y + (ts * r->dir.y),
+            r->origin.z + (ts * r->dir.z)
+        };
         vec3 normal = {
-			(intersect.x - sp.center.x) / sp.radius,
-			(intersect.y - sp.center.y) / sp.radius,
-			(intersect.z - sp.center.z) / sp.radius 
-			};
-		// Convert the normal vector to a color value
+            (intersect.x - sp->center.x) / sp->radius,
+            (intersect.y - sp->center.y) / sp->radius,
+            (intersect.z - sp->center.z) / sp->radius
+        };
         color pixel_color = {0.5 * (normal.x + 1), 0.5 * (normal.y + 1), 0.5 * (normal.z + 1)};
         return (pixel_color);
     }
-	else if (tp > 0) // intersection with the plane
-	{   
-		point3 intersect = {
-	    	r->origin.x + (tp * r->dir.x),
-    		r->origin.y + (tp * r->dir.y),
-    		r->origin.z + (tp * r->dir.z)
-		};
-		color pixel_color = { 0.5 * (pl.normal.x + 1), 0.5 * (pl.normal.y + 1), 0.5 * (pl.normal.z + 1) };
-		return (pixel_color);
-	}
-	else // No intersection
-	{
-		color pixel_color = {0.5, 0.7, 1.0}; // background color
-		return (pixel_color);
+    else if (tp > 0) // intersection with the plane
+    {
+        point3 intersect = {
+            r->origin.x + (tp * r->dir.x),
+            r->origin.y + (tp * r->dir.y),
+            r->origin.z + (tp * r->dir.z)
+        };
+        color pixel_color = {0.5 * (pl->normal.x + 1), 0.5 * (pl->normal.y + 1), 0.5 * (pl->normal.z + 1)};
+        return pixel_color;
+    }
+    else // No intersection
+    {
+        color pixel_color = {0.5, 0.7, 1.0}; // background color
+        return pixel_color;
     }
 }
 
@@ -189,8 +199,11 @@ int main()
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp, &data.img.line_len, &data.img.endian);
 
     // Camera
-    double focal_length = 1.0;
-    double viewport_height = 2.0;
+	// viewport = the "screen" through which the camera sees the scene
+    double focal_length = 1.0; // camera zoom
+    double fov = 70.0; // FOV in degrees
+    double fov_radians = fov * M_PI / 180.0; // Convert FOV from degree to radians
+    double viewport_height = 2.0 * tan(fov_radians / 2.0); //computes viewport height based on FOV angle
     double viewport_width = viewport_height * ((double)image_width / image_height);
     vec3 camera_center = {0, 0, 0}; // x,y,z coordinates of the view point
 
@@ -208,12 +221,23 @@ int main()
     	(camera_center.y) - (0.5 * viewport_u.y) - (0.5 * viewport_v.y),
     	(camera_center.z) - focal_length
 		};
-// coordinates of the upper-left corner of the viewport
+	// coordinates of the upper-left corner of the viewport
     vec3 pixel00 = {
 		viewport_up_left.x + 0.5 * (pixel_delta_u.x + pixel_delta_v.x),
 		viewport_up_left.y + 0.5 * (pixel_delta_u.y + pixel_delta_v.y),
         viewport_up_left.z
 		};
+
+	// init sphere struct
+	sphere sp;
+    sp.center = (point3){0, 0, -1}; // center coordinates
+    sp.radius = 0.5;
+
+    // init plane struct
+    plane pl;
+    pl.point = (point3){0, -0.4, 0}; // point on the plane
+    pl.normal = (vec3){0, 1, 0}; // assigning normal vector
+	
 	// Render
     int j = 0;
 	while (j < image_height)
@@ -232,7 +256,7 @@ int main()
     			(pixel_center.z - camera_center.z)
 			};
         	ray r = {camera_center, ray_direction};
-        	color pixel_color = ray_color(&r);
+        	color pixel_color = ray_color(&r, &sp, &pl);
         	write_color(pixel_color, &data.img, i, j);
         	i++;
     	}
