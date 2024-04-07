@@ -140,10 +140,70 @@ double hit_sphere(const point3 *center, double radius, const ray *r)
         return ((-half_b - sqrt(discriminant)) / a);
 }
 
+color add_color(const color *c1, const color *c2)
+{
+    return (color){c1->r + c2->r, c1->g + c2->g, c1->b + c2->b};
+}
+
+/* 	Normalizes a vector represented by a vec3 struct.
+	Returns a new vec3 struct representing the normalized vector.
+*/
+vec3 vec3_unit_vector(const vec3 *v)
+{
+    double length = sqrt(v->x * v->x + v->y * v->y + v->z * v->z);
+    return (vec3){v->x / length, v->y / length, v->z / length};
+}
+
 /* 	Calculates the color of a pixel based on the intersection of a ray with a sphere or plane.
 	Returns a color value based on the normal vector at the intersection point.
 */
-color ray_color(const ray *r, const sphere *sp, const plane *pl)
+color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting *lights) {
+    double ts = hit_sphere(&sp->center, sp->radius, r);
+    double tp = hit_plane(pl, r);
+    color px;
+
+    if (ts > 0.0 && (tp < 0 || ts < tp))
+	{ // Intersection with the sphere
+        // Calculate intersection point and normal vector
+        point3 intersect = {r->origin.x + (ts * r->dir.x), r->origin.y + (ts * r->dir.y), r->origin.z + (ts * r->dir.z)};
+        vec3 normal = {(intersect.x - sp->center.x) / sp->radius, (intersect.y - sp->center.y) / sp->radius, (intersect.z - sp->center.z) / sp->radius};
+        
+        // Ambient lighting
+        color ambient_color = {lights->ambient.ratio * sp->color.r * lights->ambient.color.r,
+                               lights->ambient.ratio * sp->color.g * lights->ambient.color.g,
+                               lights->ambient.ratio * sp->color.b * lights->ambient.color.b};
+
+        // Diffuse lighting
+        vec3 light_dir = vec3_unit_vector(&lights->light.dir);
+        double diffuse_factor = dot(&light_dir, &normal);
+        color diffuse_color = {fmax(0, diffuse_factor) * sp->color.r * lights->light.color.r * lights->light.ratio,
+                               fmax(0, diffuse_factor) * sp->color.g * lights->light.color.g * lights->light.ratio,
+                               fmax(0, diffuse_factor) * sp->color.b * lights->light.color.b * lights->light.ratio};
+
+        // add ambient and diffuse components
+        px = add_color(&ambient_color, &diffuse_color);
+    } 
+	else if (tp > 0) // Intersection with the plane
+	{
+        // Calculate intersection point
+        point3 intersect = {r->origin.x + (tp * r->dir.x), r->origin.y + (tp * r->dir.y), r->origin.z + (tp * r->dir.z)};
+        
+        // Ambient lighting for plane
+        color ambient_color = {lights->ambient.ratio * pl->color.r * lights->ambient.color.r,
+                               lights->ambient.ratio * pl->color.g * lights->ambient.color.g,
+                               lights->ambient.ratio * pl->color.b * lights->ambient.color.b};
+
+        // Final pixel color with ambient component
+        px = ambient_color;
+    } else { // No intersection
+        // Background color
+        px = (color){0.5, 0.7, 1.0};
+    }
+    return px;
+}
+
+
+/*color ray_color(const ray *r, const sphere *sp, const plane *pl)
 {
     double	ts = hit_sphere(&sp->center, sp->radius, r);
     double	tp = hit_plane(pl, r);
@@ -177,7 +237,7 @@ color ray_color(const ray *r, const sphere *sp, const plane *pl)
     else // No intersection
         px = (color){0.5, 0.7, 1.0}; // background color
 	return (px);
-}
+}*/
 
 void ft_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -241,12 +301,12 @@ int main()
 	pl.color = (color){0.5, 0.5, 0.5}; // color of the plane
 
 	/*init light structs*/
-    a.ratio = 0.5; 
+    a.ratio = 0.2; 
     a.color = (color){1.0, 1.0, 1.0}; 
     a.diffuse = 0.2; 
-    l.dir = (vec3){0.0, -1.0, 0.0}; 
-    l.ratio = 1.0;
-    l.diffuse = 0.8; 
+    l.dir = (vec3){-40.0, 50.0, 0.0}; 
+    l.ratio = 0.6;
+    l.diffuse = 0.4; 
     l.color = (color){1.0, 1.0, 1.0}; 
 
     /* initialize camera struct */
@@ -297,7 +357,7 @@ int main()
                 (px_center.z - cam.center.z)
             };
             ray r = {cam.center, ray_direction};
-            color px_color = ray_color(&r, &sp, &pl);
+            color px_color = ray_color(&r, &sp, &pl, &(lighting){a, l});
             write_color(px_color, &data.img, i, j);
             i++;
         }
