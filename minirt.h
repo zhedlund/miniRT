@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/05 16:56:04 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/05 17:44:44 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,23 @@ typedef struct s_data
 	t_img	img;
 }	t_data;
 
-typedef struct s_cam
+typedef struct s_vec
 {
 	float	x;
 	float	y;
 	float	z;
-	float	dir[3];
+}	t_vec;
+
+typedef struct s_cam
+{
+	t_vec	vec;
+	t_vec	dir;
 	int		fov;
 }	t_cam;
 
 typedef struct s_sph
 {
-	float	x;
-	float	y;
-	float	z;
+	t_vec	vec;
 	float	r;
 	int		color;
 }	t_sph;

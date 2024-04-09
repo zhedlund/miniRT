@@ -6,8 +6,17 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:53:29 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/05 16:56:41 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/05 17:45:44 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+float	get_distance(t_vec *p1, t_vec *p2)
+{
+	float	res;
+
+	if (!p1 || !p2)
+		return (-1);
+
+}
