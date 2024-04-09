@@ -1,6 +1,6 @@
-#include "../../minirt.h"
+#include "../minirt.h"
 
-// cc rt1wkd_mlx.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
+// cc rt_mlx.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
 
 typedef struct
 {
@@ -30,7 +30,8 @@ typedef struct
     double fov;
     double viewport_width;
     double viewport_height;
-    vec3 center;
+    vec3 center; // camera position
+	vec3 orientation; // normalized orientation vector (direction the camera is pointing)
     vec3 viewport_u;
     vec3 viewport_v;
     vec3 px_delta_u;
@@ -157,13 +158,14 @@ vec3 vec3_unit_vector(const vec3 *v)
 /* 	Calculates the color of a pixel based on the intersection of a ray with a sphere or plane.
 	Returns a color value based on the normal vector at the intersection point.
 */
-color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting *lights) {
+color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting *lights)
+{
     double ts = hit_sphere(&sp->center, sp->radius, r);
     double tp = hit_plane(pl, r);
     color px;
 
-    if (ts > 0.0 && (tp < 0 || ts < tp))
-	{ // Intersection with the sphere
+    if (ts > 0.0 && (tp < 0 || ts < tp)) // Intersection with the sphere
+	{ 
         // Calculate intersection point and normal vector
         point3 intersect = {r->origin.x + (ts * r->dir.x), r->origin.y + (ts * r->dir.y), r->origin.z + (ts * r->dir.z)};
         vec3 normal = {(intersect.x - sp->center.x) / sp->radius, (intersect.y - sp->center.y) / sp->radius, (intersect.z - sp->center.z) / sp->radius};
@@ -173,7 +175,7 @@ color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting 
                                lights->ambient.ratio * sp->color.g * lights->ambient.color.g,
                                lights->ambient.ratio * sp->color.b * lights->ambient.color.b};
 
-        // Diffuse lighting
+        // Diffuse lighting for shadow effect
         vec3 light_dir = vec3_unit_vector(&lights->light.dir);
         double diffuse_factor = dot(&light_dir, &normal);
         color diffuse_color = {fmax(0, diffuse_factor) * sp->color.r * lights->light.color.r * lights->light.ratio,
@@ -202,43 +204,6 @@ color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting 
     return px;
 }
 
-
-/*color ray_color(const ray *r, const sphere *sp, const plane *pl)
-{
-    double	ts = hit_sphere(&sp->center, sp->radius, r);
-    double	tp = hit_plane(pl, r);
-	color	px;
-
-    if (ts > 0.0 && (tp < 0 || ts < tp)) // Intersection with the sphere
-    {
-        point3 intersect = {
-            r->origin.x + (ts * r->dir.x),
-            r->origin.y + (ts * r->dir.y),
-            r->origin.z + (ts * r->dir.z)
-        };
-        vec3 normal = {
-            (intersect.x - sp->center.x) / sp->radius,
-            (intersect.y - sp->center.y) / sp->radius,
-            (intersect.z - sp->center.z) / sp->radius
-        };
-        //px = (color){0.5 * (normal.x + 1), 0.5 * (normal.y + 1), 0.5 * (normal.z + 1)};
-		px = sp->color;
-	}
-    else if (tp > 0) // intersection with the plane
-    {
-        point3 intersect = {
-            r->origin.x + (tp * r->dir.x),
-            r->origin.y + (tp * r->dir.y),
-            r->origin.z + (tp * r->dir.z)
-        };
-        //px = (color){0.5 * (pl->normal.x + 1), 0.5 * (pl->normal.y + 1), 0.5 * (pl->normal.z + 1)};
-		px = pl->color;
-	}
-    else // No intersection
-        px = (color){0.5, 0.7, 1.0}; // background color
-	return (px);
-}*/
-
 void ft_pixel_put(t_img *img, int x, int y, int color)
 {
     char *pixel;
@@ -263,6 +228,7 @@ int key_handler(int keycode, t_data *data)
 	return (0);
 }
 
+
 int main()
 {
 	t_data	data;
@@ -279,7 +245,7 @@ int main()
 	if (image_height < 1)
     	image_height = 1; // ensure height is at least 1
 
-	/* initialize mlx stuff*/
+	// initialize mlx stuff
     data.mlx_ptr = mlx_init();
 	if (data.mlx_ptr == NULL)
 		return (1);
@@ -292,26 +258,31 @@ int main()
 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, image_width, image_height);
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp, &data.img.line_len, &data.img.endian);
 
-	/* init sphere & plane structs */
+	// init sphere & plane structs 
     sp.center = (point3){0, 0, -1}; // center coordinates
     sp.radius = 0.5;
-	sp.color = (color){0.7, 0.3, 0.3}; // color of the sphere
+	sp.color = (color){0.7, 0.1, 0.7}; // color of the sphere
+
     pl.point = (point3){0, -0.4, 0}; // point on the plane
     pl.normal = (vec3){0, 1, 0}; // assigning normal vector
-	pl.color = (color){0.5, 0.5, 0.5}; // color of the plane
+	pl.color = (color){0.1, 0.9, 0.6}; // color of the plane
 
-	/*init light structs*/
-    a.ratio = 0.2; 
+	// init light structs
+    a.ratio = 0.6; // ambient light ratio, higher = brighter
     a.color = (color){1.0, 1.0, 1.0}; 
-    a.diffuse = 0.2; 
-    l.dir = (vec3){-40.0, 50.0, 0.0}; 
-    l.ratio = 0.6;
-    l.diffuse = 0.4; 
-    l.color = (color){1.0, 1.0, 1.0}; 
+    a.diffuse = 0.0; // higher value = more light is scattered, brighter shading on the surface
 
-    /* initialize camera struct */
+    l.dir = (vec3){-40.0, 50.0, 0.0}; 
+    l.ratio = 0.8; // direct light ratio, higher = brighter
+    l.diffuse = -0.5;
+    l.color = (color){1.0, 1.0, 0.0}; 
+
+    // initialize camera struct
     cam.focal_length = 1.0;
     cam.fov = 70.0;
+	cam.center = (vec3){0, 0, 0.3}; // viewpoint coordinates. x = left-right, y = up-down, z = forward-backward
+	cam.orientation = (vec3){0.0, 0.1, 0.0}; // normalized orientation vector. cam orientation along xyz axis
+
     double fov_radians = cam.fov * M_PI / 180.0; // Convert FOV to radians
     cam.viewport_height = 2.0 * tan(fov_radians / 2.0); // viewport height based on FOV
     cam.viewport_width = cam.viewport_height * ((double)image_width / image_height);
@@ -325,44 +296,52 @@ int main()
     cam.px_delta_v = (vec3){0, cam.viewport_v.y / image_height, 0};
 
     // location of the upper left pixel
-    cam.viewport_up_left = (vec3){
-        cam.center.x - 0.5 * cam.viewport_u.x - 0.5 * cam.viewport_v.x,
-        cam.center.y - 0.5 * cam.viewport_u.y - 0.5 * cam.viewport_v.y,
-        cam.center.z - cam.focal_length
-    };
+    cam.viewport_up_left = (vec3) {
+    cam.center.x - 0.5 * cam.viewport_u.x - 0.5 * cam.viewport_v.x,
+    cam.center.y - 0.5 * cam.viewport_u.y - 0.5 * cam.viewport_v.y,
+    cam.center.z - cam.focal_length
+	};
     // coordinates of the upper-left corner of the viewport
     cam.px_00 = (vec3) {
-        cam.viewport_up_left.x + 0.5 * (cam.px_delta_u.x + cam.px_delta_v.x),
-        cam.viewport_up_left.y + 0.5 * (cam.px_delta_u.y + cam.px_delta_v.y),
-        cam.viewport_up_left.z
-    };
-	
-	// Render
-    int j = 0;
-    while (j < image_height)
+    cam.viewport_up_left.x + 0.5 * (cam.px_delta_u.x + cam.px_delta_v.x),
+    cam.viewport_up_left.y + 0.5 * (cam.px_delta_u.y + cam.px_delta_v.y),
+    cam.viewport_up_left.z
+	};
+
+	int j = 0;
+	while (j < image_height)
 	{
-        int i = 0;
-        while (i < image_width)
-		{
-            vec3 px_center = 
-			{
-                cam.px_00.x + (i * cam.px_delta_u.x),
-                cam.px_00.y + (j * cam.px_delta_v.y),
-                cam.px_00.z
-            };
-            vec3 ray_direction = 
-			{
-                (px_center.x - cam.center.x),
-                (px_center.y - cam.center.y),
-                (px_center.z - cam.center.z)
-            };
-            ray r = {cam.center, ray_direction};
-            color px_color = ray_color(&r, &sp, &pl, &(lighting){a, l});
-            write_color(px_color, &data.img, i, j);
-            i++;
-        }
-        j++;
-    }
+    	int i = 0;
+    	while (i < image_width)
+	    {
+    	    // calculates position of the current pixel
+        	vec3 px_center = {
+            	cam.px_00.x + (i * cam.px_delta_u.x),
+            	cam.px_00.y + (j * cam.px_delta_v.y),
+        		cam.px_00.z
+        	};
+		 // calculates direction based on the pixel's position and cam center
+        	vec3 ray_dir = {
+            	px_center.x - cam.center.x,
+            	px_center.y - cam.center.y,
+            	px_center.z - cam.center.z
+        	};
+			// Rotate the ray direction according to the camera orientation
+        	ray_dir = vec3_unit_vector(&ray_dir); // normalize ray direction
+        	ray_dir.x += cam.orientation.x;
+			ray_dir.y += cam.orientation.y;
+			ray_dir.z += cam.orientation.z;
+
+			ray_dir = vec3_unit_vector(&ray_dir); // normalize ray direction again
+			ray r = {cam.center, ray_dir}; // create the ray
+
+        	// calculate pixel color and write to image buffer
+        	color px_color = ray_color(&r, &sp, &pl, &(lighting){a, l});
+        	write_color(px_color, &data.img, i, j);
+			i++;
+    	}
+    	j++;
+	}
 	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.mlx_img, 0, 0);
 	//mlx_loop_hook(data.mlx_ptr, &render, &data);
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &key_handler, &data); 

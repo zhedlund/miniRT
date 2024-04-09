@@ -248,3 +248,32 @@ int main()
 	free(data.mlx_ptr);
     return (0);
 }
+
+
+
+// Render
+    /*int j = 0;
+    while (j < image_height)
+	{
+        int i = 0;
+        while (i < image_width)
+		{
+            vec3 px_center = 
+			{
+                cam.px_00.x + (i * cam.px_delta_u.x),
+                cam.px_00.y + (j * cam.px_delta_v.y),
+                cam.px_00.z
+            };
+            vec3 ray_dir = 
+			{
+                (px_center.x - cam.center.x),
+                (px_center.y - cam.center.y),
+                (px_center.z - cam.center.z)
+            };
+            ray r = {cam.center, ray_dir};
+            color px_color = ray_color(&r, &sp, &pl, &(lighting){a, l});
+            write_color(px_color, &data.img, i, j);
+            i++;
+        }
+        j++;
+    }*/
