@@ -261,7 +261,7 @@ int main()
 
 	// init sphere & plane structs 
     sp.center = (point3){0.0, 0.0, -1}; // center coordinates
-    sp.radius = 0.5;
+    sp.radius = 0.7;
 	sp.color = (color){0.7, 0.1, 0.7}; // color of the sphere
 
     pl.point = (point3){0, -0.4, 0}; // point on the plane
@@ -284,8 +284,8 @@ int main()
     // initialize camera struct
     cam.focal_length = 1.0;
     cam.fov = 70.0;
-	cam.center = (vec3){0.0, 0, 0.1}; // viewpoint coordinates. x = left-right, y = up-down, z = forward-backward
-	cam.orientation = (vec3){0.0, 0.0, 1.0}; // normalized orientation vector. cam orientation along xyz axis
+	cam.center = (vec3){0.0, 1, 2}; // viewpoint coordinates. x = left-right, y = up-down, z = forward-backward
+	cam.orientation = (vec3){0.0, 0.0, 0.1}; // normalized orientation vector. cam orientation along xyz axis
 
    	double fov_radians = cam.fov * M_PI / 180.0; // Convert FOV to radians
    	cam.viewport_height = 2.0 * tan(fov_radians / 2.0); // viewport height based on FOV

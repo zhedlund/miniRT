@@ -109,7 +109,17 @@ color add_color(const color *c1, const color *c2)
 vec3 vec3_unit_vector(const vec3 *v)
 {
     double length = sqrt(v->x * v->x + v->y * v->y + v->z * v->z);
-    return (vec3){v->x / length, v->y / length, v->z / length};
+    return ((vec3){v->x / length, v->y / length, v->z / length});
+}
+
+vec3 vec3_subtract(vec3 a, vec3 b)
+{
+	return ((vec3){a.x - b.x, a.y - b.y, a.z - b.z});
+}
+
+vec3 vec3_add(vec3 a, vec3 b)
+{
+	return ((vec3){a.x + b.x, a.y + b.y, a.z + b.z});
 }
 
 /* 	Writes the color value of a pixel to the image buffer.
@@ -146,77 +156,71 @@ double hit_plane(const plane *pl, const ray *r)
 /* 	Calculates the point of intersection between a ray and a sphere.
 	Stores the intersection points in the sphere struct.
 */
-void hit_sphere(sphere *sp, const ray *r)
+double hit_sphere(const point3 *center, double radius, const ray *r)
 {
-    vec3 oc = {r->origin.x - sp->center.x, r->origin.y - sp->center.y, r->origin.z - sp->center.z };
-    double a = vec3_length_squared(&r->dir);
-    double half_b = dot(&oc, &r->dir);
-    double c = vec3_length_squared(&oc) - sp->radius * sp->radius;
-    sp->discriminant = half_b * half_b - a * c;
+    vec3 oc = {r->origin.x - center->x, r->origin.y - center->y, r->origin.z - center->z }; // vector from the origin of the ray to the center of the sphere
+    double a = vec3_length_squared(&r->dir); // 
+    double half_b = dot(&oc, &r->dir); // half dot product of vector oc and the direction vector of the ray.
+    double c = vec3_length_squared(&oc) - radius * radius;
+    double discriminant = half_b * half_b - a * c;
 
-    if (sp->discriminant >= 0)
-	{
-        double root = sqrt(sp->discriminant);
-        sp->t1 = (-half_b - root) / a;
-        sp->t2 = (-half_b + root) / a;
-    } 
-	else
-        sp->t1 = sp->t2 = -1.0; // No intersection
+    if (discriminant < 0)
+        return (-1.0);
+    else
+        return ((-half_b - sqrt(discriminant)) / a);
 }
 
 
 /* 	Calculates the color of a pixel based on the intersection of a ray with a sphere or plane.
 	Returns a color value based on the normal vector at the intersection point.
 */
-color ray_color(const ray *r, sphere *sp, const plane *pl, const lighting *lights)
+
+color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting *lights)
 {
-    hit_sphere(sp, r);
+    double ts = hit_sphere(&sp->center, sp->radius, r);
     double tp = hit_plane(pl, r);
     color px;
 
-	if (sp->discriminant >= 0 && sp->t1 <= 0 && sp->t2 > 0) // intersection inside the sphere
-		px = (color)sp->color;
-    else if (sp->discriminant >= 0 && sp->t1 > 0)
-	{
-        // Use t1 as the intersection point
-        point3 intersect = {r->origin.x + (sp->t1 * r->dir.x),
-                            r->origin.y + (sp->t1 * r->dir.y),
-                            r->origin.z + (sp->t1 * r->dir.z)};
-        vec3 normal = {(intersect.x - sp->center.x) / sp->radius,
-                        (intersect.y - sp->center.y) / sp->radius,
-                       (intersect.z - sp->center.z) / sp->radius};
-
+    if (ts > 0.0 && (tp < 0 || ts < tp)) // Intersection with the sphere
+	{ 
+        // Calculate intersection point and normal vector
+        point3 intersect = {r->origin.x + (ts * r->dir.x), r->origin.y + (ts * r->dir.y), r->origin.z + (ts * r->dir.z)};
+        vec3 normal = {(intersect.x - sp->center.x) / sp->radius, (intersect.y - sp->center.y) / sp->radius, (intersect.z - sp->center.z) / sp->radius};
+        
+        // Ambient lighting
         color ambient_color = {lights->ambient.ratio * sp->color.r * lights->ambient.color.r,
-                            	lights->ambient.ratio * sp->color.g * lights->ambient.color.g,
-                                lights->ambient.ratio * sp->color.b * lights->ambient.color.b};
+                               lights->ambient.ratio * sp->color.g * lights->ambient.color.g,
+                               lights->ambient.ratio * sp->color.b * lights->ambient.color.b};
 
+        // Diffuse lighting for shadow effect
         vec3 light_dir = vec3_unit_vector(&lights->light.dir);
         double diffuse_factor = dot(&light_dir, &normal);
         color diffuse_color = {fmax(0, diffuse_factor) * sp->color.r * lights->light.color.r * lights->light.ratio,
-                                fmax(0, diffuse_factor) * sp->color.g * lights->light.color.g * lights->light.ratio,
-                                fmax(0, diffuse_factor) * sp->color.b * lights->light.color.b * lights->light.ratio};
+                               fmax(0, diffuse_factor) * sp->color.g * lights->light.color.g * lights->light.ratio,
+                               fmax(0, diffuse_factor) * sp->color.b * lights->light.color.b * lights->light.ratio};
 
+        // add ambient and diffuse components
         px = add_color(&ambient_color, &diffuse_color);
-        }
-		else if (sp->discriminant >= 0 && sp->t1 <= 0 && sp->t2 > 0) // intersection inside the sphere
-			px = (color)sp->color;
-    	else if (tp > 0)
-		{
-        	// Calculate intersection point
-        	point3 intersect = {r->origin.x + (tp * r->dir.x), r->origin.y + (tp * r->dir.y), r->origin.z + (tp * r->dir.z)};
+    } 
+	else if (tp > 0) // Intersection with the plane
+	{
+        // Calculate intersection point
+        point3 intersect = {r->origin.x + (tp * r->dir.x), r->origin.y + (tp * r->dir.y), r->origin.z + (tp * r->dir.z)};
         
-        	// Ambient lighting for plane
-        	color ambient_color = {lights->ambient.ratio * pl->color.r * lights->ambient.color.r,
+        // Ambient lighting for plane
+        color ambient_color = {lights->ambient.ratio * pl->color.r * lights->ambient.color.r,
                                lights->ambient.ratio * pl->color.g * lights->ambient.color.g,
                                lights->ambient.ratio * pl->color.b * lights->ambient.color.b};
 
-        	// Final pixel color with ambient component
-        	px = ambient_color;
-		}
-		else
-        	px = (color){0.5, 0.7, 1.0}; // Background color
-    	return (px);
+        // Final pixel color with ambient component
+        px = ambient_color;
+    } 
+	else { // No intersection
+        px = (color){0.5, 0.7, 1.0}; // Background color
+    }
+    return px;
 }
+
 
 void ft_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -276,8 +280,6 @@ int main()
     sp.center = (point3){0.0, 0.0, -1}; // center coordinates
     sp.radius = 0.5; 
 	sp.color = (color){0.7, 0.1, 0.7}; // color of the sphere
-	sp.t1 = sp.t2 = -1.0; // Initialize t1 and t2 to -1.0
-    sp.discriminant = -1.0; // Initialize to -1.0
 
     pl.point = (point3){0, -0.4, 0}; // point on the plane
     pl.normal = (vec3){0, 1, 0}; // assigning normal vector
@@ -296,7 +298,7 @@ int main()
     // initialize camera struct
     cam.focal_length = 1.0;
     cam.fov = 70.0;
-	cam.center = (vec3){0, 0, 1}; // viewpoint coordinates. x = left-right, y = up-down, z = forward-backward
+	cam.center = (vec3){0, 0, 0.1}; // viewpoint coordinates. x = left-right, y = up-down, z = forward-backward
 	cam.orientation = (vec3){0.0, 0.0, 0.0}; // normalized orientation vector. cam orientation along xyz axis
 
    	double fov_radians = cam.fov * M_PI / 180.0; // Convert FOV to radians
