@@ -1,4 +1,4 @@
-#include "../../minirt.h"
+#include "../minirt.h"
 
 // cc rt1wkd_mlx.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
 

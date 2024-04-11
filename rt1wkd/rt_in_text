@@ -1,0 +1,31 @@
+This code defines a simple ray tracer in C, which renders a scene containing a sphere and a plane. Here's a breakdown of the key components:
+
+### Struct Definitions:
+- `vec3`: Represents a 3D vector with x, y, and z coordinates.
+- `point3`: Alias for `vec3`, used for clarity.
+- `color`: Represents an RGB color with red, green, and blue components.
+- `ray`: Represents a ray with an origin point and a direction vector.
+- `camera`: Contains parameters related to the camera such as focal length, field of view (fov), viewport dimensions, and orientation vectors.
+- `ambient`: Defines ambient lighting properties including ambient color and intensity.
+- `light`: Represents a light source with direction, intensity, and color properties.
+- `lighting`: Combines ambient and directional light properties.
+- `sphere`: Describes a sphere with center, radius, and color.
+- `plane`: Defines a plane with a point and normal vector, along with a color.
+
+### Functions:
+- `dot`: Calculates the dot product between two vectors.
+- `vec3_length_squared`: Computes the squared length of a vector.
+- `write_color`: Writes a color value to the image buffer.
+- `hit_plane`: Determines the intersection of a ray with a plane.
+- `hit_sphere`: Determines the intersection of a ray with a sphere.
+- `add_color`: Adds two colors component-wise.
+- `vec3_unit_vector`: Normalizes a vector.
+- `ray_color`: Calculates the color of a pixel based on ray intersections with objects in the scene.
+
+### Main Function:
+- Initializes variables for the camera, sphere, plane, ambient light, directional light, and image dimensions.
+- Sets up the rendering environment using the mlx library
+- Iterates over each pixel in the image, constructs rays from the camera origin through each pixel, and calculates the color of each pixel using `ray_color`.
+- Renders the image on a window using the mlx library.
+
+This code forms a basic ray tracer capable of rendering simple scenes with spheres and planes, incorporating ambient and directional lighting.
