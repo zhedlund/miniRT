@@ -32,10 +32,10 @@ typedef struct
 } plane;
 
 /*	calculates the dot product between two 3D vectors u and v.
-	repr cosine of the angle between them multiplied by the magnitudes of the vectors. 
+	repr cosine of the angle between them multiplied by the magnitudes of the vectors.
 	u⋅v = ux⋅vx + uy⋅vy + uz⋅vz
 */
-double dot(const vec3 *u, const vec3 *v) 
+double dot(const vec3 *u, const vec3 *v)
 {
     return ((u->x * v->x) + (u->y * v->y) + (u->z * v->z));
 }
@@ -51,7 +51,7 @@ double vec3_length_squared(const vec3 *v)
 /* 	Writes the color value of a pixel to the image buffer.
 	Color values are represented as 24-bit RGB values.
 */
-void write_color(color pixel_color, t_img *img, int x, int y) 
+void write_color(color pixel_color, t_img *img, int x, int y)
 {
     int color_value = ((int)(255.999 * pixel_color.x) << 16) +
                       ((int)(255.999 * pixel_color.y) << 8) +
@@ -86,7 +86,7 @@ double hit_plane(const plane *pl, const ray *r)
 double hit_sphere(const point3 *center, double radius, const ray *r)
 {
     vec3 oc = {r->origin.x - center->x, r->origin.y - center->y, r->origin.z - center->z }; // vector from the origin of the ray to the center of the sphere
-    double a = vec3_length_squared(&r->dir); // 
+    double a = vec3_length_squared(&r->dir); //
     double half_b = dot(&oc, &r->dir); // half dot product of vector oc and the direction vector of the ray.
     double c = vec3_length_squared(&oc) - radius * radius;
     double discriminant = half_b * half_b - a * c;
@@ -118,14 +118,14 @@ color ray_color(const ray *r)
         vec3 normal = {
 			(intersect.x - sp.center.x) / sp.radius,
 			(intersect.y - sp.center.y) / sp.radius,
-			(intersect.z - sp.center.z) / sp.radius 
+			(intersect.z - sp.center.z) / sp.radius
 			};
 		// Convert the normal vector to a color value
         color pixel_color = {0.5 * (normal.x + 1), 0.5 * (normal.y + 1), 0.5 * (normal.z + 1)};
         return (pixel_color);
     }
 	else if (tp > 0) // intersection with the plane
-	{   
+	{
 		point3 intersect = {
 	    	r->origin.x + (tp * r->dir.x),
     		r->origin.y + (tp * r->dir.y),
@@ -240,7 +240,7 @@ int main()
 	}
 	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.mlx_img, 0, 0);
 	//mlx_loop_hook(data.mlx_ptr, &render, &data);
-	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &key_handler, &data); 
+	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &key_handler, &data);
 	mlx_hook(data.win_ptr, 17, 0, &close_window, NULL); // close window by clicking x
 	mlx_loop(data.mlx_ptr);
 	mlx_destroy_image(data.mlx_ptr, data.img.mlx_img);
@@ -258,13 +258,13 @@ int main()
         int i = 0;
         while (i < image_width)
 		{
-            vec3 px_center = 
+            vec3 px_center =
 			{
                 cam.px_00.x + (i * cam.px_delta_u.x),
                 cam.px_00.y + (j * cam.px_delta_v.y),
                 cam.px_00.z
             };
-            vec3 ray_dir = 
+            vec3 ray_dir =
 			{
                 (px_center.x - cam.center.x),
                 (px_center.y - cam.center.y),
