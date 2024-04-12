@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_traicing.c                                     :+:      :+:    :+:   */
+/*   ray_tracing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:53:29 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/12 16:27:21 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/12 18:59:04 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ float	get_distance(t_vec *p1, t_vec *p2)
 	return (res);
 }
 
-void	ray_tracing()
+void	ray_tracing(t_scene *scene)
 {
+
 	return ;
 }
-

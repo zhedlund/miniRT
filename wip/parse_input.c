@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:16:35 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/12 15:45:44 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/12 19:24:30 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	fill_scene(char *str, t_scene *scene)
 	free(str);
 }
 
-t_scene	*create_scene(int fd)
+t_scene	*write_scene(int fd)
 {
 	char	*str;
 	t_scene	*scene;
@@ -79,6 +79,20 @@ t_scene	*create_scene(int fd)
 	return (scene);
 }
 
+//this is temporary function for hard coded scene before parsing is finished
+t_scene	*test_scene(void)
+{
+	t_scene	*scene;
+
+	scene = (t_scene *)malloc(sizeof(t_scene));
+	add_amb_light(NULL, scene);
+	add_camera(NULL, scene);
+	add_light(NULL, scene);
+	add_sphere(NULL, scene);
+	add_plane(NULL, scene);
+	return (scene);
+}
+
 t_scene	*parse_input(char *file)
 {
 	int		fd;
@@ -89,7 +103,7 @@ t_scene	*parse_input(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return ;
-	scene = create_scene(fd);
+	scene = test_scene();
 	close(fd);
 	return (scene);
 }

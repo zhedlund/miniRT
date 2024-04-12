@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:45:57 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/03 20:26:03 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/12 18:55:20 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-// compile: cc main.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm 
+// compile: cc main.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
 
 void ft_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -38,33 +38,24 @@ int key_handler(int keycode, t_data *data)
 	return (0);
 }
 
-void render_circle(t_img *mlx_img, int xc, int yc, int radius, int color)
-{
-    for (int x = 0; x <= radius; x++)
-    {
-        int y = (int)sqrt(radius * radius - x * x);
-        ft_pixel_put(mlx_img, xc + x, yc + y, color + 0x00FF00);
-        ft_pixel_put(mlx_img, xc + x, yc - y, color + 0xFF00FF);
-        ft_pixel_put(mlx_img, xc - x, yc + y, color + 0x0000FF);
-        ft_pixel_put(mlx_img, xc - x, yc - y, color);
-    }
-}
-
 int render(t_data *data)
 {
 	if (data->win_ptr == NULL)
 		return (1);
-	render_circle(&data->img, WIDTH / 2, HEIGHT / 2, 100, 0xFF0000);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
 	return (0);
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
-    t_data data;
+	t_data data;
+	t_scene	*scene;
+
+	if (argc != 2)
+		put_error("Invalid input");
 
 	/* initialize mlx stuff*/
-    data.mlx_ptr = mlx_init();
+	data.mlx_ptr = mlx_init();
 	if (data.mlx_ptr == NULL)
 		return (1);
 	data.win_ptr = mlx_new_window(data.mlx_ptr, WIDTH, HEIGHT, "MiniRT");
@@ -76,6 +67,10 @@ int main(void)
 	/* set up hooks*/
 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WIDTH, HEIGHT);
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp, &data.img.line_len, &data.img.endian);
+	scene = parse_input(argv[1]);
+	if (!scene)
+		return (1);
+	ray_tracing(scene);
 	mlx_loop_hook(data.mlx_ptr, &render, &data); // connect render function
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &key_handler, &data); // connect key_handler function
 	//mlx_hook(data.win_ptr, ButtonPress, ButtonPressMask, &mouse_handler, &data); // connect mouse_handler function
@@ -84,6 +79,7 @@ int main(void)
 	/* if no window left, execute this code */
 	mlx_destroy_image(data.mlx_ptr, data.img.mlx_img);
 	mlx_destroy_display(data.mlx_ptr);
+	//free_scene(scene);
 	free(data.mlx_ptr);
 	return (0);
 }
