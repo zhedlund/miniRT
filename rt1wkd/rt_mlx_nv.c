@@ -138,7 +138,18 @@ void write_color(color px, t_img *img, int x, int y)
 */
 color blend_color(const color *c1, const color *c2)
 {
-    return ((color){(c1->r + c2->r), (c1->g + c2->g), (c1->b + c2->b)});
+	double r = c1->r + c2->r;
+	double g = c1->g + c2->g;
+	double b = c1->b + c2->b;
+
+	// Clamp the color values to the range [0.0, 1.0]
+	if (r > 1.0)
+		r = 1.0;
+	if (g > 1.0)
+		g = 1.0;
+	if (b > 1.0)
+		b = 1.0;
+    return ((color){r, g, b});
 }
 
 /* 	Calculates the point of intersection between a ray and a plane.
@@ -166,7 +177,6 @@ double hit_plane(const plane *pl, const ray *r)
 */
 double hit_sphere(const point3 *center, double radius, const ray *r)
 {
-    //vec3 oc = {r->origin.x - center->x, r->origin.y - center->y, r->origin.z - center->z }; // vector from the origin of the ray to the center of the sphere
     vec3 oc = vec3_subtract(r->origin, *center);
 	double a = vec3_length_squared(&r->dir); // 
     double half_b = dot(&oc, &r->dir); // half dot product of vector oc and the direction vector of the ray.
@@ -209,38 +219,6 @@ color diffuse_color(const light *l, const color *c, double diffuse_factor)
 /* 	Calculates the color of a pixel based on the intersection of a ray with a sphere or plane.
 	Returns a color value based on the normal vector at the intersection point.
 */
-/*color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting *lights)
-{
-    double ts = hit_sphere(&sp->center, sp->radius, r);
-    double tp = hit_plane(pl, r);
-    color px;
-
-    if (ts > 0.0 && (tp < 0 || ts < tp)) // Intersection with the sphere
-	{ 
-        // Calculate intersection point and normal vector
-		point3 intersect = intersect_point(r, ts);
-        vec3 normal = sphere_normal(sp, &intersect);
-		color ambient_light = ambient_color(&lights->ambient, &sp->color);
-
-        // Diffuse lighting for shadow effect
-        vec3 light_dir = vec3_unit_vector(&lights->light.dir);
-        double diffuse_factor = dot(&light_dir, &normal);
-		color diffuse = diffuse_color(&lights->light, &sp->color, diffuse_factor);
-        px = blend_color(&ambient_light, &diffuse); // add ambient and diffuse components
-    } 
-	else if (tp > 0) // Intersection with the plane
-	{
-		point3 intersect = intersect_point(r, tp);
-		color ambient_light = ambient_color(&lights->ambient, &pl->color); // Ambient lighting for plane
-        px = ambient_light; // Plane pixel color with ambient component
-    } 
-	else // No intersection
-	{
-        px = (color){0.5, 0.7, 1.0}; // Background color
-    }
-    return (px);
-}*/
-
 color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting *lights)
 {
     double ts = hit_sphere(&sp->center, sp->radius, r);
@@ -269,13 +247,11 @@ color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting 
 
         ray shadow_ray = {intersect_plane, to_light};
         double t_shadow_sphere = hit_sphere(&sp->center, sp->radius, &shadow_ray);
-
         if (t_shadow_sphere > 0 && t_shadow_sphere < 1.0) // Sphere is blocking the light
-        {
-            px = (color){0.0, 0.3, 0.2}; // Black color for shadow
-			//color ambient_light = ambient_color(&lights->ambient, &pl->color); 
-        }
-        else // No shadow
+		{
+            px = (color){0.0, 0.3, 0.2}; // shadow color
+		}
+		else // No shadow
         {
             color ambient_light = ambient_color(&lights->ambient, &pl->color); // Ambient lighting for plane
             px = ambient_light; // Plane pixel color with ambient component
@@ -287,7 +263,6 @@ color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting 
     }
     return (px);
 }
-
 
 void ft_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -352,12 +327,12 @@ int main()
 	pl.color = (color){0.1, 0.9, 0.6}; // color of the plane
 
 	// init light structs
-    a.ratio = 0.4; // ambient light ratio, higher = brighter
+    a.ratio = 1; // ambient light ratio, higher = brighter
     a.color = (color){1.0, 1.0, 1.0}; 
     a.diffuse = 0.0; // higher value = more light is scattered, brighter shading on the surface
 
     l.dir = (vec3){-40.0, 50.0, 0.0}; 
-    l.ratio = 0.6; // direct light ratio, higher = brighter
+    l.ratio = 1; // direct light ratio, higher = brighter
     l.diffuse = -0.5;
     l.color = (color){1.0, 1.0, 0.0}; 
 
@@ -392,7 +367,6 @@ int main()
     cam.viewport_up_left.z
 	};
 
-
 	int j = 0;
 	while (j < image_height)
 	{
@@ -405,7 +379,7 @@ int main()
             	cam.px_00.y + (j * cam.px_delta_v.y),
         		cam.px_00.z
         	};
-		 // calculates direction based on the pixel's position and cam center
+		 	// calculates direction based on the pixel's position and cam center
         	vec3 ray_dir = {
             	px_center.x - cam.center.x,
             	px_center.y - cam.center.y,
@@ -427,7 +401,6 @@ int main()
     	}
     	j++;
 	}
-
 	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.mlx_img, 0, 0);
 	//mlx_loop_hook(data.mlx_ptr, &render, &data);
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &key_handler, &data); 
