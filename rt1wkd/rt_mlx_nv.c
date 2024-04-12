@@ -87,6 +87,14 @@ double dot(const vec3 *u, const vec3 *v)
     return ((u->x * v->x) + (u->y * v->y) + (u->z * v->z));
 }
 
+/*	calculates the length of a vector represented by a vec3 struct,
+	by summing the squares of the components of the vector and taking the square root.
+*/
+double vec3_length(const vec3 *v)
+{
+    return (sqrt((v->x * v->x) + (v->y * v->y) + (v->z * v->z)));
+}
+
 /*	calculates the squared length of a vector represented by a vec3 struct,
 	by summing the squares of the components of the vector.
 */
@@ -201,8 +209,7 @@ color diffuse_color(const light *l, const color *c, double diffuse_factor)
 /* 	Calculates the color of a pixel based on the intersection of a ray with a sphere or plane.
 	Returns a color value based on the normal vector at the intersection point.
 */
-
-color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting *lights)
+/*color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting *lights)
 {
     double ts = hit_sphere(&sp->center, sp->radius, r);
     double tp = hit_plane(pl, r);
@@ -232,7 +239,55 @@ color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting 
         px = (color){0.5, 0.7, 1.0}; // Background color
     }
     return (px);
+}*/
+
+color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting *lights)
+{
+    double ts = hit_sphere(&sp->center, sp->radius, r);
+    double tp = hit_plane(pl, r);
+    color px;
+
+	if (ts > 0.0 && (tp < 0 || ts < tp)) // Intersection with the sphere
+	{ 
+        // Calculate intersection point and normal vector
+		point3 intersect = intersect_point(r, ts);
+        vec3 normal = sphere_normal(sp, &intersect);
+		color ambient_light = ambient_color(&lights->ambient, &sp->color);
+
+        // Diffuse lighting for shadow effect
+        vec3 light_dir = vec3_unit_vector(&lights->light.dir);
+        double diffuse_factor = dot(&light_dir, &normal);
+		color diffuse = diffuse_color(&lights->light, &sp->color, diffuse_factor);
+        px = blend_color(&ambient_light, &diffuse); // add ambient and diffuse components
+    } 
+    else if (tp > 0) // Intersection with the plane
+    {
+        point3 intersect_plane = intersect_point(r, tp);
+        // Check if the sphere is blocking the light
+        vec3 temp = vec3_subtract(lights->light.dir, intersect_plane);
+		vec3 to_light = vec3_unit_vector(&temp); // Direction from plane to light source
+
+        ray shadow_ray = {intersect_plane, to_light};
+        double t_shadow_sphere = hit_sphere(&sp->center, sp->radius, &shadow_ray);
+
+        if (t_shadow_sphere > 0 && t_shadow_sphere < 1.0) // Sphere is blocking the light
+        {
+            px = (color){0.0, 0.3, 0.2}; // Black color for shadow
+			//color ambient_light = ambient_color(&lights->ambient, &pl->color); 
+        }
+        else // No shadow
+        {
+            color ambient_light = ambient_color(&lights->ambient, &pl->color); // Ambient lighting for plane
+            px = ambient_light; // Plane pixel color with ambient component
+        }
+    }
+    else // No intersection with the plane
+    {
+        px = (color){0.5, 0.7, 1.0}; // Background color
+    }
+    return (px);
 }
+
 
 void ft_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -257,7 +312,6 @@ int key_handler(int keycode, t_data *data)
 		close_window(data);
 	return (0);
 }
-
 
 int main()
 {
