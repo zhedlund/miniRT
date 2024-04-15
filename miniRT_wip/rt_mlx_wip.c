@@ -2,58 +2,58 @@
 
 // cc rt_mlx_nv.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
 
-typedef struct
+typedef struct s_vec
 {
 	double x;
 	double y;
 	double z;
-} vec3;
+} t_vec;
 
-// alias for vec3, used for clarity in the code
-typedef vec3 point3;
-typedef struct
+// alias for t_vec, used for clarity in the code
+typedef t_vec point3;
+typedef struct s_color
 {
     double r;
     double g;
     double b;
-} color;
+} t_color;
 
-typedef struct
+typedef struct s_ray
 {
-    vec3 origin; // Origin point of the ray
-    vec3 dir;  // Direction of the ray
-} ray;
+    t_vec origin; // Origin point of the ray
+    t_vec dir;  // Direction of the ray
+} t_ray;
 
-typedef struct
+typedef struct s_cam
 {
     double focal_length;
     double fov;
     double viewport_width;
     double viewport_height;
-    vec3 center; // camera position
-	vec3 orientation; // normalized orientation vector (direction the camera is pointing)
-    vec3 viewport_u;
-    vec3 viewport_v;
-    vec3 px_delta_u;
-    vec3 px_delta_v;
-    vec3 viewport_up_left;
-    vec3 px_00;
-} camera;
+    t_vec center; // camera position
+	t_vec orientation; // normalized orientation vector (direction the camera is pointing)
+    t_vec viewport_u;
+    t_vec viewport_v;
+    t_vec px_delta_u;
+    t_vec px_delta_v;
+    t_vec viewport_up_left;
+    t_vec px_00;
+} t_cam;
 
-typedef struct
+typedef struct s_amb
 {
     double ratio; // Ambient lighting ratio in the range [0.0, 1.0]
     color color;
     double diffuse; // Diffuse intensity of ambient light
-} ambient;
+} t_amb;
 
-typedef struct
+typedef struct s_light
 {
-    vec3 dir;
+    t_vec dir;
     double ratio;
     double diffuse; // Diffuse intensity of the light source
-    color color;
-} light;
+    t_color color;
+} t_light;
 
 typedef struct
 {
@@ -74,7 +74,7 @@ typedef struct
 typedef struct
 {
     point3 point; // A point on the plane
-    vec3 normal;  // The normal vector to the plane
+    t_vec normal;  // The normal vector to the plane
 	color color;
 } plane;
 
@@ -91,44 +91,44 @@ void ft_pixel_put(t_img *img, int x, int y, int color)
 	repr cosine of the angle between them multiplied by the magnitudes of the vectors. 
 	u⋅v = ux⋅vx + uy⋅vy + uz⋅vz
 */
-double dot(const vec3 *u, const vec3 *v) 
+double dot(const t_vec *u, const t_vec *v) 
 {
     return ((u->x * v->x) + (u->y * v->y) + (u->z * v->z));
 }
 
-/*	calculates the length of a vector represented by a vec3 struct,
+/*	calculates the length of a vector represented by a t_vec struct,
 	by summing the squares of the components of the vector and taking the square root.
 */
-double vec3_length(const vec3 *v)
+double vec3_length(const t_vec *v)
 {
     return (sqrt((v->x * v->x) + (v->y * v->y) + (v->z * v->z)));
 }
 
-/*	calculates the squared length of a vector represented by a vec3 struct,
+/*	calculates the squared length of a vector represented by a t_vec struct,
 	by summing the squares of the components of the vector.
 */
-double vec3_length_squared(const vec3 *v)
+double vec3_length_squared(const t_vec *v)
 {
     return ((v->x * v->x) + (v->y * v->y) + (v->z * v->z));
 }
 
-/* 	Normalizes a vector represented by a vec3 struct.
-	Returns a new vec3 struct representing the normalized vector.
+/* 	Normalizes a vector represented by a t_vec struct.
+	Returns a new t_vec struct representing the normalized vector.
 */
-vec3 vec3_unit_vector(const vec3 *v)
+t_vec vec3_unit_vector(const t_vec *v)
 {
     double length = sqrt((v->x * v->x) + (v->y * v->y) + (v->z * v->z));
-    return ((vec3){(v->x / length), (v->y / length), (v->z / length)});
+    return ((t_vec){(v->x / length), (v->y / length), (v->z / length)});
 }
 
-vec3 vec3_subtract(const vec3 a, const vec3 b)
+t_vec vec3_subtract(const t_vec a, const t_vec b)
 {
-	return ((vec3){(a.x - b.x), (a.y - b.y), (a.z - b.z)});
+	return ((t_vec){(a.x - b.x), (a.y - b.y), (a.z - b.z)});
 }
 
-vec3 vec3_add(const vec3 a, const vec3 b)
+t_vec vec3_add(const t_vec a, const t_vec b)
 {
-	return ((vec3){(a.x + b.x), (a.y + b.y), (a.z + b.z)});
+	return ((t_vec){(a.x + b.x), (a.y + b.y), (a.z + b.z)});
 }
 
 /* 	Writes the color value of a pixel to the image buffer.
@@ -170,7 +170,7 @@ double hit_plane(const plane *pl, const ray *r)
     double denominator = dot(&pl->normal, &r->dir);
     if (denominator == 0)
         return (-1.0); // Ray is parallel to the plane
-    vec3 origin_to_point = {
+    t_vec origin_to_point = {
 		(pl->point.x - r->origin.x),
 		(pl->point.y - r->origin.y),
 		(pl->point.z - r->origin.z)
@@ -186,7 +186,7 @@ double hit_plane(const plane *pl, const ray *r)
 */
 double hit_sphere(const point3 *center, double radius, const ray *r)
 {
-    vec3 oc = vec3_subtract(r->origin, *center);
+    t_vec oc = vec3_subtract(r->origin, *center);
 	double a = vec3_length_squared(&r->dir); // 
     double half_b = dot(&oc, &r->dir); // half dot product of vector oc and the direction vector of the ray.
     double c = vec3_length_squared(&oc) - radius * radius;
@@ -198,9 +198,9 @@ double hit_sphere(const point3 *center, double radius, const ray *r)
         return ((-half_b - sqrt(discriminant)) / a);
 }
 
-vec3 sphere_normal(const sphere *sp, const point3 *intersect)
+t_vec sphere_normal(const sphere *sp, const point3 *intersect)
 {
-    return ((vec3){(intersect->x - sp->center.x) / sp->radius,
+    return ((t_vec){(intersect->x - sp->center.x) / sp->radius,
                      (intersect->y - sp->center.y) / sp->radius,
                      (intersect->z - sp->center.z) / sp->radius});
 }
@@ -238,11 +238,11 @@ color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting 
 	{ 
         // Calculate intersection point and normal vector
 		point3 intersect = intersect_point(r, ts);
-        vec3 normal = sphere_normal(sp, &intersect);
+        t_vec normal = sphere_normal(sp, &intersect);
 		color ambient_light = ambient_color(&lights->ambient, &sp->color);
 
         // Diffuse lighting for shadow effect
-        vec3 light_dir = vec3_unit_vector(&lights->light.dir);
+        t_vec light_dir = vec3_unit_vector(&lights->light.dir);
         double diffuse_factor = dot(&light_dir, &normal);
 		color diffuse = diffuse_color(&lights->light, &sp->color, diffuse_factor);
         px = blend_color(&ambient_light, &diffuse); // add ambient and diffuse components
@@ -251,8 +251,8 @@ color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting 
     {
         point3 intersect_plane = intersect_point(r, tp);
         // Check if the sphere is blocking the light
-        vec3 temp = vec3_subtract(lights->light.dir, intersect_plane);
-		vec3 to_light = vec3_unit_vector(&temp); // Direction from plane to light source
+        t_vec temp = vec3_subtract(lights->light.dir, intersect_plane);
+		t_vec to_light = vec3_unit_vector(&temp); // Direction from plane to light source
 
         ray shadow_ray = {intersect_plane, to_light};
         double t_shadow_sphere = hit_sphere(&sp->center, sp->radius, &shadow_ray);
@@ -324,7 +324,7 @@ int main()
 	sp.color = (color){0.7, 0.1, 0.7}; // color of the sphere
 
     pl.point = (point3){0, -0.4, 0}; // point on the plane
-    pl.normal = (vec3){0, 1, 0}; // assigning normal vector
+    pl.normal = (t_vec){0, 1, 0}; // assigning normal vector
 	pl.color = (color){0.1, 0.9, 0.6}; // color of the plane
 
 	// init light structs
@@ -332,7 +332,7 @@ int main()
     a.color = (color){1.0, 1.0, 1.0}; 
     a.diffuse = 0.0; // higher value = more light is scattered, brighter shading on the surface
 
-    l.dir = (vec3){-40.0, 50.0, 0.0}; 
+    l.dir = (t_vec){-40.0, 50.0, 0.0}; 
     l.ratio = 1; // direct light ratio, higher = brighter
     l.diffuse = -0.5;
     l.color = (color){1.0, 1.0, 0.0}; 
@@ -340,29 +340,29 @@ int main()
     // initialize camera struct
     cam.focal_length = 1.0;
     cam.fov = 70.0;
-	cam.center = (vec3){0, 0, 0.1}; // viewpoint coordinates. x = left-right, y = up-down, z = forward-backward
-	cam.orientation = (vec3){0.0, 0.0, 0.0}; // normalized orientation vector. cam orientation along xyz axis
+	cam.center = (t_vec){0, 0, 0.1}; // viewpoint coordinates. x = left-right, y = up-down, z = forward-backward
+	cam.orientation = (t_vec){0.0, 0.0, 0.0}; // normalized orientation vector. cam orientation along xyz axis
 
    	double fov_radians = cam.fov * M_PI / 180.0; // Convert FOV to radians
    	cam.viewport_height = 2.0 * tan(fov_radians / 2.0); // viewport height based on FOV
     cam.viewport_width = cam.viewport_height * ((double)image_width / image_height);
 
     // the vectors across the horizontal & down the vertical viewport edges
-    cam.viewport_u = (vec3){cam.viewport_width, 0, 0};
-    cam.viewport_v = (vec3){0, -cam.viewport_height, 0};
+    cam.viewport_u = (t_vec){cam.viewport_width, 0, 0};
+    cam.viewport_v = (t_vec){0, -cam.viewport_height, 0};
 
     // the horizontal and vertical delta vectors from pixel to pixel
-    cam.px_delta_u = (vec3){cam.viewport_u.x / image_width, 0, 0};
-    cam.px_delta_v = (vec3){0, cam.viewport_v.y / image_height, 0};
+    cam.px_delta_u = (t_vec){cam.viewport_u.x / image_width, 0, 0};
+    cam.px_delta_v = (t_vec){0, cam.viewport_v.y / image_height, 0};
 
     // location of the upper left pixel
-    cam.viewport_up_left = (vec3) {
+    cam.viewport_up_left = (t_vec) {
     cam.center.x - 0.5 * cam.viewport_u.x - 0.5 * cam.viewport_v.x,
     cam.center.y - 0.5 * cam.viewport_u.y - 0.5 * cam.viewport_v.y,
     cam.center.z - cam.focal_length
 	};
     // coordinates of the upper-left corner of the viewport
-    cam.px_00 = (vec3) {
+    cam.px_00 = (t_vec) {
     cam.viewport_up_left.x + 0.5 * (cam.px_delta_u.x + cam.px_delta_v.x),
     cam.viewport_up_left.y + 0.5 * (cam.px_delta_u.y + cam.px_delta_v.y),
     cam.viewport_up_left.z
@@ -375,13 +375,13 @@ int main()
     	while (i < image_width)
 	    {
     	    // calculates position of the current pixel
-        	vec3 px_center = {
+        	t_vec px_center = {
             	cam.px_00.x + (i * cam.px_delta_u.x),
             	cam.px_00.y + (j * cam.px_delta_v.y),
         		cam.px_00.z
         	};
 		 	// calculates direction based on the pixel's position and cam center
-        	vec3 ray_dir = {
+        	t_vec ray_dir = {
             	px_center.x - cam.center.x,
             	px_center.y - cam.center.y,
             	px_center.z - cam.center.z

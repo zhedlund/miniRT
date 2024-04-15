@@ -6,10 +6,37 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 13:02:59 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/11 18:55:35 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/15 17:18:44 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minirt.h"
+
+int	ft_atoi(const char *str)
+{
+	int	sign;
+	int	num;
+	int	i;
+
+	sign = 1;
+	num = 0;
+	i = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == 32))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i] >= 48 && str[i] <= 57)
+	{
+		num *= 10;
+		num += str[i] - 48;
+		i++;
+	}
+	return (num * sign);
+}
 
 double	ft_atof(const char *str)
 {
