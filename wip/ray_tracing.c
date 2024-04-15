@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:53:29 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/12 18:59:04 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/15 14:01:00 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ float	get_distance(t_vec *p1, t_vec *p2)
 
 void	ray_tracing(t_scene *scene)
 {
+	t_vec	*pixel_delta;
 
+	pixel_delta = get_px_delta();
 	return ;
 }
