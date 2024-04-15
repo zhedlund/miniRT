@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:28 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/12 14:11:05 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/15 15:20:13 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void	put_error(char *message)
 {
 	write(2, message, sizeof(message));
 	exit(1);
+}
+
+void	*malloc_error(void)
+{
+	write(2, "Malloc failed", 13);
+	return (NULL);
 }
 
 int	check_file(char *file)

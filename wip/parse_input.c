@@ -6,20 +6,31 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:16:35 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/12 19:24:30 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/15 16:20:34 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+// check for errors needed: is_digits(char *str), is_valid_color(float color), is_unit_vec(float num), is_range(int grad)
 void	add_amb_light(char *str, t_scene *scene)
 {
-	(void) str;
-	scene->amb.ratio = 0.2;
-	scene->amb.color.r = 255;
-	scene->amb.color.g = 255;
-	scene->amb.color.b = 255;
+	char	**args;
+	char	**color;
+
+	args = ft_split(str, ' ');
+	scene->amb.ratio = atof(args[1]);
+	color = ft_split(args[2], ',');
+	scene->amb.color.r = atof(color[0]);
+	scene->amb.color.g = atof(color[1]);
+	scene->amb.color.b = atof(color[2]);
 	scene->amb.diffuse = 0;
+	free_array(color);
+	free_array(args);
+	// scene->amb.ratio = 0.2;
+	// scene->amb.color.r = 255;
+	// scene->amb.color.g = 255;
+	// scene->amb.color.b = 255;
 }
 
 void	add_camera(char *str, t_scene *scene)

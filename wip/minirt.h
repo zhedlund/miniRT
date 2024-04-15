@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/12 18:26:01 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/15 15:20:40 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,12 @@ typedef struct s_hit_point
 char	*get_next_line(int fd);
 char	**ft_split(char const *s, char c);
 void	put_error(char *message);
+void	*malloc_error(void);
 t_scene	*parse_input(char *file);
 void	add_light(char *str, t_scene *scene);
 void	add_sphere(char *str, t_scene *scene);
 void	add_plane(char *str, t_scene *scene);
 void	add_cylinder(char *str, t_scene *scene);
+t_vec	*new_vec(float x, float y, float z);
 
 #endif
