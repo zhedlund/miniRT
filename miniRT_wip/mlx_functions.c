@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:30:12 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/16 16:26:52 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/16 21:36:55 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,26 @@ void ft_pixel_put(t_img *img, int x, int y, int color)
 
     pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
     *(unsigned int *)pixel = color;
+}
+
+void	mlx_hooks_init(t_data *data)
+{
+	data->mlx_ptr = mlx_init();
+	if (data->mlx_ptr == NULL)
+	{
+		free(data->mlx_ptr);
+		write(2, "Error: mlx_init failed\n", 23);
+		exit(1);
+	}
+	data->win_ptr = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, "MiniRT");
+	if (data->win_ptr == NULL)
+	{
+		free(data->win_ptr);
+		write(2, "Error: mlx_new_window failed\n", 29);
+		exit(1);
+	}
+	data->img.mlx_img = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
+	data->img.addr = mlx_get_data_addr(data->img.mlx_img, &data->img.bpp, &data->img.line_len, &data->img.endian);
+	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, &key_handler, &data); 
+	mlx_hook(data->win_ptr, 17, 0, &close_window, NULL); // close window by clicking x
 }

@@ -6,7 +6,7 @@
 #    By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/04/16 13:32:12 by zhedlund         ###   ########.fr        #
+#    Updated: 2024/04/16 21:14:48 by zhedlund         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ COMPILED = .compiled
 SRC = 	main.c \
 		color.c \
 		objects.c \
-		ray_color.c \
+		rendering.c \
 		mlx_functions.c \
 		math/math.c \
 		math/math_vector.c \
