@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:26:07 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/15 17:35:41 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:13:42 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ t_color ambient_color(const t_amb *a, const t_color *c)
 	of the pixel when illuminated by a light source. 
 	fmax returns the maximum of the two values.
 */
-t_color diffuse_color(const t_light *l, const t_color *c, double diffuse_factor)
+t_color diffuse_color(const t_light *l, const t_color *c, float diffuse_factor)
 {
-    return ((t_color){fmax(0, diffuse_factor) * c->r * l->color.r * l->ratio,
-                     fmax(0, diffuse_factor) * c->g * l->color.g * l->ratio,
-                     fmax(0, diffuse_factor) * c->b * l->color.b * l->ratio});
+    return ((t_color){fmaxf(0, diffuse_factor) * c->r * l->color.r * l->ratio,
+                     fmaxf(0, diffuse_factor) * c->g * l->color.g * l->ratio,
+                     fmaxf(0, diffuse_factor) * c->b * l->color.b * l->ratio});
 }
 
 /* 	Writes the color value of a pixel to the image buffer.
@@ -48,10 +48,13 @@ void write_color(t_color px, t_img *img, int x, int y)
 */
 t_color blend_color(const t_color *c1, const t_color *c2)
 {
-	double r = c1->r + c2->r;
-	double g = c1->g + c2->g;
-	double b = c1->b + c2->b;
+	float r;
+	float g;
+	float b;
 
+	r = c1->r + c2->r;
+	g = c1->g + c2->g;
+	b = c1->b + c2->b;
 	// Clamp the color values to the range [0.0, 1.0]
 	if (r > 1.0)
 		r = 1.0;

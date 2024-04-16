@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math_vec3.c                                        :+:      :+:    :+:   */
+/*   math_vector.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:28:43 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/15 17:41:10 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:54:18 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../minirt.h"
 
 /*	calculates the length of a vector represented by a t_vec struct,
 	by summing the squares of the components of the vector and taking the square root.
 */
-double vec3_length(const t_vec *v)
+float vec3_length(const t_vec *v)
 {
     return (sqrt((v->x * v->x) + (v->y * v->y) + (v->z * v->z)));
 }
@@ -23,7 +23,7 @@ double vec3_length(const t_vec *v)
 /*	calculates the squared length of a vector represented by a t_vec struct,
 	by summing the squares of the components of the vector.
 */
-double vec3_length_squared(const t_vec *v)
+float vec3_length_squared(const t_vec *v)
 {
     return ((v->x * v->x) + (v->y * v->y) + (v->z * v->z));
 }
@@ -33,7 +33,9 @@ double vec3_length_squared(const t_vec *v)
 */
 t_vec vec3_unit_vector(const t_vec *v)
 {
-    double length = sqrt((v->x * v->x) + (v->y * v->y) + (v->z * v->z));
+    float length;
+	
+	length = sqrt((v->x * v->x) + (v->y * v->y) + (v->z * v->z));
     return ((t_vec){(v->x / length), (v->y / length), (v->z / length)});
 }
 

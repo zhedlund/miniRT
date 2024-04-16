@@ -1,6 +1,38 @@
-#include "../minirt.h"
+
 
 // cc rt_mlx_nv.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
+
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <math.h>
+# include <X11/X.h>
+# include <X11/keysym.h>
+# include "minilibx-linux/mlx.h"
+//# include "get_next_line.h"
+
+# define WIDTH 640
+//# define HEIGHT	360
+# define PI M_PI
+
+typedef struct s_img
+{
+	void	*mlx_img;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}	t_img;
+
+typedef struct s_data
+{
+	void	*mlx_ptr;
+	void	*win_ptr;
+	t_img	img;
+}	t_data;
 
 typedef struct
 {
@@ -120,6 +152,14 @@ vec3 vec3_subtract(const vec3 a, const vec3 b)
 vec3 vec3_add(const vec3 a, const vec3 b)
 {
 	return ((vec3){(a.x + b.x), (a.y + b.y), (a.z + b.z)});
+}
+
+void ft_pixel_put(t_img *img, int x, int y, int color)
+{
+    char *pixel;
+
+    pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
+    *(unsigned int *)pixel = color;
 }
 
 /* 	Writes the color value of a pixel to the image buffer.
@@ -262,14 +302,6 @@ color ray_color(const ray *r, const sphere *sp, const plane *pl, const lighting 
         px = (color){0.5, 0.7, 1.0}; // Background color
     }
     return (px);
-}
-
-void ft_pixel_put(t_img *img, int x, int y, int color)
-{
-    char *pixel;
-
-    pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
-    *(unsigned int *)pixel = color;
 }
 
 int	close_window(t_data *data)

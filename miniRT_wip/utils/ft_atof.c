@@ -1,16 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atof.c                                             :+:      :+:    :+:   */
+/*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 13:02:59 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/15 17:18:44 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:59:50 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../minirt.h"
+
+size_t	ft_strlen(const char *str)
+{
+	int	len;
+
+	len = 0;
+	while (str[len])
+		len++;
+	return (len);
+}
+
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int				i;
+	unsigned char	ch;
+
+	ch = c;
+	if (ch == '\0')
+	{
+		i = ft_strlen(s);
+		return ((char *)s + i++);
+	}
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == ch)
+			return ((char *)s + i);
+		i++;
+	}
+	return (NULL);
+}
 
 int	ft_atoi(const char *str)
 {
@@ -38,10 +77,10 @@ int	ft_atoi(const char *str)
 	return (num * sign);
 }
 
-double	ft_atof(const char *str)
+float	ft_atof(const char *str)
 {
-	double	result;
-	double	power;
+	float	result;
+	float	power;
 	char	*dec_point;
 	int		sign;
 	int		i;
@@ -53,7 +92,7 @@ double	ft_atof(const char *str)
 		sign = -1;
 		str++;
 	}
-	result = (double)ft_atoi(str++);
+	result = (float)ft_atoi(str++);
 	dec_point = ft_strchr(str, '.');
 	if (dec_point) 
 	{
