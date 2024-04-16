@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/16 16:06:08 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/16 22:16:06 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ typedef struct s_scene
 	t_amb	a;
 	t_cam	c;
 	t_light	l;
-	//t_obj	*objs;
+	t_obj	*objs;
 }	t_scene;
 
 typedef struct s_hit_point
@@ -143,6 +143,19 @@ typedef struct s_hit_point
 	t_obj				*obj;
 	struct s_hit_point	*next;
 }	t_hit_point;
+
+/*typedef enum s_shape
+{
+    SPHERE,
+    PLANE,
+    CYLINDER,
+} t_shape;
+
+typedef struct s_object
+{
+    t_shape type;
+    void* object;
+} t_object;*/
 
 char	*get_next_line(int fd);
 char	**ft_split(char const *s, char c);
@@ -163,6 +176,9 @@ t_color	ambient_color(const t_amb *a, const t_color *c);
 t_color	diffuse_color(const t_light *l, const t_color *c, float diffuse_factor);
 void	write_color(t_color px, t_img *img, int x, int y);
 t_color	blend_color(const t_color *c1, const t_color *c2);
+
+/* rendering */
+void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_sph sp, t_plane pl, t_scene scene);
 t_color ray_color(const t_ray *r, const t_sph *sp, const t_plane *pl, const t_scene *lights);
 
 /* math */
@@ -175,6 +191,7 @@ t_vec	vec3_add(const t_vec a, const t_vec b);
 float	vec3_length(const t_vec *v);
 
 /* mlx */
+void	mlx_hooks_init(t_data *data);
 int		close_window(t_data *data);
 int 	key_handler(int keycode, t_data *data);
 void	ft_pixel_put(t_img *img, int x, int y, int color);
