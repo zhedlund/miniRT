@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:52:57 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/11 18:41:20 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/16 15:55:55 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static char	*ft_strcpy(char const *str, char end)
 	return (res);
 }
 
-static unsigned int	ft_count_words(char const *str, char c)
+int	count_words(char const *str, char c)
 {
-	unsigned int	nb;
-	char			*s;
+	int		nb;
+	char	*s;
 
 	s = (char *)str;
 	nb = 0;
@@ -56,9 +56,9 @@ static unsigned int	ft_count_words(char const *str, char c)
 
 char	**ft_split(char const *s, char c)
 {
-	char			**res;
-	unsigned int	i;
-	unsigned int	n;
+	char	**res;
+	int		i;
+	int		n;
 
 	n = ft_count_words(s, c);
 	res = (char **)malloc((n + 1) * sizeof(char *));

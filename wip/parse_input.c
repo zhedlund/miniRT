@@ -6,26 +6,35 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:16:35 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/15 16:20:34 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/16 20:19:54 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 // check for errors needed: is_digits(char *str), is_valid_color(float color), is_unit_vec(float num), is_range(int grad)
-void	add_amb_light(char *str, t_scene *scene)
+int	add_amb_light(char *str, t_scene *scene)
 {
 	char	**args;
-	char	**color;
+	//char	**color;
 
+	if (!is_numbers(str + 1, ' '))
+		return (put_error("Invalid arguments for A: ambient light"));
+	if (count_words(str, ' ') != 3)
+		return (put_error("Invalid number of arguments for ambient light"));
 	args = ft_split(str, ' ');
-	scene->amb.ratio = atof(args[1]);
-	color = ft_split(args[2], ',');
-	scene->amb.color.r = atof(color[0]);
-	scene->amb.color.g = atof(color[1]);
-	scene->amb.color.b = atof(color[2]);
+	scene->amb.ratio = ft_atof(args[1]);
+	if (scene->amb.ratio < 0.0 || scene->amb.ratio > 1.0)
+	{
+		free_array(args);
+		return (put_error("Invalid ambient light ratio"));
+	}
+	if (read_color(&scene->amb.color, args[2]) == -1)
+	{
+		free_array(args);
+		return (put_error("Invalid color value of ambient light"));
+	}
 	scene->amb.diffuse = 0;
-	free_array(color);
 	free_array(args);
 	// scene->amb.ratio = 0.2;
 	// scene->amb.color.r = 255;
@@ -63,7 +72,7 @@ void	fill_scene(char *str, t_scene *scene)
 	else if (*str == 'c')
 		add_cylinder(str, scene);
 	else
-		check_input(str);
+		check_empty_line(str);
 	free(str);
 }
 
@@ -76,16 +85,13 @@ t_scene	*write_scene(int fd)
 	if (!str)
 		return (NULL);
 	scene = (t_scene *)malloc(sizeof(t_scene));
-	if (*str != '/n' && *str)
-	{
-		scene->objs = NULL;
-		fill_scene(str, scene);
-	}
+	if (!scene)
+		malloc_error();
+	scene->objs = NULL;
 	while (str)
 	{
+		fill_scene(str, scene);
 		str = get_next_line(fd);
-		if (*str != '/n' && *str)
-			fill_scene(str, scene);
 	}
 	return (scene);
 }
@@ -109,8 +115,8 @@ t_scene	*parse_input(char *file)
 	int		fd;
 	t_scene	*scene;
 
-	if (!check_file(file))
-		return ;
+	if (!is_valid_name(file))
+		return (NULL);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:45:57 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/12 18:55:20 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/16 18:40:51 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,12 @@ int main(int argc, char **argv)
 	t_scene	*scene;
 
 	if (argc != 2)
-		put_error("Invalid input");
-
+		return (put_error("Too many arguments\n"));
+	if (!is_valid_name(argv[1]))
+		return (put_error("Invalid file name"));
+	scene = parse_input(argv[1]);
+	if (!scene)
+		return (1);
 	/* initialize mlx stuff*/
 	data.mlx_ptr = mlx_init();
 	if (data.mlx_ptr == NULL)
@@ -67,9 +71,6 @@ int main(int argc, char **argv)
 	/* set up hooks*/
 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WIDTH, HEIGHT);
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp, &data.img.line_len, &data.img.endian);
-	scene = parse_input(argv[1]);
-	if (!scene)
-		return (1);
 	ray_tracing(scene);
 	mlx_loop_hook(data.mlx_ptr, &render, &data); // connect render function
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &key_handler, &data); // connect key_handler function
@@ -79,7 +80,7 @@ int main(int argc, char **argv)
 	/* if no window left, execute this code */
 	mlx_destroy_image(data.mlx_ptr, data.img.mlx_img);
 	mlx_destroy_display(data.mlx_ptr);
-	//free_scene(scene);
+	free_scene(scene);
 	free(data.mlx_ptr);
 	return (0);
 }
