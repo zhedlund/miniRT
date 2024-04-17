@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/16 19:45:04 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/17 20:35:56 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <math.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
-# include "minilibx-linux/mlx.h"
+//# include "minilibx-linux/mlx.h"
 # include "get_next_line.h"
 
 # define WIDTH 1024
@@ -126,6 +126,7 @@ typedef struct s_hit_point
 
 char	*get_next_line(int fd);
 char	**ft_split(char const *s, char c);
+size_t	ft_strlen(const char *str);
 int		count_words(char const *str, char c);
 float	ft_atof(const char *str);
 int		put_error(char *message);
@@ -134,11 +135,20 @@ int		is_numbers(char *str, char begin);
 void	*malloc_error(void);
 t_scene	*parse_input(char *file);
 int		read_color(t_color *col, char *str);
-void	add_light(char *str, t_scene *scene);
-void	add_sphere(char *str, t_scene *scene);
-void	add_plane(char *str, t_scene *scene);
-void	add_cylinder(char *str, t_scene *scene);
+int		add_light(char *str, t_light *light);
+int		add_sphere(char *str, t_scene *scene);
+int		add_plane(char *str, t_scene *scene);
+int		add_cylinder(char *str, t_scene *scene);
 int		check_empty_line(char *str);
 t_vec	*new_vec(float x, float y, float z);
+int		is_uns_int(char *str);
+int		is_float(char *str);
+float	is_color(char *str);
+int		read_color(t_color *col, char *str);
+int		read_vector(t_vec *vector, char *str);
+int		check_vector(char **vec);
+int		is_unit_vec(t_vec *vec);
+void	free_array(char **str);
+void	*free_scene(t_scene *scene);
 
 #endif

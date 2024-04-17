@@ -1,38 +1,80 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atof.c                                             :+:      :+:    :+:   */
+/*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 13:02:59 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/16 15:05:21 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/17 20:22:10 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	ft_atoi(const char *nptr)
+size_t	ft_strlen(const char *str)
 {
-	int	nb;
-	int	sign;
+	int	len;
 
-	nb = 0;
+	len = 0;
+	while (str[len])
+		len++;
+	return (len);
+}
+
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int				i;
+	unsigned char	ch;
+
+	ch = c;
+	if (ch == '\0')
+	{
+		i = ft_strlen(s);
+		return ((char *)s + i++);
+	}
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == ch)
+			return ((char *)s + i);
+		i++;
+	}
+	return (NULL);
+}
+
+int	ft_atoi(const char *str)
+{
+	int	sign;
+	int	num;
+	int	i;
+
 	sign = 1;
-	while (*nptr == 32 || (*nptr >= 9 && *nptr <= 13))
-		nptr++;
-	if (*nptr == 45 || *nptr == 43)
+	num = 0;
+	i = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == 32))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		if (*nptr == 45)
+		if (str[i] == '-')
 			sign = -1;
-		nptr++;
+		i++;
 	}
-	while (*nptr >= 48 && *nptr <= 57)
+	while (str[i] >= 48 && str[i] <= 57)
 	{
-		nb = nb * 10 + (*nptr - 48);
-		nptr++;
+		num *= 10;
+		num += str[i] - 48;
+		i++;
 	}
-	return (nb * sign);
+	return (num * sign);
 }
 
 float	ft_atof(const char *str)

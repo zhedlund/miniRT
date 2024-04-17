@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:35:45 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/12 16:23:26 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/17 20:12:53 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,22 @@ void	add_object(t_obj *object, t_scene *scene)
 	cur->next = object;
 }
 
-void	add_light(char *str, t_scene *scene)
+int	add_light(char *str, t_light *light)
 {
 	(void) str;
 
-	scene->light.pos.x = -40;
-	scene->light.pos.y = 50;
-	scene->light.pos.z = 0;
-	scene->light.ratio = 0.6;
-	scene->light.color.r = 255;
-	scene->light.color.g = 255;
-	scene->light.color.b = 0;
+	// scene->light.pos.x = -40;
+	// scene->light.pos.y = 50;
+	// scene->light.pos.z = 0;
+	// scene->light.ratio = 0.6;
+	// scene->light.color.r = 255;
+	// scene->light.color.g = 255;
+	// scene->light.color.b = 0;
+	return (0);
 }
 //parse str to get real input; protect malloc;
 
-void	add_sphere(char *str, t_scene *scene)
+int	add_sphere(char *str, t_scene *scene)
 {
 	t_obj	*object;
 	t_sph	*sphere;
@@ -61,9 +62,10 @@ void	add_sphere(char *str, t_scene *scene)
 	object->obj = sphere;
 	object->next = NULL;
 	add_object(object, scene);
+	return (0);
 }
 
-void	add_plane(char *str, t_scene *scene)
+int	add_plane(char *str, t_scene *scene)
 {
 	t_obj	*object;
 	t_plane	*pl;
@@ -85,9 +87,10 @@ void	add_plane(char *str, t_scene *scene)
 	object->obj = pl;
 	object->next = NULL;
 	add_object(object, scene);
+	return (0);
 }
 
-void	add_cylinder(char *str, t_scene *scene)
+int	add_cylinder(char *str, t_scene *scene)
 {
 	t_obj	*object;
 
@@ -95,5 +98,5 @@ void	add_cylinder(char *str, t_scene *scene)
 	(void) scene;
 
 	object = NULL;
-	return ;
+	return (0);
 }

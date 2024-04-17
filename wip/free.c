@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:11:27 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/16 15:25:39 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/17 20:13:27 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void	free_array(char **str)
 	}
 }
 
-void	free_scene(t_scene *scene)
+void	*free_scene(t_scene *scene)
 {
 	t_obj	*cur;
 	t_obj	*next;
 
 	if (!scene)
-		return ;
+		return (NULL);
 	cur = scene->objs;
 	while (cur)
 	{
@@ -42,4 +42,5 @@ void	free_scene(t_scene *scene)
 		cur = next;
 	}
 	free(scene);
+	return (NULL);
 }

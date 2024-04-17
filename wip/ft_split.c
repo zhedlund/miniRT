@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:52:57 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/16 15:55:55 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/17 20:24:13 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	**ft_split(char const *s, char c)
 	int		i;
 	int		n;
 
-	n = ft_count_words(s, c);
+	n = count_words(s, c);
 	res = (char **)malloc((n + 1) * sizeof(char *));
 	if (res == NULL)
 		return (res);

@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:04:05 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/16 20:21:37 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/17 20:27:24 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,38 +43,58 @@ int	read_color(t_color *col, char *str)
 	char	**color;
 
 	if (count_words(str, ',') != 3)
-		return (put_error("Invalid color number"));
+		return (-1);
 	color = ft_split(str, ',');
-	col->r = ft_atof(color[0]);
-	if (col->r < 0 || col->r > 255)
+	col->r = is_color(color[0]);
+	if (col->r == -1)
 	{
 		free_array(color);
 		return (-1);
 	}
-	col->g = ft_atof(color[1]);
-	if (col->g < 0 || col->g > 255)
+	col->g = is_color(color[1]);
+	if (col->g == -1)
 	{
 		free_array(color);
 		return (-1);
 	}
-	col->b = ft_atof(color[2]);
-	if (col->b < 0 || col->b > 255)
+	col->b = is_color(color[2]);
+	if (col->b == -1)
 	{
 		free_array(color);
 		return (-1);
 	}
 	free_array(color);
+	return (0);
 }
 
-float	get_distance(t_vec *p1, t_vec *p2)
+int	read_vector(t_vec *vector, char *str)
 {
-	float	res;
+	char	**vec;
 
-	if (!p1 || !p2)
+	if (count_words(str, ','))
 		return (-1);
-
-	res = sqrtf(powf((p2->x - p1->x), 2)
-			+ powf((p2->y - p1->y), 2)
-			+ powf((p2->z - p1->z), 2));
-	return (res);
+	vec = ft_split(str, ',');
+	if (check_vector(vec) == -1)
+	{
+		free_array(vec);
+		return (-1);
+	}
+	vector->x = ft_atof(vec[0]);
+	vector->y = ft_atof(vec[1]);
+	vector->z = ft_atof(vec[2]);
+	free_array(vec);
+	return (0);
 }
+
+// float	get_distance(t_vec *p1, t_vec *p2)
+// {
+// 	float	res;
+
+// 	if (!p1 || !p2)
+// 		return (-1);
+
+// 	res = sqrtf(powf((p2->x - p1->x), 2)
+// 			+ powf((p2->y - p1->y), 2)
+// 			+ powf((p2->z - p1->z), 2));
+// 	return (res);
+// }

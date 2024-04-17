@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:28 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/16 18:36:39 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/17 20:36:29 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	put_error(char *message)
 {
 	write(2, "Error\n", 6);
-	write(2, message, sizeof(message));
+	write(2, message, ft_strlen(message));
 	return (-1);
 }
 

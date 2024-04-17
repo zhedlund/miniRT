@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:53:29 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/15 15:40:49 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/17 20:23:10 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ray_tracing(t_scene *scene)
 	t_vec	*pixel_delta;
 	t_vec	*pixel00;
 
-	pixel00 = get_px_0();
+	//pixel00 = get_px_0();
 	pixel_delta = get_px_delta(&scene->cam);
 	return ;
 }
