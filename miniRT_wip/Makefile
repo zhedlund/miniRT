@@ -6,7 +6,7 @@
 #    By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/04/16 21:14:48 by zhedlund         ###   ########.fr        #
+#    Updated: 2024/04/17 11:56:16 by zhedlund         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,11 @@ SRC = 	main.c \
 		color.c \
 		objects.c \
 		rendering.c \
-		mlx_functions.c \
 		math/math.c \
 		math/math_vector.c \
 		utils/ft_atof.c \
+		utils/list_utils.c \
+		utils/mlx_utils.c \
 		
 OBJ = $(SRC:.c=.o)
 

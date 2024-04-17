@@ -6,11 +6,39 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:49:35 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/16 21:36:47 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/17 16:04:44 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+
+#include <unistd.h> // for write
+
+const char* shape_to_string(t_shape shape) {
+    switch (shape) {
+        case SPHERE:
+            return "SPHERE\n";
+        case PLANE:
+            return "PLANE\n";
+        case CYLINDER:
+            return "CYLINDER\n";
+        default:
+            return "UNKNOWN\n";
+    }
+}
+
+void print_object_list(const t_obj *head) {
+    const t_obj *current = head;
+    while (current != NULL) {
+        const char* shape_str = shape_to_string(current->id);
+        write(STDOUT_FILENO, "Object ID: ", 11);
+        write(STDOUT_FILENO, shape_str, strlen(shape_str));
+        current = current->next;
+    }
+}
+
+
 
 int main()
 {
@@ -58,7 +86,37 @@ int main()
 	// init scene struct
 	scene.a = a;
 	scene.l = l;
-	//scene.objs = NULL;
+	scene.objs = NULL;
+
+	// Create a new t_obj instance for the sphere
+	t_obj *obj_sp = malloc(sizeof(t_obj));
+	if (obj_sp == NULL) 
+	{
+		write(1, "Error: malloc failed\n", 21);
+		return (1);
+	}
+	obj_sp->id = SPHERE;
+	obj_sp->obj = &sp;
+	obj_sp->next = NULL;
+
+	// Create a new t_obj instance for the plane
+	t_obj *obj_pl = malloc(sizeof(t_obj));
+	if (obj_pl == NULL)
+	{
+		write(1, "Error: malloc failed\n", 21);
+		return (1);
+	}
+	obj_pl->id = PLANE;
+	obj_pl->obj = &pl;
+	obj_pl->next = NULL;
+
+	// Add the objects to the scene
+	add_object(&scene, obj_sp);
+	add_object(&scene, obj_pl);
+
+	print_object_list(scene.objs);
+	(void)ray;
+	(void)data;
 
     // initialize camera struct
     cam.focal_length = 1.0;
@@ -87,7 +145,7 @@ int main()
     					cam.viewport_up_left.y + 0.5 * (cam.px_delta_u.y + cam.px_delta_v.y),
     					cam.viewport_up_left.z};
 
-	create_image(&cam, &ray, &data, sp, pl, scene);
+	create_image(&cam, &ray, &data, scene);
 	//mlx_loop_hook(data.mlx_ptr, &render_image, &data);
 	mlx_loop(data.mlx_ptr);
 	mlx_destroy_image(data.mlx_ptr, data.img.mlx_img);

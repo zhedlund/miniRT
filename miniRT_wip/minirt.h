@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/16 22:16:06 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/17 20:25:32 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 # define MINIRT_H
 
 # include <unistd.h>
+# include <string.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <limits.h>
+# include <float.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
@@ -122,9 +125,17 @@ typedef struct s_cyl
 	t_color	color;
 }	t_cyl;
 
+typedef enum s_shape
+{
+    SPHERE,
+    PLANE,
+    CYLINDER,
+} t_shape;
+
 typedef struct s_obj
 {
-	char			id;
+	t_shape         id; // enum to represent the shape type
+	//char			id;
 	void			*obj;
 	struct s_obj	*next;
 }	t_obj;
@@ -144,18 +155,6 @@ typedef struct s_hit_point
 	struct s_hit_point	*next;
 }	t_hit_point;
 
-/*typedef enum s_shape
-{
-    SPHERE,
-    PLANE,
-    CYLINDER,
-} t_shape;
-
-typedef struct s_object
-{
-    t_shape type;
-    void* object;
-} t_object;*/
 
 char	*get_next_line(int fd);
 char	**ft_split(char const *s, char c);
@@ -178,8 +177,11 @@ void	write_color(t_color px, t_img *img, int x, int y);
 t_color	blend_color(const t_color *c1, const t_color *c2);
 
 /* rendering */
-void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_sph sp, t_plane pl, t_scene scene);
-t_color ray_color(const t_ray *r, const t_sph *sp, const t_plane *pl, const t_scene *lights);
+//void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_sph sp, t_plane pl, t_scene scene);
+//t_color ray_color(const t_ray *r, const t_sph *sp, const t_plane *pl, const t_scene *lights);
+void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene scene);
+t_color ray_color(const t_ray *r, const t_scene *scene);
+int render_image(t_data *data);
 
 /* math */
 float 	dot(const t_vec *u, const t_vec *v);
@@ -195,6 +197,10 @@ void	mlx_hooks_init(t_data *data);
 int		close_window(t_data *data);
 int 	key_handler(int keycode, t_data *data);
 void	ft_pixel_put(t_img *img, int x, int y, int color);
+
+/* lists */
+void	add_object(t_scene* scene, t_obj* obj);
+void	free_obj_list(t_scene* scene);
 
 /* utils */
 int		ft_atoi(const char *str);

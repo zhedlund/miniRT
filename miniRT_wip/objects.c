@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:32:13 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/16 19:33:43 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/17 19:17:16 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_vec sphere_normal(const t_sph *sp, const t_vec *intersect)
 }
 
 /* 	Calculates the point of intersection between a ray and a sphere.
-	Stores the intersection points in the sphere struct.
+	Returns the distance from the ray origin to the intersection point,
+	or -1 if the ray does not intersect the sphere.
 */
 float hit_sphere(const t_vec *center, float radius, const t_ray *r)
 {
