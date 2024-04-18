@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/17 20:25:32 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/18 18:37:01 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ typedef struct s_cyl
 	t_color	color;
 }	t_cyl;
 
-typedef enum s_shape
+typedef enum e_shape
 {
     SPHERE,
     PLANE,
@@ -148,12 +148,13 @@ typedef struct s_scene
 	t_obj	*objs;
 }	t_scene;
 
-typedef struct s_hit_point
+typedef struct s_hit
 {
-	float				t;
-	t_obj				*obj;
-	struct s_hit_point	*next;
-}	t_hit_point;
+	float			t;
+	float			shadow_t;
+	t_obj			*objs;
+	struct s_hit	*next;
+}	t_hit;
 
 
 char	*get_next_line(int fd);
@@ -201,6 +202,7 @@ void	ft_pixel_put(t_img *img, int x, int y, int color);
 /* lists */
 void	add_object(t_scene* scene, t_obj* obj);
 void	free_obj_list(t_scene* scene);
+void	free_hit_list(t_hit* hit);
 
 /* utils */
 int		ft_atoi(const char *str);
