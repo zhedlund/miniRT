@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:42:35 by kdzhoha           #+#    #+#             */
-/*   Updated: 2023/06/12 13:03:14 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/18 14:46:57 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ size_t	count_size(t_list *b)
 		{
 			size = size + end_of_line_size(b);
 			return (size);
-		}	
+		}
 		size = size + b->length;
 		b = b->next;
 	}

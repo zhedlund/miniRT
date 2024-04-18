@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:04:05 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/17 20:27:24 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/18 15:02:18 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	read_vector(t_vec *vector, char *str)
 {
 	char	**vec;
 
-	if (count_words(str, ','))
+	if (count_words(str, ',') != 3)
 		return (-1);
 	vec = ft_split(str, ',');
 	if (check_vector(vec) == -1)

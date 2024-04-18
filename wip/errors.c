@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:28 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/17 20:36:29 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/18 15:08:38 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	is_valid_name(char *file)
 
 int	check_empty_line(char *str)
 {
-	if (*str == '\n')
+	if (*str == '\n' || !*str)
 		return (0);
 	else
 		return (put_error("Invalid object identifier\n"));

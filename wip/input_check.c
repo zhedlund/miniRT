@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:07:57 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/17 19:30:44 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/18 18:43:05 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,16 @@ int	is_unit_vec(t_vec *vec)
 	if (vec->z < -1.0 || vec->z > 1.0)
 		return (0);
 	return (1);
+}
+
+float	valid_ratio(char *str)
+{
+	float	res;
+
+	if (!is_float(str))
+		return (-1);
+	res = ft_atof(str);
+	if (res < 0.0 || res > 1.0)
+		return (-1);
+	return (res);
 }

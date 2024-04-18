@@ -6,29 +6,28 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:16:35 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/17 20:02:56 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/18 18:43:25 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-// check for errors needed: is_digits(char *str), is_valid_color(float color), is_unit_vec(float num), is_range(int grad)
 int	add_amb_light(char *str, t_amb *amb)
 {
 	char	**args;
 
 	if (!is_numbers(str + 1, ' '))
-		return (put_error("Invalid arguments for A: ambient light\n"));
+		return (put_error("Unexpected arguments after A: ambient light\n"));
 	if (count_words(str, ' ') != 3)
 		return (put_error("Invalid number of arguments for ambient light\n"));
 	args = ft_split(str, ' ');
-	if (!is_float(args[1]))
-	{
-		free_array(args);
-		return (put_error("Invalid ambient light ratio\n"));
-	}
-	amb->ratio = ft_atof(args[1]);
-	if (amb->ratio < 0.0 || amb->ratio > 1.0)
+	// if (!is_float(args[1]))
+	// {
+	// 	free_array(args);
+	// 	return (put_error("Invalid ambient light ratio\n"));
+	// }
+	amb->ratio = valid_ratio(args[1]);
+	if (amb->ratio == -1)
 	{
 		free_array(args);
 		return (put_error("Invalid ambient light ratio\n"));
@@ -48,7 +47,7 @@ int	add_camera(char *str, t_cam *cam)
 	char	**args;
 
 	if (!is_numbers(str + 1, ' '))
-		return (put_error("Invalid arguments for C: camera\n"));
+		return (put_error("Unexpected arguments after C: camera\n"));
 	if (count_words(str, ' ') != 4)
 		return (put_error("Invalid number of arguments for camera\n"));
 	args = ft_split(str, ' ');
@@ -60,7 +59,7 @@ int	add_camera(char *str, t_cam *cam)
 	if (read_vector(&cam->dir, args[2]) == -1 || !is_unit_vec(&cam->dir))
 	{
 		free_array(args);
-		return (put_error("Invalid coordinates for camera center\n"));
+		return (put_error("Invalid coordinates for camera direction\n"));
 	}
 	if (!is_uns_int(args[3]) || ft_atof(args[3]) > 180)
 	{
@@ -91,9 +90,8 @@ int	fill_scene(char *str, t_scene *scene)
 		return (add_cylinder(str, scene));
 	else
 		return (check_empty_line(str));
-	//free(str);
 }
-
+// all objects in scene should be assigned to zero values
 t_scene	*write_scene(int fd)
 {
 	char	*str;

@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/17 20:35:56 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/18 18:42:58 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ t_vec	*new_vec(float x, float y, float z);
 int		is_uns_int(char *str);
 int		is_float(char *str);
 float	is_color(char *str);
+float	valid_ratio(char *str);
 int		read_color(t_color *col, char *str);
 int		read_vector(t_vec *vector, char *str);
 int		check_vector(char **vec);

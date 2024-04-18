@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:17:50 by kdzhoha           #+#    #+#             */
-/*   Updated: 2023/06/12 14:14:11 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/18 15:17:56 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "minirt.h"
 
 static int	read_line(int fd, t_list *b)
 {
@@ -107,5 +107,7 @@ char	*get_next_line(int fd)
 		write_remaining(buf_lst);
 	ft_clear(buf_lst->next);
 	buf_lst->next = NULL;
+	if (str && *str && str[ft_strlen(str) - 1] == '\n')
+		str[ft_strlen(str) - 1] = ' ';
 	return (str);
 }

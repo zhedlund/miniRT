@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:35:45 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/17 20:12:53 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/18 19:06:39 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,30 @@ void	add_object(t_obj *object, t_scene *scene)
 
 int	add_light(char *str, t_light *light)
 {
-	(void) str;
+	char	**args;
 
-	// scene->light.pos.x = -40;
-	// scene->light.pos.y = 50;
-	// scene->light.pos.z = 0;
-	// scene->light.ratio = 0.6;
-	// scene->light.color.r = 255;
-	// scene->light.color.g = 255;
-	// scene->light.color.b = 0;
+	if (!is_numbers(str + 1, ' '))
+		return (put_error("Unexpected arguments after L: spot light\n"));
+	if (count_words(str, ' ') != 4)
+		return (put_error("Invalid number of arguments for spot light\n"));
+	args = ft_split(str, ' ');
+	if (read_vector(&light->pos, args[1]) == -1)
+	{
+		free_array(args);
+		return (put_error("Invalid coordinates for spot light\n"));
+	}
+	light->ratio = valid_ratio(args[2]);
+	if (light->ratio == -1)
+	{
+		free_array(args);
+		return (put_error("Invalid spot light ratio\n"));
+	}
+	if (read_color(&light->color, args[3]) == -1)
+	{
+		free_array(args);
+		return (put_error("Invalid color value of spot light\n"));
+	}
+	free_array(args);
 	return (0);
 }
 //parse str to get real input; protect malloc;
@@ -46,18 +61,36 @@ int	add_sphere(char *str, t_scene *scene)
 {
 	t_obj	*object;
 	t_sph	*sphere;
+	char	**args;
 
-	(void) str;
-
+	if (*(str + 1) != 'p' || !is_numbers(str + 2, ' '))
+		return (put_error("Unexpected arguments after sp: sphere\n"));
+	if (count_words(str, ' ') != 4)
+		return (put_error("Invalid number of arguments for sphere\n"));
 	object = (t_obj *)malloc(sizeof(t_obj));
+	if (!object)
+		return (malloc_error(), -1);
 	sphere = (t_sph *)malloc(sizeof(t_sph));
-	sphere->pos.x = 0;
-	sphere->pos.y = 0;
-	sphere->pos.z = 20.6;
-	sphere->r = 6.3;
-	sphere->color.r = 10;
-	sphere->color.g = 0;
-	sphere->color.b = 255;
+	if (!sphere)
+		return (malloc_error(), -1);
+	args = ft_split(str, ' ');
+	if (read_vector(&sphere->pos, args[1]) == -1)
+	{
+		free_array(args);
+		return (put_error("Invalid coordinates for sphere center\n"));
+	}
+	if (!is_float(args[2]) || ft_atof(args[2]) <= 0)
+	{
+		free_array(args);
+		return (put_error("Invalid sphere diameter value\n"));
+	}
+	sphere->r = ft_atof(args[2]) / 2;
+	if (read_color(&sphere->color, args[3]) == -1)
+	{
+		free_array(args);
+		return (put_error("Invalid color value of sphere\n"));
+	}
+	free_array(args);
 	object->id = 's';
 	object->obj = sphere;
 	object->next = NULL;
@@ -69,20 +102,35 @@ int	add_plane(char *str, t_scene *scene)
 {
 	t_obj	*object;
 	t_plane	*pl;
+	char	**args;
 
-	(void) str;
-
+	if (*(str + 1) != 'l' || !is_numbers(str + 2, ' '))
+		return (put_error("Unexpected arguments after pl: plane\n"));
+	if (count_words(str, ' ') != 4)
+		return (put_error("Invalid number of arguments for plane\n"));
 	object = (t_obj *)malloc(sizeof(t_obj));
+	if (!object)
+		return (malloc_error(), -1);
 	pl = (t_plane *)malloc(sizeof(t_plane));
-	pl->point.x = 0;
-	pl->point.y = -7;
-	pl->point.z = -10;
-	pl->normal.x = 0;
-	pl->normal.y = 1;
-	pl->normal.z = 0;
-	pl->color.r = 0;
-	pl->color.g = 0;
-	pl->color.b = 225;
+	if (!pl)
+		return (malloc_error(), -1);
+	args = ft_split(str, ' ');
+	if (read_vector(&pl->point, args[1]) == -1)
+	{
+		free_array(args);
+		return (put_error("Invalid coordinates for plane point\n"));
+	}
+	if (read_vector(&pl->normal, args[2]) == -1 || !is_unit_vec(&pl->normal))
+	{
+		free_array(args);
+		return (put_error("Invalid value of plane normal vector\n"));
+	}
+	if (read_color(&pl->color, args[3]) == -1)
+	{
+		free_array(args);
+		return (put_error("Invalid color value of plane\n"));
+	}
+	free_array(args);
 	object->id = 'p';
 	object->obj = pl;
 	object->next = NULL;

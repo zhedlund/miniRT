@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:11:27 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/17 20:13:27 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/18 15:24:16 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	free_array(char **str)
 		free(str[i]);
 		i++;
 	}
+	free(str);
 }
 
 void	*free_scene(t_scene *scene)
