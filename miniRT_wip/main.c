@@ -6,45 +6,18 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:49:35 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/17 16:04:44 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/19 22:25:40 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-
-#include <unistd.h> // for write
-
-const char* shape_to_string(t_shape shape) {
-    switch (shape) {
-        case SPHERE:
-            return "SPHERE\n";
-        case PLANE:
-            return "PLANE\n";
-        case CYLINDER:
-            return "CYLINDER\n";
-        default:
-            return "UNKNOWN\n";
-    }
-}
-
-void print_object_list(const t_obj *head) {
-    const t_obj *current = head;
-    while (current != NULL) {
-        const char* shape_str = shape_to_string(current->id);
-        write(STDOUT_FILENO, "Object ID: ", 11);
-        write(STDOUT_FILENO, shape_str, strlen(shape_str));
-        current = current->next;
-    }
-}
-
-
 
 int main()
 {
 	t_data	data;
 	t_cam	cam;
 	t_sph	sp;
+	t_sph	sp2;
 	t_plane	pl;
 	t_scene	scene;
 	t_amb   a;
@@ -69,6 +42,10 @@ int main()
     sp.radius = 0.5; 
 	sp.color = (t_color){0.7, 0.1, 0.7}; // color of the sphere
 
+	sp2.center = (t_vec){-0.7, 0.0, -1}; // center coordinates
+    sp2.radius = 0.3; 
+	sp2.color = (t_color){0.5, 0.1, 1.0}; // color of the sphere
+
     pl.point = (t_vec){0, -0.4, 0}; // point on the plane
     pl.normal = (t_vec){0, 1, 0}; // assigning normal vector
 	pl.color = (t_color){0.1, 0.9, 0.6}; // color of the plane
@@ -78,7 +55,7 @@ int main()
     a.color = (t_color){1.0, 1.0, 1.0}; 
     a.diffuse = 0.0; // higher value = more light is scattered, brighter surface shading
 
-    l.pos = (t_vec){-40.0, 50.0, 0.0}; 
+    l.pos = (t_vec){-10.0, 50.0, 0.0};
     l.ratio = 1; // direct light ratio, higher = brighter
     l.diffuse = -0.5;
     l.color = (t_color){1.0, 1.0, 0.0}; 
@@ -92,12 +69,23 @@ int main()
 	t_obj *obj_sp = malloc(sizeof(t_obj));
 	if (obj_sp == NULL) 
 	{
-		write(1, "Error: malloc failed\n", 21);
+		write(2, "Error: malloc failed\n", 21);
 		return (1);
 	}
 	obj_sp->id = SPHERE;
 	obj_sp->obj = &sp;
 	obj_sp->next = NULL;
+
+	t_obj *obj_sp2 = malloc(sizeof(t_obj));
+	if (obj_sp2 == NULL) 
+	{
+		write(2, "Error: malloc failed\n", 21);
+		return (1);
+	}
+	obj_sp2->id = SPHERE;
+	obj_sp2->obj = &sp2;
+	obj_sp2->next = NULL;
+
 
 	// Create a new t_obj instance for the plane
 	t_obj *obj_pl = malloc(sizeof(t_obj));
@@ -112,6 +100,7 @@ int main()
 
 	// Add the objects to the scene
 	add_object(&scene, obj_sp);
+	add_object(&scene, obj_sp2);
 	add_object(&scene, obj_pl);
 
 	print_object_list(scene.objs);

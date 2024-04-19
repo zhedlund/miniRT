@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:26:07 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/18 17:26:28 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/19 20:20:41 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /* 	Calculates the ambient color of a pixel. The ambient color is the color 
 	of the pixel when no light source is illuminating it.
 */
-t_color ambient_color(const t_amb *a, const t_color *c)
+t_color amb_color(const t_amb *a, const t_color *c)
 {
     return ((t_color){a->ratio * c->r, a->ratio * c->g, a->ratio * c->b});
 }
@@ -55,7 +55,7 @@ t_color blend_color(const t_color *c1, const t_color *c2)
 	r = c1->r + c2->r;
 	g = c1->g + c2->g;
 	b = c1->b + c2->b;
-	// Clamp the color values to the range [0.0, 1.0]
+	
 	if (r > 1.0)
 		r = 1.0;
 	if (g > 1.0)

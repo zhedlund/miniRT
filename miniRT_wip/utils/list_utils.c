@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 11:42:15 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/18 13:47:07 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/19 18:47:38 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void free_obj_list(t_scene* scene)
     scene->objs = NULL;
 }
 
-void free_hit_list(t_hit* hit)
+void free_hitlist(t_hit* hit)
 {
 	t_hit *current;
 	t_hit *next;

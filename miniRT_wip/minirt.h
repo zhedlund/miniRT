@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/18 18:37:01 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/19 22:19:32 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,19 +170,18 @@ void	add_cylinder(char *str, t_scene *scene);
 t_vec	sphere_normal(const t_sph *sp, const t_vec *intersect);
 float	hit_sphere(const t_vec *center, float radius, const t_ray *r);
 float	hit_plane(const t_plane *pl, const t_ray *r);
+float	hit_object(const t_obj *obj, const t_ray *r);
 
 /* color */
-t_color	ambient_color(const t_amb *a, const t_color *c);
+t_color	amb_color(const t_amb *a, const t_color *c);
 t_color	diffuse_color(const t_light *l, const t_color *c, float diffuse_factor);
 void	write_color(t_color px, t_img *img, int x, int y);
 t_color	blend_color(const t_color *c1, const t_color *c2);
 
 /* rendering */
-//void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_sph sp, t_plane pl, t_scene scene);
-//t_color ray_color(const t_ray *r, const t_sph *sp, const t_plane *pl, const t_scene *lights);
 void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene scene);
-t_color ray_color(const t_ray *r, const t_scene *scene);
-int render_image(t_data *data);
+t_color	ray_color(const t_ray *r, const t_scene *scene);
+int		render_image(t_data *data);
 
 /* math */
 float 	dot(const t_vec *u, const t_vec *v);
@@ -202,10 +201,16 @@ void	ft_pixel_put(t_img *img, int x, int y, int color);
 /* lists */
 void	add_object(t_scene* scene, t_obj* obj);
 void	free_obj_list(t_scene* scene);
-void	free_hit_list(t_hit* hit);
+void	free_hitlist(t_hit* hit);
 
 /* utils */
 int		ft_atoi(const char *str);
 float	ft_atof(const char *str);
+int		ft_isdigit(int c);
+size_t	ft_strlen(const char *s);
+
+/* debug */
+void		print_object_list(const t_obj *head);
+const char 	*shape_to_string(t_shape shape);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/04/17 11:56:16 by zhedlund         ###   ########.fr        #
+#    Updated: 2024/04/19 18:26:01 by zhedlund         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC = 	main.c \
 		utils/ft_atof.c \
 		utils/list_utils.c \
 		utils/mlx_utils.c \
+		debug.c \
 		
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:32:13 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/17 19:17:16 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/19 22:30:52 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,18 @@ float hit_plane(const t_plane *pl, const t_ray *r)
     if (t < 0)
         return (-1.0); // Intersection point is behind the ray origin
     return (t);
+}
+
+float	hit_object(const t_obj *obj, const t_ray *r)
+{
+	float t;
+	
+	t = -1.0;
+	if (obj->id == SPHERE)
+		t = hit_sphere(&((const t_sph*)(obj->obj))->center, ((const t_sph*)(obj->obj))->radius, r);
+	else if (obj->id == PLANE)
+		t = hit_plane((const t_plane*)(obj->obj), r);
+	//else if (obj->id == CYLINDER)
+		//t = hit_cylinder((const t_cyl*)(obj->obj), r);
+	return (t);
 }

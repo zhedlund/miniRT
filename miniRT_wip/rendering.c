@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/18 18:16:03 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/19 23:06:46 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,173 +59,47 @@ void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene scene)
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0); //display image
 }
 
-void print_object_list(const t_obj *head);
-const char* shape_to_string(t_shape shape);
-
-/* 	Calculates the color of a pixel based on the intersection of a ray with a sphere or plane.
-	Returns a color value based on the normal vector at the intersection point.
-*/
-/*t_color ray_color(const t_ray *r, const t_sph *sp, const t_plane *pl, const t_scene *scene)
-{
-    float	ts = hit_sphere(&sp->center, sp->radius, r);
-    float	tp = hit_plane(pl, r);
-    t_color	px;
-
-	if (ts > 0) //&& (tp < 0 || ts < tp)) // Intersection with the sphere
-	{ 
-        // Calculate intersection point and normal vector
-		t_vec intersect = intersect_point(r, ts);
-        t_vec normal = sphere_normal(sp, &intersect);
-		t_color ambient_light = ambient_color(&scene->a, &sp->color);
-
-        // Diffuse lighting for shadow effect
-        t_vec light_dir = vec3_unit_vector(&scene->l.pos);
-        float diffuse_factor = dot(&light_dir, &normal);
-		t_color diffuse = diffuse_color(&scene->l, &sp->color, diffuse_factor);
-        px = blend_color(&ambient_light, &diffuse); // add ambient and diffuse components
-    } 
-    else if (tp > 0) // Intersection with the plane
-    {
-        t_vec intersect_plane = intersect_point(r, tp);
-        // Check if the sphere is blocking the light
-        t_vec temp = vec3_subtract(scene->l.pos, intersect_plane);
-		t_vec to_light = vec3_unit_vector(&temp); // Direction from plane to light source
-
-        t_ray shadow_ray = {intersect_plane, to_light};
-        float t_shadow_sphere = hit_sphere(&sp->center, sp->radius, &shadow_ray);
-        if (t_shadow_sphere > 0 && t_shadow_sphere < 1.0) // Sphere is blocking the light
-		{
-            px = (t_color){0.0, 0.3, 0.2}; // shadow color
-		}
-		else // No shadow
-        {
-            t_color ambient_light = ambient_color(&scene->a, &pl->color); // Ambient lighting for plane
-            px = ambient_light; // Plane pixel color with ambient component
-        }
-    }
-    else // No intersection with the plane
-    {
-        px = (t_color){0.5, 0.7, 1.0}; // Background color
-    }
-    return (px);
-}*/
-
-
-/*t_color ray_color(const t_ray *r, const t_scene *scene)
-{
-    float ts = hit_sphere(&((const t_sph*)(scene->objs->obj))->center, ((const t_sph*)(scene->objs->obj))->radius, r);
-    float tp = hit_plane((const t_plane*)(scene->objs->next->obj), r);
-    t_color px;
-
-	px = (t_color){0.5, 0.7, 1.0}; // Background color
-    if (ts > 0 && (tp < 0 || ts < tp)) // Intersection with the sphere
-    { 
-        // Calculate intersection point and normal vector
-        t_vec intersect = intersect_point(r, ts);
-        t_vec normal = sphere_normal((const t_sph*)(scene->objs->obj), &intersect);
-        t_color ambient_light = ambient_color(&scene->a, &((const t_sph*)(scene->objs->obj))->color);
-
-        // Diffuse lighting for shadow effect
-        t_vec light_dir = vec3_unit_vector(&scene->l.pos);
-        float diffuse_factor = dot(&light_dir, &normal);
-        t_color diffuse = diffuse_color(&scene->l, &((const t_sph*)(scene->objs->obj))->color, diffuse_factor);
-        px = blend_color(&ambient_light, &diffuse); // add ambient and diffuse components
-    } 
-    else if (tp > 0) // Intersection with the plane
-    {
-        t_vec intersect_plane = intersect_point(r, tp);
-        // Check if the sphere is blocking the light
-        t_vec temp = vec3_subtract(scene->l.pos, intersect_plane);
-        t_vec to_light = vec3_unit_vector(&temp); // Direction from plane to light source
-
-        t_ray shadow_ray = {intersect_plane, to_light};
-        float t_shadow_sphere = hit_sphere(&((const t_sph*)(scene->objs->obj))->center, ((const t_sph*)(scene->objs->obj))->radius, &shadow_ray);
-        if (t_shadow_sphere > 0 && t_shadow_sphere < 1.0) // Sphere is blocking the light
-        {
-            px = (t_color){0.0, 0.3, 0.2}; // shadow color
-        }
-        else // No shadow
-        {
-            t_color ambient_light = ambient_color(&scene->a, &((const t_plane*)(scene->objs->next->obj))->color); // Ambient lighting for plane
-            px = ambient_light; // Plane pixel color with ambient component
-        }
-    }
-    return (px);
-}*/
-
-// Function to check if a point is in shadow
-/*int in_shadow(const t_vec *point, const t_light *light, const t_obj *objs)
-{
-    // Cast shadow ray from point to light source
-    t_vec to_light = vec3_subtract(light->pos, *point);
-    t_ray shadow_ray = {*point, vec3_unit_vector(&to_light)};
-    const t_obj *current;
-	float t;
-	
-	current = objs;
-    while (current != NULL)
-    {
-        if (current->id == SPHERE)
-        {
-            t = hit_sphere(&((const t_sph*)(current->obj))->center, ((const t_sph*)(current->obj))->radius, &shadow_ray);
-            if (t > 0 && t < 1.0) // Intersection with sphere
-                return (1); // Point is in shadow
-        }
-        else if (current->id == PLANE)
-        {
-            t = hit_plane((const t_plane*)(current->obj), &shadow_ray);
-            if (t > 0 && t < 1.0) // Intersection with plane
-                return (1); // Point is in shadow
-        }
-        current = current->next;
-    }
-    return (0); // Point is not in shadow
-}*/
-
-t_hit *hit_object(const t_ray *r, const t_scene *scene)
+t_hit *add_hit_obj(const t_ray *r, const t_scene *scene)
 {
     t_hit	*head;
 	t_obj	*current;
 	float	t;
+	t_hit	*hit;
 	
 	head = NULL;
 	current = scene->objs;
     while (current != NULL)
     {
-        t = -1.0; //t-value for current object
-        if (current->id == SPHERE)
-            t = hit_sphere(&((const t_sph *)(current->obj))->center, ((const t_sph *)(current->obj))->radius, r);
-        else if (current->id == PLANE)
-            t = hit_plane((const t_plane *)(current->obj), r);
-        if (t > 0) // If t is positive, create new t_hit obj and add to list
+		t = hit_object(current, r);
+        if (t > 0) // If t is positive, create list + add obj
         {
-            t_hit *hit_obj = malloc(sizeof(t_hit));
-            if (!hit_obj)
+            hit = malloc(sizeof(t_hit));
+            if (!hit)
                 return (NULL);
-            hit_obj->t = t;
-            hit_obj->objs = current;
-            hit_obj->next = head;
-            head = hit_obj;
+            hit->t = t;
+            hit->objs = current;
+            hit->next = head;
+            head = hit;		
         }
         current = current->next;
     }
     return (head); // Return the head of the linked list
 }
 
-void	find_closest_obj(t_hit *hit_point, t_hit **hitlist)
+void	find_closest_obj(t_hit *obj, t_hit **hit)
 {
 	t_hit	*current;
 	float	min_t;
 
-	*hitlist = NULL;
+	*hit = NULL;
 	min_t = FLT_MAX;
-	current = hit_point;
+	current = obj;
 	while (current != NULL) 
 	{
 		if (current->t < min_t) 
 		{
 			min_t = current->t;
-			*hitlist = current;
+			*hit = current;
 		}
 		current = current->next;
 	}
@@ -240,65 +114,94 @@ t_color diffuse_lighting(t_color *px, const t_light *light, const t_vec *normal)
 	return (*px);
 }
 
-float	shadow_ray(t_hit *hitlist, const t_light *light, const t_ray *r)
+float calculate_shadow(const t_vec *intersect, const t_scene *scene, const t_hit *hitlist)
 {
-	t_vec intersect = intersect_point(r, hitlist->t);
-	t_vec to_light = vec3_unit_vector(&light->pos); // Direction from plane to light source
-	t_ray shadow_ray = {intersect, to_light};
-	float t_shadow = hit_sphere(&((const t_sph *)(hitlist->objs->obj))->center, ((const t_sph *)(hitlist->objs->obj))->radius, &shadow_ray);
-	return (t_shadow);
+    t_vec shadow_dir = vec3_subtract(scene->l.pos, *intersect);
+    t_ray shadow_ray = {*intersect, vec3_unit_vector(&shadow_dir)};
+    const t_obj *obj = scene->objs;
+    float shadow_t = 1.0;
+    while (obj != NULL)
+    {
+        if (obj != hitlist->objs) // exclude current object being shaded
+        {
+            float t = hit_object(obj, &shadow_ray);
+            if (t > 0 && t < shadow_t)
+                shadow_t = t;
+        }
+        obj = obj->next;
+    }
+    return (shadow_t);
 }
 
-t_color ray_color(const t_ray *r, const t_scene *scene)
+/*t_color ray_color(const t_ray *r, const t_scene *scene)
 {
 	t_color px;
-	t_hit	*hit_point;
+	t_hit	*hit_obj;
 	t_hit	*hitlist;
 	t_vec	intersect;
+	t_ray	shadow_ray;
+	t_vec	normal;
+	float	shadow_t;
 
 	px = (t_color){0.5, 0.7, 1.0}; // Background color
-	hit_point = hit_object(r, scene);
-    if (!hit_point)
-		return (t_color){0.5, 0.7, 1.0}; // Background color
-	find_closest_obj(hit_point, &hitlist);
-	if (!hitlist)
-		free_hit_list(hit_point);
-	//float t_shadow = shadow_ray(hitlist, &scene->l, r);
+	hit_obj = add_hit_obj(r, scene);
+    if (!hit_obj)
+		return (px); // Background color
+	find_closest_obj(hit_obj, &hitlist);
 	intersect = intersect_point(r, hitlist->t);
-	t_vec temp = vec3_subtract(scene->l.pos, intersect);
-    t_vec to_light = vec3_unit_vector(&temp); // Direction from plane to light source
-    t_ray shadow_ray = {intersect, to_light};
-    
+	shadow_ray = calculate_shadow(intersect, scene);
 	if (hitlist->objs->id == SPHERE)
     {
-        t_vec normal = sphere_normal((const t_sph *)(hitlist->objs->obj), &intersect);
-		t_color amb_light = ambient_color(&scene->a, &((const t_sph *)(hitlist->objs->obj))->color);
-		px = diffuse_lighting(&amb_light, &scene->l, &normal); //shadow effect
+        normal = sphere_normal((const t_sph *)(hitlist->objs->obj), &intersect);
+		px = amb_color(&scene->a, &((const t_sph *)(hitlist->objs->obj))->color);
+		px = diffuse_lighting(&px, &scene->l, &normal);
     }
     else if (hitlist->objs->id == PLANE)
     {
-		//intersect = intersect_point(r, hitlist->t);
-        
-		// Check if the sphere is blocking the light
-       //t_vec temp = vec3_subtract(scene->l.pos, intersect);
-        //t_vec to_light = vec3_unit_vector(&temp); // Direction from plane to light source
-        //t_ray shadow_ray = {intersect, to_light};
-        float t_shadow = hit_sphere(&((const t_sph *)(scene->objs->obj))->center, ((const t_sph*)(scene->objs->obj))->radius, &shadow_ray);
-		
-		if (t_shadow > 0 && t_shadow < 1.0) // Sphere is blocking the light
-        {
+        shadow_t = hit_object(scene->objs, &shadow_ray);
+		if (shadow_t > 0 && shadow_t < 1.0)
             px = (t_color){0.0, 0.3, 0.2}; // shadow color
-        }
-
-        //if (in_shadow(&intersect_plane, &scene->l, scene->objs))
-		//{ px = (t_color){0.0, 0.3, 0.2}; // shadow color}
 		else
-		{
-            t_color amb_light = ambient_color(&scene->a, &((const t_plane*)(scene->objs->obj))->color); // Ambient lighting for plane
-            px = amb_light; // Plane pixel color with ambient component
-        }
+            px = amb_color(&scene->a, &((const t_plane*)(hitlist->objs->obj))->color); // Ambient lighting for plane
     }
-    free_hit_list(hit_point);
+    free_hitlist(hitlist);
+    return (px);
+}*/
+
+
+t_color ray_color(const t_ray *r, const t_scene *scene)
+{
+    t_color px;
+    t_hit *hit_obj;
+    t_hit *hitlist;
+    t_vec intersect;
+    t_vec normal;
+    float shadow_t;
+
+    px = (t_color){0.5, 0.7, 1.0}; // Background color
+    hit_obj = add_hit_obj(r, scene);
+    if (!hit_obj)
+        return (px);
+    find_closest_obj(hit_obj, &hitlist);
+    if (hitlist != NULL)
+    {
+        intersect = intersect_point(r, hitlist->t);
+
+        if (hitlist->objs->id == SPHERE)
+        {
+            normal = sphere_normal((const t_sph *)(hitlist->objs->obj), &intersect);
+            px = amb_color(&scene->a, &((const t_sph *)(hitlist->objs->obj))->color);
+            px = diffuse_lighting(&px, &scene->l, &normal);
+        }
+        else if (hitlist->objs->id == PLANE)
+        {
+			shadow_t = calculate_shadow(&intersect, scene, hitlist);
+            if (shadow_t < 1.0)
+                px = (t_color){0.0, 0.3, 0.2};
+            else
+                px = amb_color(&scene->a, &((const t_plane*)(hitlist->objs->obj))->color);
+        }
+        free_hitlist(hitlist);
+    }
     return (px);
 }
-
