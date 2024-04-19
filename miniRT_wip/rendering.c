@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/19 23:06:46 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/19 23:09:06 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_hit *add_hit_obj(const t_ray *r, const t_scene *scene)
         }
         current = current->next;
     }
-    return (head); // Return the head of the linked list
+    return (head);
 }
 
 void	find_closest_obj(t_hit *obj, t_hit **hit)
