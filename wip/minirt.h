@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/18 18:42:58 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/22 16:10:34 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,13 @@ typedef struct s_scene
 	t_obj	*objs;
 }	t_scene;
 
+// c_part = 0, 1, 2, 3:
+// 0 - not a cylinder, 1 - top of cylinder, 2 - bottom of cylinder, 3 - side of cylinder
 typedef struct s_hit_point
 {
 	float				t;
 	t_obj				*obj;
+	int					c_part;
 	struct s_hit_point	*next;
 }	t_hit_point;
 
