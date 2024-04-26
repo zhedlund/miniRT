@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/26 15:28:31 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:03:32 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,42 +132,6 @@ float calculate_shadow(const t_vec *intersect, const t_scene *scene, const t_hit
     }
     return (shadow_t);
 }
-
-/*t_color ray_color(const t_ray *r, const t_scene *scene)
-{
-	t_color px;
-	t_hit	*hit_obj;
-	t_hit	*hitlist;
-	t_vec	intersect;
-	t_ray	shadow_ray;
-	t_vec	normal;
-	float	shadow_t;
-
-	px = (t_color){0.5, 0.7, 1.0}; // Background color
-	hit_obj = add_hit_obj(r, scene);
-    if (!hit_obj)
-		return (px); // Background color
-	find_closest_obj(hit_obj, &hitlist);
-	intersect = intersect_point(r, hitlist->t);
-	shadow_ray = calculate_shadow(intersect, scene);
-	if (hitlist->objs->id == SPHERE)
-    {
-        normal = sphere_normal((const t_sph *)(hitlist->objs->obj), &intersect);
-		px = amb_color(&scene->a, &((const t_sph *)(hitlist->objs->obj))->color);
-		px = diffuse_lighting(&px, &scene->l, &normal);
-    }
-    else if (hitlist->objs->id == PLANE)
-    {
-        shadow_t = hit_object(scene->objs, &shadow_ray);
-		if (shadow_t > 0 && shadow_t < 1.0)
-            px = (t_color){0.0, 0.3, 0.2}; // shadow color
-		else
-            px = amb_color(&scene->a, &((const t_plane*)(hitlist->objs->obj))->color); // Ambient lighting for plane
-    }
-    free_hitlist(hitlist);
-    return (px);
-}*/
-
 
 t_color ray_color(const t_ray *r, const t_scene *scene)
 {
