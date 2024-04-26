@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/19 23:09:06 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:28:31 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ t_color ray_color(const t_ray *r, const t_scene *scene)
     if (hitlist != NULL)
     {
         intersect = intersect_point(r, hitlist->t);
-
         if (hitlist->objs->id == SPHERE)
         {
             normal = sphere_normal((const t_sph *)(hitlist->objs->obj), &intersect);

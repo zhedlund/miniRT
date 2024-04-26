@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 11:42:15 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/19 18:47:38 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:37:34 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void add_object(t_scene* scene, t_obj* obj)
         current->next = node; // add node to the end of the list
     }
 }
-
 
 void free_obj_list(t_scene* scene)
 {
