@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:35:45 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/18 19:06:39 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/04/24 15:44:43 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,51 @@ int	add_plane(char *str, t_scene *scene)
 int	add_cylinder(char *str, t_scene *scene)
 {
 	t_obj	*object;
+	t_cyl	*cyl;
+	char	**args;
 
-	(void) str;
-	(void) scene;
-
-	object = NULL;
+	if (*(str + 1) != 'y' || !is_numbers(str + 2, ' '))
+		return (put_error("Unexpected arguments after cy: cylinder\n"));
+	if (count_words(str, ' ') != 6)
+		return (put_error("Invalid number of arguments for cylinder\n"));
+	object = (t_obj *)malloc(sizeof(t_obj));
+	if (!object)
+		return (malloc_error(), -1);
+	cyl = (t_cyl *)malloc(sizeof(t_cyl));
+	if (!cyl)
+		return (malloc_error(), -1);
+	args = ft_split(str, ' ');
+	if (read_vector(&cyl->pos, args[1]) == -1)
+	{
+		free_array(args);
+		return (put_error("Invalid coordinates for cylinder center\n"));
+	}
+	if (read_vector(&cyl->normal, args[2]) == -1 || !is_unit_vec(&cyl->normal))
+	{
+		free_array(args);
+		return (put_error("Invalid value of cylinder normal vector\n"));
+	}
+	if (!is_float(args[3]) || ft_atof(args[3]) <= 0)
+	{
+		free_array(args);
+		return (put_error("Invalid cylinder diameter value\n"));
+	}
+	cyl->r = ft_atof(args[3]) / 2;
+	if (!is_float(args[4]) || ft_atof(args[4]) <= 0)
+	{
+		free_array(args);
+		return (put_error("Invalid cylinder height value\n"));
+	}
+	cyl->h = ft_atof(args[4]);
+	if (read_color(&cyl->color, args[5]) == -1)
+	{
+		free_array(args);
+		return (put_error("Invalid color value of cylinder\n"));
+	}
+	free_array(args);
+	object->id = 'c';
+	object->obj = cyl;
+	object->next = NULL;
+	add_object(object, scene);
 	return (0);
 }
