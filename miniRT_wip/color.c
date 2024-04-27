@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:26:07 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/19 20:20:41 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/27 17:10:38 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,18 @@ t_color amb_color(const t_amb *a, const t_color *c)
 	of the pixel when illuminated by a light source. 
 	fmax returns the maximum of the two values.
 */
-t_color diffuse_color(const t_light *l, const t_color *c, float diffuse_factor)
+/*t_color diffuse_color(const t_light *l, const t_color *c, float diffuse_factor)
 {
     return ((t_color){fmaxf(0, diffuse_factor) * c->r * l->color.r * l->ratio,
                      fmaxf(0, diffuse_factor) * c->g * l->color.g * l->ratio,
                      fmaxf(0, diffuse_factor) * c->b * l->color.b * l->ratio});
+}*/
+
+t_color diffuse_color(const t_light *l, const t_color *c, float diffuse_factor)
+{
+    return ((t_color){diffuse_factor * c->r * l->color.r * l->ratio,
+                     diffuse_factor * c->g * l->color.g * l->ratio,
+                     diffuse_factor * c->b * l->color.b * l->ratio});
 }
 
 /* 	Writes the color value of a pixel to the image buffer.

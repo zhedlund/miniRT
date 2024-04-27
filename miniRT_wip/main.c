@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:49:35 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/27 16:41:56 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/27 17:06:55 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int main()
     sp.radius = 0.4; 
 	sp.color = (t_color){0.7, 0.1, 0.7}; 
 
-	sp2.center = (t_vec){0.3, 0.45, -0.8}; 
+	sp2.center = (t_vec){-0.1, 0.4, -0.8}; 
     sp2.radius = 0.15; 
 	sp2.color = (t_color){0.5, 0.1, 1.0}; 
 
