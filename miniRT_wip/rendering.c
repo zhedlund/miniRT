@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/26 16:03:32 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/27 16:47:16 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int render_image(t_data *data)
 	return (0);
 }
 
+/* casts a ray for each pixel in the image */
 void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene scene) 
 {
 	t_vec	px_center;
@@ -107,10 +108,14 @@ void	find_closest_obj(t_hit *obj, t_hit **hit)
 
 t_color diffuse_lighting(t_color *px, const t_light *light, const t_vec *normal)
 {
-	t_vec light_dir = vec3_unit_vector(&light->pos);
-	float diffuse_factor = dot(&light_dir, normal);
-	t_color diffuse = diffuse_color(light, px, diffuse_factor);
-	*px = blend_color(px, &diffuse); // add diffuse component
+	t_vec	light_dir;
+	float	diffuse_factor;
+	t_color	diffuse;
+
+	light_dir = vec3_unit_vector(&light->pos);
+	diffuse_factor = dot(&light_dir, normal);
+	diffuse = diffuse_color(light, px, diffuse_factor);
+	*px = blend_color(px, &diffuse);
 	return (*px);
 }
 
@@ -152,9 +157,11 @@ t_color ray_color(const t_ray *r, const t_scene *scene)
         intersect = intersect_point(r, hitlist->t);
         if (hitlist->objs->id == SPHERE)
         {
-            normal = sphere_normal((const t_sph *)(hitlist->objs->obj), &intersect);
-            px = amb_color(&scene->a, &((const t_sph *)(hitlist->objs->obj))->color);
-            px = diffuse_lighting(&px, &scene->l, &normal);
+			normal = sphere_normal((const t_sph *)(hitlist->objs->obj), &intersect);
+			shadow_t = calculate_shadow(&intersect, scene, hitlist);
+			px = amb_color(&scene->a, &((const t_sph *)(hitlist->objs->obj))->color);
+			if (shadow_t >= 1.0)
+            	px = diffuse_lighting(&px, &scene->l, &normal);
         }
         else if (hitlist->objs->id == PLANE)
         {

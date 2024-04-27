@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:49:35 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/19 22:25:40 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/27 16:41:56 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,27 @@ int main()
 	//ray.dir = (t_vec){0, 0, 0}; // ray direction along the negative z-axis
 	
 	// init sphere & plane structs 
-    sp.center = (t_vec){0.0, 0.0, -1}; // center coordinates
-    sp.radius = 0.5; 
-	sp.color = (t_color){0.7, 0.1, 0.7}; // color of the sphere
+    sp.center = (t_vec){0.0, -0.1, -1}; 
+    sp.radius = 0.4; 
+	sp.color = (t_color){0.7, 0.1, 0.7}; 
 
-	sp2.center = (t_vec){-0.7, 0.0, -1}; // center coordinates
-    sp2.radius = 0.3; 
-	sp2.color = (t_color){0.5, 0.1, 1.0}; // color of the sphere
+	sp2.center = (t_vec){0.3, 0.45, -0.8}; 
+    sp2.radius = 0.15; 
+	sp2.color = (t_color){0.5, 0.1, 1.0}; 
 
     pl.point = (t_vec){0, -0.4, 0}; // point on the plane
     pl.normal = (t_vec){0, 1, 0}; // assigning normal vector
-	pl.color = (t_color){0.1, 0.9, 0.6}; // color of the plane
+	pl.color = (t_color){0.1, 0.9, 0.6};
 
 	// init light structs
-    a.ratio = 1; // ambient light ratio, higher = brighter
+    a.ratio = 1.1; // ambient light ratio, higher = brighter
     a.color = (t_color){1.0, 1.0, 1.0}; 
-    a.diffuse = 0.0; // higher value = more light is scattered, brighter surface shading
+    //a.diffuse = 0; // higher value = more light is scattered, brighter surface shading
 
-    l.pos = (t_vec){-10.0, 50.0, 0.0};
+    l.pos = (t_vec){0.0, 50.0, -1.0}; 
     l.ratio = 1; // direct light ratio, higher = brighter
-    l.diffuse = -0.5;
-    l.color = (t_color){1.0, 1.0, 0.0}; 
+    //l.diffuse = 0;
+    l.color = (t_color){1.0, 1.0, 1.0}; 
 
 	// init scene struct
 	scene.a = a;
@@ -110,7 +110,7 @@ int main()
     // initialize camera struct
     cam.focal_length = 1.0;
     cam.fov = 70.0;
-	cam.center = (t_vec){0, 0, 0.1}; // viewpoint coordinates. x = left-right, y = up-down, z = forward-backward
+	cam.center = (t_vec){-0.2, 0.2, 0.6}; // viewpoint coordinates. x = left-right, y = up-down, z = forward-backward
 	cam.orientation = (t_vec){0.0, 0.0, 0.0}; // normalized orientation vector. cam orientation along xyz axis
 
    	fov_radians = cam.fov * PI / 180.0; // Convert FOV to radians
