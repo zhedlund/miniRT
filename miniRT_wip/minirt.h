@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/19 22:19:32 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/27 19:53:19 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define WIDTH 640
 # define HEIGHT	360
 # define PI M_PI
+# define EPSILON 0.0001
 
 typedef struct s_img
 {
@@ -191,6 +192,7 @@ float	vec3_length_squared(const t_vec *v);
 t_vec	vec3_unit_vector(const t_vec *v);
 t_vec	vec3_add(const t_vec a, const t_vec b);
 float	vec3_length(const t_vec *v);
+t_vec	vec3_multiply(const t_vec *v, float scalar);
 
 /* mlx */
 void	mlx_hooks_init(t_data *data);

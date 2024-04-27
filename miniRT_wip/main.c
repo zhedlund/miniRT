@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:49:35 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/27 17:06:55 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/27 20:18:25 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int main()
 	pl.color = (t_color){0.1, 0.9, 0.6};
 
 	// init light structs
-    a.ratio = 1.1; // ambient light ratio, higher = brighter
+    a.ratio = 0.8; // ambient light ratio, higher = brighter
     a.color = (t_color){1.0, 1.0, 1.0}; 
     //a.diffuse = 0; // higher value = more light is scattered, brighter surface shading
 

@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:04 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/16 14:46:36 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/27 19:55:15 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,12 @@ t_vec intersect_point(const t_ray *r, float t)
     return ((t_vec){r->origin.x + (t * r->dir.x),
                    r->origin.y + (t * r->dir.y),
                    r->origin.z + (t * r->dir.z)});
+}
+
+/* multiplies each component of a vector by a scalar.
+   Returns a new t_vec struct representing the result.
+*/
+t_vec vec3_multiply(const t_vec *v, float scalar)
+{
+    return ((t_vec){v->x * scalar, v->y * scalar, v->z * scalar});
 }

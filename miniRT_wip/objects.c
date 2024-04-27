@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:32:13 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/19 22:30:52 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/27 19:24:46 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_vec sphere_normal(const t_sph *sp, const t_vec *intersect)
                      (intersect->y - sp->center.y) / sp->radius,
                      (intersect->z - sp->center.z) / sp->radius});
 }
+
 
 /* 	Calculates the point of intersection between a ray and a sphere.
 	Returns the distance from the ray origin to the intersection point,

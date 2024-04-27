@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/27 19:09:02 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/27 20:14:11 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ t_color diffuse_lighting(t_color *px, const t_light *light, const t_vec *normal)
 
 	light_dir = vec3_unit_vector(&light->pos);
 	diffuse_factor = dot(&light_dir, normal);
-	//if (diffuse_factor < 0)
-		//diffuse_factor = 0;
+	if (diffuse_factor < 0)
+		diffuse_factor = 0;
 	diffuse = diffuse_color(light, px, diffuse_factor);
 	*px = blend_color(px, &diffuse);
 	return (*px);
