@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:49:35 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/27 20:18:25 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/30 17:08:08 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int main()
 	t_cam	cam;
 	t_sph	sp;
 	t_sph	sp2;
+	t_sph 	sp3;
 	t_plane	pl;
 	t_scene	scene;
 	t_amb   a;
@@ -42,9 +43,13 @@ int main()
     sp.radius = 0.4; 
 	sp.color = (t_color){0.7, 0.1, 0.7}; 
 
-	sp2.center = (t_vec){-0.1, 0.4, -0.8}; 
+	sp2.center = (t_vec){-0.1, 0.6, -0.8}; 
     sp2.radius = 0.15; 
 	sp2.color = (t_color){0.5, 0.1, 1.0}; 
+
+	sp3.center = (t_vec){0.4, 0.6, -0.8}; 
+    sp3.radius = 0.3; 
+	sp3.color = (t_color){0.2, 0.9, 0.1}; 
 
     pl.point = (t_vec){0, -0.4, 0}; // point on the plane
     pl.normal = (t_vec){0, 1, 0}; // assigning normal vector
@@ -86,8 +91,17 @@ int main()
 	obj_sp2->obj = &sp2;
 	obj_sp2->next = NULL;
 
+	t_obj *obj_sp3 = malloc(sizeof(t_obj));
+	if (obj_sp2 == NULL) 
+	{
+		write(2, "Error: malloc failed\n", 21);
+		return (1);
+	}
+	obj_sp3->id = SPHERE;
+	obj_sp3->obj = &sp3;
+	obj_sp3->next = NULL;
 
-	// Create a new t_obj instance for the plane
+	// Create a t_obj for the plane
 	t_obj *obj_pl = malloc(sizeof(t_obj));
 	if (obj_pl == NULL)
 	{
@@ -101,17 +115,17 @@ int main()
 	// Add the objects to the scene
 	add_object(&scene, obj_sp);
 	add_object(&scene, obj_sp2);
+	add_object(&scene, obj_sp3);
 	add_object(&scene, obj_pl);
 
 	print_object_list(scene.objs);
 	(void)ray;
-	(void)data;
 
     // initialize camera struct
     cam.focal_length = 1.0;
     cam.fov = 70.0;
 	cam.center = (t_vec){-0.2, 0.2, 0.6}; // viewpoint coordinates. x = left-right, y = up-down, z = forward-backward
-	cam.orientation = (t_vec){0.0, 0.0, 0.0}; // normalized orientation vector. cam orientation along xyz axis
+	//cam.orientation = (t_vec){0.0, 0.0, 0.0}; // normalized orientation vector. cam orientation along xyz axis
 
    	fov_radians = cam.fov * PI / 180.0; // Convert FOV to radians
    	cam.viewport_height = 2.0 * tan(fov_radians / 2.0); // viewport height based on FOV
