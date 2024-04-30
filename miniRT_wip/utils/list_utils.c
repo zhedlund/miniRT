@@ -6,28 +6,11 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 11:42:15 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/26 15:37:34 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/30 19:42:50 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
-
-
-/*void add_object(t_scene* scene, t_obj* obj)
-{
-    t_obj* node;
-	
-	node = (t_obj*)malloc(sizeof(t_obj));
-    if (!node)
-	{
-		write(1, "Error\nMemory allocation failed\n", 31);
-        return ;
-    }
-    node->id = obj->id;
-    node->obj = obj->obj;
-    node->next = scene->objs;
-    scene->objs = node;
-}*/
 
 void add_object(t_scene* scene, t_obj* obj)
 {
@@ -43,13 +26,13 @@ void add_object(t_scene* scene, t_obj* obj)
     node->obj = obj->obj;
     node->next = NULL;
     if (scene->objs == NULL)
-        scene->objs = node; // If the list is empty, make the new node the head
-	else // find last node
+        scene->objs = node;
+	else
 	{
         current = scene->objs;
         while (current->next != NULL)
             current = current->next;
-        current->next = node; // add node to the end of the list
+        current->next = node;
     }
 }
 

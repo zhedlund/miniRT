@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/30 19:01:57 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/30 21:25:41 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_hit *add_hit_obj(const t_ray *r, const t_scene *scene)
     while (current != NULL)
     {
 		t = hit_object(current, r);
-        if (t > 0) // If t is positive, create list + add obj
+        if (t > 0)
         {
             hit = malloc(sizeof(t_hit));
             if (!hit)
@@ -135,7 +135,7 @@ float calculate_shadow(const t_vec *intersect, const t_scene *scene, const t_hit
 	shadow_t = FLT_MAX;
     while (obj != NULL)
     {
-        if (obj != hitlist->objs) // exclude current object being shaded
+        if (obj != hitlist->objs)
         {
             t = hit_object(obj, &shadow_ray);
             if (t > 0 && t < shadow_t)
@@ -148,10 +148,7 @@ float calculate_shadow(const t_vec *intersect, const t_scene *scene, const t_hit
 
 t_color darker_color(t_color *px)
 {
-	px->r *= 0.7;
-	px->g *= 0.7;
-	px->b *= 0.7;
-	return (*px);
+	return ((t_color){px->r * 0.7, px->g * 0.7, px->b * 0.7});
 }
 
 t_color ray_color(const t_ray *r, const t_scene *scene)
@@ -163,7 +160,7 @@ t_color ray_color(const t_ray *r, const t_scene *scene)
     t_vec normal;
     float shadow_t;
 
-    px = (t_color){0.5, 0.7, 1.0}; // Background color
+    px = (t_color){0.5, 0.7, 1.0};
     hit_obj = add_hit_obj(r, scene);
     if (!hit_obj)
         return (px);
@@ -175,28 +172,18 @@ t_color ray_color(const t_ray *r, const t_scene *scene)
         {
 			normal = sphere_normal((const t_sph *)(hitlist->objs->obj), &intersect);
 			shadow_t = calculate_shadow(&intersect, scene, hitlist);
+			px = amb_color(&scene->a, &((const t_sph *)(hitlist->objs->obj))->color);
 			if (shadow_t < 0.5)
-			{
-				px = amb_color(&scene->a, &((const t_sph *)(hitlist->objs->obj))->color);
 				px = darker_color(&px);
-			}
 			else
-			{
-				px = amb_color(&scene->a, &((const t_sph *)(hitlist->objs->obj))->color);
             	px = diffuse_lighting(&px, &scene->l, &normal);
-			}
 		}
         else if (hitlist->objs->id == PLANE)
         {
 			shadow_t = calculate_shadow(&intersect, scene, hitlist);
+			px = amb_color(&scene->a, &((const t_plane*)(hitlist->objs->obj))->color);
             if (shadow_t < 1.0)
-			{
-                //px = (t_color){0.0, 0.3, 0.2};
-				px = amb_color(&scene->a, &((const t_plane*)(hitlist->objs->obj))->color);
 				px = darker_color(&px);
-			}
-            else
-                px = amb_color(&scene->a, &((const t_plane*)(hitlist->objs->obj))->color);
         }
         free_hitlist(hitlist);
     }
