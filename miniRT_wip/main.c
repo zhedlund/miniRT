@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:49:35 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/30 15:17:35 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/01 19:41:37 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,15 +111,13 @@ int	main(int argc, char **argv)
 	// add_object(&scene, obj_pl);
 
 	print_object_list(scene->objs);
-	(void)ray;
-	(void)data;
 
 	// initialize camera struct
 	cam = scene->c;
 	cam.focal_length = 1.0;
-	//scene->cam.fov = 70.0;
+	//scene->c.fov = 70.0;
 	//cam.center = (t_vec){0, 0, 0.1}; // viewpoint coordinates. x = left-right, y = up-down, z = forward-backward
-	cam.orientation = (t_vec){0.0, 0.0, 0.0}; // normalized orientation vector. cam orientation along xyz axis
+	//cam.orientation = (t_vec){0.0, 0.0, 0.0}; // normalized orientation vector. cam orientation along xyz axis
 
 	fov_radians = cam.fov * PI / 180.0; // Convert FOV to radians
 	cam.viewport_height = 2.0 * tan(fov_radians / 2.0); // viewport height based on FOV
