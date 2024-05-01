@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/19 23:09:06 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:13:29 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int render_image(t_data *data)
 	return (0);
 }
 
-void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene scene) 
+void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene *scene)
 {
 	t_vec	px_center;
 	t_vec 	ray_dir;
@@ -48,9 +48,9 @@ void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene scene)
 
 			//ray_dir = vec3_unit_vector(&ray_dir); // normalize ray direction again
 			ray = &(t_ray){cam->center, ray_dir};
-			
+
         	// calculate pixel color and write to image buffer
-        	px_color = ray_color(ray, &scene);
+        	px_color = ray_color(ray, scene);
         	write_color(px_color, &data->img, i, j);
 			i++;
     	}
@@ -65,7 +65,7 @@ t_hit *add_hit_obj(const t_ray *r, const t_scene *scene)
 	t_obj	*current;
 	float	t;
 	t_hit	*hit;
-	
+
 	head = NULL;
 	current = scene->objs;
     while (current != NULL)
@@ -79,7 +79,7 @@ t_hit *add_hit_obj(const t_ray *r, const t_scene *scene)
             hit->t = t;
             hit->objs = current;
             hit->next = head;
-            head = hit;		
+            head = hit;
         }
         current = current->next;
     }
@@ -94,9 +94,9 @@ void	find_closest_obj(t_hit *obj, t_hit **hit)
 	*hit = NULL;
 	min_t = FLT_MAX;
 	current = obj;
-	while (current != NULL) 
+	while (current != NULL)
 	{
-		if (current->t < min_t) 
+		if (current->t < min_t)
 		{
 			min_t = current->t;
 			*hit = current;
