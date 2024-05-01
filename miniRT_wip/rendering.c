@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/01 18:14:16 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/01 22:44:19 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,52 +59,6 @@ void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene *scene)
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0); //display image
 }
 
-t_hit *add_hit_obj(const t_ray *r, const t_scene *scene)
-{
-    t_hit	*head;
-	t_obj	*current;
-	float	t;
-	t_hit	*hit;
-
-	head = NULL;
-	current = scene->objs;
-    while (current != NULL)
-    {
-		t = hit_object(current, r);
-        if (t > 0) // If t is positive, create list + add obj
-        {
-            hit = malloc(sizeof(t_hit));
-            if (!hit)
-                return (NULL);
-            hit->t = t;
-            hit->objs = current;
-            hit->next = head;
-            head = hit;
-        }
-        current = current->next;
-    }
-    return (head);
-}
-
-void	find_closest_obj(t_hit *obj, t_hit **hit)
-{
-	t_hit	*current;
-	float	min_t;
-
-	*hit = NULL;
-	min_t = FLT_MAX;
-	current = obj;
-	while (current != NULL)
-	{
-		if (current->t < min_t)
-		{
-			min_t = current->t;
-			*hit = current;
-		}
-		current = current->next;
-	}
-}
-
 t_color diffuse_lighting(t_color *px, const t_light *light, const t_vec *normal)
 {
 	t_vec	light_dir;
@@ -113,8 +67,6 @@ t_color diffuse_lighting(t_color *px, const t_light *light, const t_vec *normal)
 
 	light_dir = vec3_unit_vector(&light->pos);
 	diffuse_factor = dot(&light_dir, normal);
-	//if (diffuse_factor < 0)
-		//diffuse_factor = 0;
 	diffuse = diffuse_color(light, px, diffuse_factor);
 	*px = blend_color(px, &diffuse);
 	return (*px);
@@ -150,41 +102,56 @@ t_color darker_color(t_color *px)
 	return ((t_color){px->r * 0.7, px->g * 0.7, px->b * 0.7});
 }
 
+t_hit find_closest_obj(const t_ray *r, const t_scene *scene)
+{
+    t_obj *current;
+    t_hit hitpoint;
+    float t;
+
+	current = scene->objs;
+	hitpoint = (t_hit){.t = FLT_MAX};
+    while (current != NULL)
+    {
+        t = hit_object(current, r);
+        if (t > 0 && t < hitpoint.t)
+        {
+            hitpoint.t = t;
+            hitpoint.objs = current;
+        }
+        current = current->next;
+    }
+    return (hitpoint);
+}
+
 t_color ray_color(const t_ray *r, const t_scene *scene)
 {
-    t_color px;
-    t_hit *hit_obj;
-    t_hit *hitlist;
-    t_vec intersect;
-    t_vec normal;
-    float shadow_t;
+    t_color	px;
+    t_hit	hitpoint;
+    t_vec	intersect;
+    t_vec	normal;
+    float	shadow_t;
 
-    px = (t_color){0.5, 0.7, 1.0};
-    hit_obj = add_hit_obj(r, scene);
-    if (!hit_obj)
-        return (px);
-    find_closest_obj(hit_obj, &hitlist);
-    if (hitlist != NULL)
+	px = (t_color){0.3, 0.7, 1.0};
+    hitpoint = find_closest_obj(r, scene);
+    if (hitpoint.objs != NULL)
     {
-        intersect = intersect_point(r, hitlist->t);
-        if (hitlist->objs->id == SPHERE)
+        intersect = intersect_point(r, hitpoint.t);
+		shadow_t = calculate_shadow(&intersect, scene, &hitpoint);
+        if (hitpoint.objs->id == SPHERE)
         {
-			normal = sphere_normal((const t_sph *)(hitlist->objs->obj), &intersect);
-			shadow_t = calculate_shadow(&intersect, scene, hitlist);
-			px = amb_color(&scene->a, &((const t_sph *)(hitlist->objs->obj))->color);
-			if (shadow_t < 0.5)
-				px = darker_color(&px);
-			else
-            	px = diffuse_lighting(&px, &scene->l, &normal);
-		}
-        else if (hitlist->objs->id == PLANE)
-        {
-			shadow_t = calculate_shadow(&intersect, scene, hitlist);
-			px = amb_color(&scene->a, &((const t_plane*)(hitlist->objs->obj))->color);
-            if (shadow_t < 1.0)
-				px = darker_color(&px);
+            normal = sphere_normal((const t_sph *)(hitpoint.objs->obj), &intersect);
+            px = amb_color(&scene->a, &((const t_sph *)(hitpoint.objs->obj))->color);
+            if (shadow_t < 0.5)
+                px = darker_color(&px);
+            else
+                px = diffuse_lighting(&px, &scene->l, &normal);
         }
-        free_hitlist(hitlist);
+        else if (hitpoint.objs->id == PLANE)
+        {
+            px = amb_color(&scene->a, &((const t_plane *)(hitpoint.objs->obj))->color);
+            if (shadow_t < 1.0)
+                px = darker_color(&px);
+        }
     }
     return (px);
 }

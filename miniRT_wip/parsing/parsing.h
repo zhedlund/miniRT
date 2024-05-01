@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/30 14:25:04 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/01 23:02:49 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,10 @@ typedef struct s_light
 
 typedef struct s_cam
 {
-	t_vec	vec;
+	t_vec	center;
 	t_vec	dir;
 	int		fov;
-	t_vec	center;
 	float	focal_length;
-	t_vec	orientation;
 	float	viewport_height;
 	float	viewport_width;
 	t_vec	viewport_u;
