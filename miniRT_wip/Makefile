@@ -6,7 +6,7 @@
 #    By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/04/30 14:28:26 by kdzhoha          ###   ########.fr        #
+#    Updated: 2024/05/02 19:41:12 by kdzhoha          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC = 	main.c \
 		color.c \
 		objects.c \
 		rendering.c \
+		hit_cylinder.c \
 		math/math.c \
 		math/math_vector.c \
 		utils/list_utils.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/01 22:47:29 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/02 19:39:00 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ typedef struct s_hit
 t_vec	sphere_normal(const t_sph *sp, const t_vec *intersect);
 float	hit_sphere(const t_vec *center, float radius, const t_ray *r);
 float	hit_plane(const t_plane *pl, const t_ray *r);
+float	hit_cylinder(const t_cyl *cyl, const t_ray *ray);
 float	hit_object(const t_obj *obj, const t_ray *r);
 
 /* color */
