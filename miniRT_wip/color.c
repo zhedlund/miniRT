@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:26:07 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/01 17:52:05 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:53:14 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 */
 t_color amb_color(const t_amb *a, const t_color *c)
 {
-    return ((t_color){a->ratio * c->r, a->ratio * c->g, a->ratio * c->b});
+	return ((t_color){a->ratio * c->r, a->ratio * c->g, a->ratio * c->b});
 }
 
 /* 	Calculates the diffuse color of a pixel. The diffuse color is the color 
@@ -27,9 +27,9 @@ t_color amb_color(const t_amb *a, const t_color *c)
 */
 t_color diffuse_color(const t_light *l, const t_color *c, float diffuse_factor)
 {
-    return ((t_color){diffuse_factor * c->r * l->color.r * l->ratio,
-                     diffuse_factor * c->g * l->color.g * l->ratio,
-                     diffuse_factor * c->b * l->color.b * l->ratio});
+	return ((t_color){diffuse_factor * c->r * l->color.r * l->ratio,
+					diffuse_factor * c->g * l->color.g * l->ratio,
+					diffuse_factor * c->b * l->color.b * l->ratio});
 }
 
 /* 	Writes the color value of a pixel to the image buffer.
@@ -37,10 +37,10 @@ t_color diffuse_color(const t_light *l, const t_color *c, float diffuse_factor)
 */
 void write_color(t_color px, t_img *img, int x, int y) 
 {
-    int color_value = ((int)(255.999 * px.r) << 16) +
-                      ((int)(255.999 * px.g) << 8) +
-                      (int)(255.999 * px.b);
-    ft_pixel_put(img, x, y, color_value);
+	int color_value = ((int)(255.999 * px.r) << 16) +
+					((int)(255.999 * px.g) << 8) +
+					(int)(255.999 * px.b);
+	ft_pixel_put(img, x, y, color_value);
 }
 
 /* 	Adds two color values together.
@@ -62,5 +62,10 @@ t_color blend_color(const t_color *c1, const t_color *c2)
 		g = 1.0;
 	if (b > 1.0)
 		b = 1.0;
-    return ((t_color){r, g, b});
+	return ((t_color){r, g, b});
+}
+
+t_color darker_color(t_color *px)
+{
+	return ((t_color){px->r * 0.7, px->g * 0.7, px->b * 0.7});
 }

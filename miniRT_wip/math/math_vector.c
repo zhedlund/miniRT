@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:28:43 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/16 12:54:18 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:50:38 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 float vec3_length(const t_vec *v)
 {
-    return (sqrt((v->x * v->x) + (v->y * v->y) + (v->z * v->z)));
+	return (sqrt((v->x * v->x) + (v->y * v->y) + (v->z * v->z)));
 }
 
 /*	calculates the squared length of a vector represented by a t_vec struct,
@@ -25,7 +25,7 @@ float vec3_length(const t_vec *v)
 */
 float vec3_length_squared(const t_vec *v)
 {
-    return ((v->x * v->x) + (v->y * v->y) + (v->z * v->z));
+	return ((v->x * v->x) + (v->y * v->y) + (v->z * v->z));
 }
 
 /* 	Normalizes a vector represented by a t_vec struct.
@@ -33,10 +33,10 @@ float vec3_length_squared(const t_vec *v)
 */
 t_vec vec3_unit_vector(const t_vec *v)
 {
-    float length;
+	float length;
 	
 	length = sqrt((v->x * v->x) + (v->y * v->y) + (v->z * v->z));
-    return ((t_vec){(v->x / length), (v->y / length), (v->z / length)});
+	return ((t_vec){(v->x / length), (v->y / length), (v->z / length)});
 }
 
 /* Subtracts two vectors represented by t_vec structs.

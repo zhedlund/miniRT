@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:04 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/16 14:46:36 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:49:23 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 */
 float dot(const t_vec *u, const t_vec *v) 
 {
-    return ((u->x * v->x) + (u->y * v->y) + (u->z * v->z));
+	return ((u->x * v->x) + (u->y * v->y) + (u->z * v->z));
 }
 
 /* calculates intersection point of a ray and a sphere.
@@ -26,7 +26,7 @@ float dot(const t_vec *u, const t_vec *v)
 */
 t_vec intersect_point(const t_ray *r, float t)
 {
-    return ((t_vec){r->origin.x + (t * r->dir.x),
-                   r->origin.y + (t * r->dir.y),
-                   r->origin.z + (t * r->dir.z)});
+	return ((t_vec){r->origin.x + (t * r->dir.x),
+					r->origin.y + (t * r->dir.y),
+					r->origin.z + (t * r->dir.z)});
 }
