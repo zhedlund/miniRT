@@ -1,8 +1,0 @@
-{
-	"files.associations": {
-		"stdio.h": "c",
-		"minirt.h": "c",
-		"types.h": "c",
-		"mlx.h": "c"
-	}
-}

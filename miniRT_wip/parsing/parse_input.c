@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:16:35 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/30 15:12:39 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/01 19:53:48 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	add_camera(char *str, t_cam *cam)
 	if (count_words(str, ' ') != 4)
 		return (put_error("Invalid number of arguments for camera\n"));
 	args = ft_split(str, ' ');
-	if (read_vector(&cam->vec, args[1]) == -1)
+	if (read_vector(&cam->center, args[1]) == -1)
 	{
 		free_array(args);
 		return (put_error("Invalid coordinates for camera center\n"));

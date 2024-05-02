@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 11:42:15 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/26 18:32:13 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/01 21:53:11 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void free_obj_list(t_scene* scene)
     scene->objs = NULL;
 }
 
-void free_hitlist(t_hit* hit)
+/*void free_hitlist(t_hit* hit)
 {
 	t_hit *current;
 	t_hit *next;
@@ -40,7 +40,7 @@ void free_hitlist(t_hit* hit)
 		current = next;
 	}
 	hit = NULL;
-}
+}*/
 
 /*void add_object(t_scene* scene, t_obj* obj)
 {

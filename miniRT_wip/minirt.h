@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/30 14:24:34 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/01 22:47:29 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,10 +154,8 @@ typedef struct s_sph
 typedef struct s_hit
 {
 	float			t;
-	float			shadow_t;
 	int				c_part;
 	t_obj			*objs;
-	struct s_hit	*next;
 }	t_hit;
 
 

@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/01 17:45:06 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/02 15:12:16 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,10 @@ typedef struct s_light
 
 typedef struct s_cam
 {
-	t_vec	vec;
+	t_vec	center;
 	t_vec	dir;
 	int		fov;
-	t_vec	center;
 	float	focal_length;
-	t_vec	orientation;
 	float	viewport_height;
 	float	viewport_width;
 	t_vec	viewport_u;
