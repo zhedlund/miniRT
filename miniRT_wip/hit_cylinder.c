@@ -1,47 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   hit_cylinder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 15:11:27 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/18 15:24:16 by kdzhoha          ###   ########.fr       */
+/*   Created: 2024/05/01 17:46:37 by kdzhoha           #+#    #+#             */
+/*   Updated: 2024/05/01 19:50:21 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	free_array(char **str)
+void	set_top_point(t_cyl *cyl)
 {
-	int	i;
-
-	if (!str)
-		return ;
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
+	cyl->top_p.x = cyl->top_p.x - cyl->normal.x * cyl->h / 2;
+	cyl->top_p.y = cyl->top_p.y - cyl->normal.y * cyl->h / 2;
+	cyl->top_p.z = cyl->top_p.z - cyl->normal.z * cyl->h / 2;
 }
 
-void	*free_scene(t_scene *scene)
+void	hit_cylinder(t_cyl *cyl, t_ray *ray, t_hit *hit)
 {
-	t_obj	*cur;
-	t_obj	*next;
-
-	if (!scene)
-		return (NULL);
-	cur = scene->objs;
-	while (cur)
-	{
-		next = cur->next;
-		free(cur->obj);
-		free(cur);
-		cur = next;
-	}
-	free(scene);
-	return (NULL);
+	set_top_point(cyl);
+	hit_top(cyl, ray, hit);
+	hit_bottom(cyl, ray, hit);
+	hit_side(cyl, ray, hit);
+	return (0);
 }

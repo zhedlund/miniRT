@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math_vector.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:28:43 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/16 12:54:18 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:42:49 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ float vec3_length_squared(const t_vec *v)
 t_vec vec3_unit_vector(const t_vec *v)
 {
     float length;
-	
+
 	length = sqrt((v->x * v->x) + (v->y * v->y) + (v->z * v->z));
     return ((t_vec){(v->x / length), (v->y / length), (v->z / length)});
 }

@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/30 14:25:04 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/01 17:45:06 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct s_plane
 typedef struct s_cyl
 {
 	t_vec	pos;
+	t_vec	top_p;
 	t_vec	normal;
 	float	r;
 	float	h;
