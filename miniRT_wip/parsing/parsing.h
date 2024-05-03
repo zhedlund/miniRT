@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/02 15:12:16 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/03 23:34:08 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,8 @@ typedef struct s_cam
 	t_vec	center;
 	t_vec	dir;
 	int		fov;
-	float	focal_length;
-	float	viewport_height;
-	float	viewport_width;
-	t_vec	viewport_u;
-	t_vec	viewport_v;
 	t_vec	px_delta_u;
 	t_vec	px_delta_v;
-	t_vec	viewport_up_left;
 	t_vec	px_00;
 }	t_cam;
 

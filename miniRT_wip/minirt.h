@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/03 18:59:48 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/03 23:21:30 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 # include "parsing/parsing.h"
 //# include "get_next_line.h"
 
-# define WIDTH 640
-# define HEIGHT	360
+# define WIDTH 960.0
+# define HEIGHT	540.0
 # define PI M_PI
 
 typedef struct s_img
@@ -168,6 +168,8 @@ typedef struct s_hit
 // void	add_plane(char *str, t_scene *scene);
 // void	add_cylinder(char *str, t_scene *scene);
 
+void	init_cam(t_cam *cam);
+
 /* objects */
 t_vec	sphere_normal(t_sph *sp, t_vec *intersect);
 float	hit_sphere(t_vec *center, float radius, t_ray *r);
@@ -182,7 +184,7 @@ void	write_color(t_color px, t_img *img, int x, int y);
 t_color	blend_color(t_color *c1, t_color *c2);
 
 /* rendering */
-void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene *scene);
+void	create_image(t_cam *cam, t_data *data, t_scene *scene);
 t_color	ray_color(t_ray *r, t_scene *scene);
 int		render_image(t_data *data);
 t_color darker_color(t_color *px);
@@ -195,6 +197,8 @@ float	vec3_length_squared(t_vec *v);
 t_vec	vec3_unit_vector(t_vec *v);
 t_vec	vec3_add(t_vec a, t_vec b);
 float	vec3_length(t_vec *v);
+t_vec	vec3_divide(t_vec vec, float scalar);
+t_vec	vec_multiply(t_vec *vec, float n);
 
 /* mlx */
 void	mlx_hooks_init(t_data *data);

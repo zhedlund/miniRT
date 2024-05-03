@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:04 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/03 18:58:42 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/03 21:07:04 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,9 @@ t_vec	intersect_point(t_ray *r, float t)
 	return ((t_vec){r->origin.x + (t * r->dir.x),
 					r->origin.y + (t * r->dir.y),
 					r->origin.z + (t * r->dir.z)});
+}
+
+t_vec vec3_divide(t_vec vec, float scalar)
+{
+	return (t_vec){ vec.x / scalar, vec.y / scalar, vec.z / scalar };
 }

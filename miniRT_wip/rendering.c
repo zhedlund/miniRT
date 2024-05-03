@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/03 19:01:24 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/03 23:36:30 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ int render_image(t_data *data)
 	return (0);
 }
 
-void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene *scene)
+void create_image(t_cam *cam, t_data *data, t_scene *scene)
 {
 	t_vec	px_center;
-	t_vec 	ray_dir;
+	t_vec	ray_dir;
 	t_color	px_color;
-	int 	i;
-	int 	j;
+	t_ray	ray;
+	float	i;
+	float	j;
 
 	j = 0;
 	while (j < HEIGHT)
@@ -32,32 +33,21 @@ void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene *scene)
 		i = 0;
 		while (i < WIDTH)
 		{
-			// calculates position of the current pixel
 			px_center = (t_vec){cam->px_00.x + (i * cam->px_delta_u.x),
 								cam->px_00.y + (j * cam->px_delta_v.y),
 								cam->px_00.z};
-		 	// calculates direction based on the pixel's position and cam center
-			ray_dir = (t_vec){px_center.x - cam->center.x,
-								px_center.y - cam->center.y,
-								px_center.z - cam->center.z};
-			// Rotate the ray direction according to the camera orientation
-			//ray_dir = vec3_unit_vector(&ray_dir); // normalize ray direction
-			//ray_dir.x += cam.orientation.x;
-			//ray_dir.y += cam.orientation.y;
-			//ray_dir.z += cam.orientation.z;
-
-			//ray_dir = vec3_unit_vector(&ray_dir); // normalize ray direction again
-			ray = &(t_ray){cam->center, ray_dir};
-
-			// calculate pixel color and write to image buffer
-			px_color = ray_color(ray, scene);
+			ray_dir = vec3_subtract(px_center, cam->center);
+			ray_dir = vec3_add(ray_dir, vec_multiply(&cam->dir, -1.0));
+			ray = (t_ray){cam->center, ray_dir};
+			px_color = ray_color(&ray, scene);
 			write_color(px_color, &data->img, i, j);
 			i++;
 		}
 		j++;
 	}
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0); //display image
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
 }
+
 
 t_color diffuse_lighting(t_color *px, t_light *light, t_vec *normal)
 {
