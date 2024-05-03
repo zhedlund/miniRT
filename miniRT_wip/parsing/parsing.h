@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/01 23:02:49 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/02 15:12:16 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ typedef struct s_plane
 
 typedef struct s_cyl
 {
-	t_vec	pos;
+	t_vec	center;
+	t_vec	top_p;
 	t_vec	normal;
 	float	r;
 	float	h;

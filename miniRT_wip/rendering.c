@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/02 18:54:49 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/03 17:52:26 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,29 @@ void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene *scene)
 		i = 0;
 		while (i < WIDTH)
 		{
-    	    // calculates position of the current pixel
-        	px_center = (t_vec){cam->px_00.x + (i * cam->px_delta_u.x),
-            					cam->px_00.y + (j * cam->px_delta_v.y),
-        						cam->px_00.z};
+			// calculates position of the current pixel
+			px_center = (t_vec){cam->px_00.x + (i * cam->px_delta_u.x),
+								cam->px_00.y + (j * cam->px_delta_v.y),
+								cam->px_00.z};
 		 	// calculates direction based on the pixel's position and cam center
-        	ray_dir = (t_vec){px_center.x - cam->center.x,
-            					px_center.y - cam->center.y,
-            					px_center.z - cam->center.z};
+			ray_dir = (t_vec){px_center.x - cam->center.x,
+								px_center.y - cam->center.y,
+								px_center.z - cam->center.z};
 			// Rotate the ray direction according to the camera orientation
-        	//ray_dir = vec3_unit_vector(&ray_dir); // normalize ray direction
-        	//ray_dir.x += cam.orientation.x;
+			//ray_dir = vec3_unit_vector(&ray_dir); // normalize ray direction
+			//ray_dir.x += cam.orientation.x;
 			//ray_dir.y += cam.orientation.y;
 			//ray_dir.z += cam.orientation.z;
 
 			//ray_dir = vec3_unit_vector(&ray_dir); // normalize ray direction again
 			ray = &(t_ray){cam->center, ray_dir};
 
-        	// calculate pixel color and write to image buffer
-        	px_color = ray_color(ray, scene);
-        	write_color(px_color, &data->img, i, j);
+			// calculate pixel color and write to image buffer
+			px_color = ray_color(ray, scene);
+			write_color(px_color, &data->img, i, j);
 			i++;
-    	}
-    	j++;
+		}
+		j++;
 	}
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0); //display image
 }
@@ -97,14 +97,14 @@ float calculate_shadow(const t_vec *intersect, const t_scene *scene, const t_hit
 	return (shadow_t);
 }
 
-t_hit find_closest_obj(const t_ray *r, const t_scene *scene)
+t_hit	find_closest_obj(const t_ray *r, const t_scene *scene)
 {
-	t_obj *current;
-	t_hit hitpoint;
-	float t;
+	t_obj	*current;
+	t_hit	hitpoint;
+	float	t;
 
 	current = scene->objs;
-	hitpoint = (t_hit){.t = FLT_MAX, .c_part = 0};
+	hitpoint = (t_hit){.t = FLT_MAX};
 	while (current != NULL)
 	{
 		t = hit_object(current, r);
@@ -118,7 +118,7 @@ t_hit find_closest_obj(const t_ray *r, const t_scene *scene)
 	return (hitpoint);
 }
 
-t_color ray_color(const t_ray *r, const t_scene *scene)
+t_color	ray_color(const t_ray *r, const t_scene *scene)
 {
 	t_color	px;
 	t_hit	hitpoint;
@@ -147,6 +147,8 @@ t_color ray_color(const t_ray *r, const t_scene *scene)
 			if (shadow_t < 1.0)
 				px = darker_color(&px);
 		}
+		else if (hitpoint.objs->id == CYLINDER)
+			px = ((t_cyl *)hitpoint.objs->obj)->color;
 	}
 	return (px);
 }
