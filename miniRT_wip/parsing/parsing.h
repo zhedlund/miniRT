@@ -110,7 +110,7 @@ typedef struct s_plane
 
 typedef struct s_cyl
 {
-	t_vec	pos;
+	t_vec	center;
 	t_vec	top_p;
 	t_vec	normal;
 	float	r;

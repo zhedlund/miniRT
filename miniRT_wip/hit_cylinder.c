@@ -14,9 +14,9 @@
 
 void	set_top_point(t_cyl *cyl)
 {
-	cyl->top_p.x = (cyl->top_p.x - cyl->normal.x) * (cyl->h / 2);
-	cyl->top_p.y = (cyl->top_p.y - cyl->normal.y) * (cyl->h / 2);
-	cyl->top_p.z = (cyl->top_p.z - cyl->normal.z) * (cyl->h / 2);
+	cyl->top_p.x = cyl->center.x - cyl->normal.x * (cyl->h / 2);
+	cyl->top_p.y = cyl->center.y - cyl->normal.y * (cyl->h / 2);
+	cyl->top_p.z = cyl->center.z - cyl->normal.z * (cyl->h / 2);
 }
 
 // void	hit_top(t_cyl *cyl, t_ray *ray, t_hit *hit)

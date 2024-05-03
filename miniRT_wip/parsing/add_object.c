@@ -156,7 +156,7 @@ int	add_cylinder(char *str, t_scene *scene)
 	if (!cyl)
 		return (malloc_error(), -1);
 	args = ft_split(str, ' ');
-	if (read_vector(&cyl->pos, args[1]) == -1)
+	if (read_vector(&cyl->center, args[1]) == -1)
 	{
 		free_array(args);
 		return (put_error("Invalid coordinates for cylinder center\n"));
