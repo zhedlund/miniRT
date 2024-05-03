@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cylinder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:46:37 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/02 21:16:51 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/03 18:57:43 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ void	set_top_point(t_cyl *cyl)
 
 // 	return ;
 // }
-t_vec	vec_multiply(const t_vec *vec, float n)
+t_vec	vec_multiply(t_vec *vec, float n)
 {
-	return ((const t_vec){vec->x * n, vec->y * n, vec->z * n});
+	return ((t_vec){vec->x * n, vec->y * n, vec->z * n});
 }
 
-int	is_valid(float t, const t_cyl *cyl, const t_ray *ray)
+int	is_valid(float t, t_cyl *cyl, t_ray *ray)
 {
 	float	m;
 	t_vec	oc;
@@ -54,7 +54,7 @@ int	is_valid(float t, const t_cyl *cyl, const t_ray *ray)
 	return (1);
 }
 
-void	hit_side(const t_cyl *cyl, const t_ray *ray, t_hit *hit)
+void	hit_side(t_cyl *cyl, t_ray *ray, t_hit *hit)
 {
 	float	t[2];
 	t_vec	oc;
@@ -81,7 +81,7 @@ void	hit_side(const t_cyl *cyl, const t_ray *ray, t_hit *hit)
 	hit->c_part = 3;
 }
 
-float	hit_cylinder(const t_cyl *cyl, const t_ray *ray)
+float	hit_cylinder(t_cyl *cyl, t_ray *ray)
 {
 	t_hit	hit;
 

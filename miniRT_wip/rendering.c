@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/03 17:52:26 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/03 19:01:24 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene *scene)
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0); //display image
 }
 
-t_color diffuse_lighting(t_color *px, const t_light *light, const t_vec *normal)
+t_color diffuse_lighting(t_color *px, t_light *light, t_vec *normal)
 {
 	t_vec	light_dir;
 	float	diffuse_factor;
@@ -72,11 +72,11 @@ t_color diffuse_lighting(t_color *px, const t_light *light, const t_vec *normal)
 	return (*px);
 }
 
-float calculate_shadow(const t_vec *intersect, const t_scene *scene, const t_hit *hitlist)
+float calculate_shadow(t_vec *intersect, t_scene *scene, t_hit *hitlist)
 {
 	t_vec		shadow_dir;
 	t_ray		shadow_ray;
-	const t_obj *obj;
+	t_obj		*obj;
 	float		t;
 	float		shadow_t;
 
@@ -97,7 +97,7 @@ float calculate_shadow(const t_vec *intersect, const t_scene *scene, const t_hit
 	return (shadow_t);
 }
 
-t_hit	find_closest_obj(const t_ray *r, const t_scene *scene)
+t_hit	find_closest_obj(t_ray *r, t_scene *scene)
 {
 	t_obj	*current;
 	t_hit	hitpoint;
@@ -118,7 +118,7 @@ t_hit	find_closest_obj(const t_ray *r, const t_scene *scene)
 	return (hitpoint);
 }
 
-t_color	ray_color(const t_ray *r, const t_scene *scene)
+t_color	ray_color(t_ray *r, t_scene *scene)
 {
 	t_color	px;
 	t_hit	hitpoint;
@@ -134,8 +134,8 @@ t_color	ray_color(const t_ray *r, const t_scene *scene)
 		shadow_t = calculate_shadow(&intersect, scene, &hitpoint);
 		if (hitpoint.objs->id == SPHERE)
 		{
-			normal = sphere_normal((const t_sph *)(hitpoint.objs->obj), &intersect);
-			px = amb_color(&scene->a, &((const t_sph *)(hitpoint.objs->obj))->color);
+			normal = sphere_normal((t_sph *)(hitpoint.objs->obj), &intersect);
+			px = amb_color(&scene->a, &((t_sph *)(hitpoint.objs->obj))->color);
 			if (shadow_t < 0.5)
 				px = darker_color(&px);
 			else
@@ -143,12 +143,14 @@ t_color	ray_color(const t_ray *r, const t_scene *scene)
 		}
 		else if (hitpoint.objs->id == PLANE)
 		{
-			px = amb_color(&scene->a, &((const t_plane *)(hitpoint.objs->obj))->color);
+			px = amb_color(&scene->a, &((t_plane *)(hitpoint.objs->obj))->color);
 			if (shadow_t < 1.0)
 				px = darker_color(&px);
 		}
 		else if (hitpoint.objs->id == CYLINDER)
+		{	
 			px = ((t_cyl *)hitpoint.objs->obj)->color;
+		}
 	}
 	return (px);
 }

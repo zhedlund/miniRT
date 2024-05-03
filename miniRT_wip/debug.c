@@ -6,13 +6,13 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 18:08:30 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/19 18:09:27 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/03 18:57:58 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-const char* shape_to_string(t_shape shape)
+char* shape_to_string(t_shape shape)
 {
     switch (shape)
 	{
@@ -27,13 +27,13 @@ const char* shape_to_string(t_shape shape)
     }
 }
 
-void print_object_list(const t_obj *head)
+void print_object_list(t_obj *head)
 {
-    const t_obj *current = head;
+    t_obj *current = head;
 	
     while (current != NULL)
 	{
-        const char* shape_str = shape_to_string(current->id);
+        char* shape_str = shape_to_string(current->id);
         write(STDOUT_FILENO, "Object ID: ", 11);
         write(STDOUT_FILENO, shape_str, ft_strlen(shape_str));
         current = current->next;

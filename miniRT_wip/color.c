@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:26:07 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/02 18:53:14 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/03 18:58:23 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /* 	Calculates the ambient color of a pixel. The ambient color is the color 
 	of the pixel when no light source is illuminating it.
 */
-t_color amb_color(const t_amb *a, const t_color *c)
+t_color amb_color(t_amb *a, t_color *c)
 {
 	return ((t_color){a->ratio * c->r, a->ratio * c->g, a->ratio * c->b});
 }
@@ -25,7 +25,7 @@ t_color amb_color(const t_amb *a, const t_color *c)
 	of the pixel when illuminated by a light source. 
 	fmax returns the maximum of the two values.
 */
-t_color diffuse_color(const t_light *l, const t_color *c, float diffuse_factor)
+t_color diffuse_color(t_light *l, t_color *c, float diffuse_factor)
 {
 	return ((t_color){diffuse_factor * c->r * l->color.r * l->ratio,
 					diffuse_factor * c->g * l->color.g * l->ratio,
@@ -46,7 +46,7 @@ void write_color(t_color px, t_img *img, int x, int y)
 /* 	Adds two color values together.
 	Returns a new color value that is the sum of the two input color values.
 */
-t_color blend_color(const t_color *c1, const t_color *c2)
+t_color blend_color(t_color *c1, t_color *c2)
 {
 	float r;
 	float g;

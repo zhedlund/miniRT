@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/03 17:53:56 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/03 18:59:48 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,32 +169,32 @@ typedef struct s_hit
 // void	add_cylinder(char *str, t_scene *scene);
 
 /* objects */
-t_vec	sphere_normal(const t_sph *sp, const t_vec *intersect);
-float	hit_sphere(const t_vec *center, float radius, const t_ray *r);
-float	hit_plane(const t_plane *pl, const t_ray *r);
-float	hit_cylinder(const t_cyl *cyl, const t_ray *ray);
-float	hit_object(const t_obj *obj, const t_ray *r);
+t_vec	sphere_normal(t_sph *sp, t_vec *intersect);
+float	hit_sphere(t_vec *center, float radius, t_ray *r);
+float	hit_plane(t_plane *pl, t_ray *r);
+float	hit_cylinder(t_cyl *cyl, t_ray *ray);
+float	hit_object(t_obj *obj, t_ray *r);
 
 /* color */
-t_color	amb_color(const t_amb *a, const t_color *c);
-t_color	diffuse_color(const t_light *l, const t_color *c, float diffuse_factor);
+t_color	amb_color(t_amb *a, t_color *c);
+t_color	diffuse_color(t_light *l, t_color *c, float diffuse_factor);
 void	write_color(t_color px, t_img *img, int x, int y);
-t_color	blend_color(const t_color *c1, const t_color *c2);
+t_color	blend_color(t_color *c1, t_color *c2);
 
 /* rendering */
 void	create_image(t_cam *cam, t_ray *ray, t_data *data, t_scene *scene);
-t_color	ray_color(const t_ray *r, const t_scene *scene);
+t_color	ray_color(t_ray *r, t_scene *scene);
 int		render_image(t_data *data);
 t_color darker_color(t_color *px);
 
 /* math */
-float 	dot(const t_vec *u, const t_vec *v);
-t_vec	intersect_point(const t_ray *r, float t);
-t_vec	vec3_subtract(const t_vec a, const t_vec b);
-float	vec3_length_squared(const t_vec *v);
-t_vec	vec3_unit_vector(const t_vec *v);
-t_vec	vec3_add(const t_vec a, const t_vec b);
-float	vec3_length(const t_vec *v);
+float 	dot(t_vec *u, t_vec *v);
+t_vec	intersect_point(t_ray *r, float t);
+t_vec	vec3_subtract(t_vec a, t_vec b);
+float	vec3_length_squared(t_vec *v);
+t_vec	vec3_unit_vector(t_vec *v);
+t_vec	vec3_add(t_vec a, t_vec b);
+float	vec3_length(t_vec *v);
 
 /* mlx */
 void	mlx_hooks_init(t_data *data);
@@ -214,7 +214,7 @@ void	free_hitlist(t_hit* hit);
 // size_t	ft_strlen(const char *s);
 
 /* debug */
-void		print_object_list(const t_obj *head);
-const char 	*shape_to_string(t_shape shape);
+void		print_object_list(t_obj *head);
+char 	*shape_to_string(t_shape shape);
 
 #endif
