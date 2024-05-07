@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/07 22:07:08 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/07 23:21:20 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ t_color diffuse_lighting(t_color *px, t_light *light, t_vec *normal)
 
 	light_dir = vec3_unit_vector(&light->pos);
 	diffuse_factor = dot(&light_dir, normal);
+	//if (diffuse_factor < 0)
+		//diffuse_factor = 0;
 	diffuse = diffuse_color(light, px, diffuse_factor);
 	*px = blend_color(px, &diffuse);
 	return (*px);
@@ -117,7 +119,7 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 	float	alpha;
 
 	px = (t_color){0.1, 0.1, 0.1};
-	alpha = 0.3;
+	alpha = 0.1;
 	hitpoint = find_closest_obj(r, scene);
 	if (hitpoint.objs != NULL)
 	{
@@ -146,6 +148,8 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 		}
 		//return(px);
 	}
-	//px = amb_color(&scene->a, &px, alpha);
+	else
+		px = amb_light(&scene->a, &px);
+	px = amb_color(&scene->a, &px, alpha);
 	return (px);
 }
