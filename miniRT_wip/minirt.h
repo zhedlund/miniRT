@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/03 23:21:30 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:56:40 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,8 @@ void	init_cam(t_cam *cam);
 t_vec	sphere_normal(t_sph *sp, t_vec *intersect);
 float	hit_sphere(t_vec *center, float radius, t_ray *r);
 float	hit_plane(t_plane *pl, t_ray *r);
-float	hit_cylinder(t_cyl *cyl, t_ray *ray);
-float	hit_object(t_obj *obj, t_ray *r);
+float	hit_cylinder(t_cyl *cyl, t_ray *ray, t_hit *hit);
+float	hit_object(t_obj *obj, t_ray *r, t_hit *hit);
 
 /* color */
 t_color	amb_color(t_amb *a, t_color *c);
@@ -209,7 +209,7 @@ void	ft_pixel_put(t_img *img, int x, int y, int color);
 /* lists */
 //void	add_object(t_scene* scene, t_obj* obj);
 void	free_obj_list(t_scene* scene);
-void	free_hitlist(t_hit* hit);
+//void	free_hitlist(t_hit* hit);
 
 /* utils */
 // int		ft_atoi(const char *str);

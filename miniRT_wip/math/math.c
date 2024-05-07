@@ -35,3 +35,8 @@ t_vec vec3_divide(t_vec vec, float scalar)
 {
 	return (t_vec){ vec.x / scalar, vec.y / scalar, vec.z / scalar };
 }
+
+t_vec	vec_multiply(const t_vec *vec, float n)
+{
+	return ((const t_vec){vec->x * n, vec->y * n, vec->z * n});
+}

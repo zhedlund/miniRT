@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/07 16:45:42 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:54:47 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ float calculate_shadow(t_vec *intersect, t_scene *scene, t_hit *hitlist)
 	{
 		if (obj != hitlist->objs)
 		{
-			t = hit_object(obj, &shadow_ray);
+			t = hit_object(obj, &shadow_ray, hitlist);
 			if (t > 0 && t < shadow_t)
 				shadow_t = t;
 		}
@@ -97,7 +97,7 @@ t_hit	find_closest_obj(t_ray *r, t_scene *scene)
 	hitpoint = (t_hit){.t = FLT_MAX};
 	while (current != NULL)
 	{
-		t = hit_object(current, r);
+		t = hit_object(current, r, &hitpoint);
 		if (t > 0 && t < hitpoint.t)
 		{
 			hitpoint.t = t;

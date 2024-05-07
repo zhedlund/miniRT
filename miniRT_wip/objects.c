@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:32:13 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/03 18:55:01 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:55:49 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ float hit_plane(t_plane *pl, t_ray *r)
 	return (t);
 }
 
-float	hit_object(t_obj *obj, t_ray *r)
+float	hit_object(t_obj *obj, t_ray *r, t_hit *hit)
 {
 	float t;
 
@@ -74,6 +74,6 @@ float	hit_object(t_obj *obj, t_ray *r)
 	else if (obj->id == PLANE)
 		t = hit_plane((t_plane*)(obj->obj), r);
 	else if (obj->id == CYLINDER)
-		t = hit_cylinder((t_cyl*)(obj->obj), r);
+		t = hit_cylinder((t_cyl *)(obj->obj), (t_ray *)r, hit);
 	return (t);
 }
