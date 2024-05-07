@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/03 23:36:30 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:45:42 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void create_image(t_cam *cam, t_data *data, t_scene *scene)
 	t_vec	ray_dir;
 	t_color	px_color;
 	t_ray	ray;
-	float	i;
-	float	j;
+	int		i;
+	int		j;
 
 	j = 0;
 	while (j < HEIGHT)
@@ -64,11 +64,11 @@ t_color diffuse_lighting(t_color *px, t_light *light, t_vec *normal)
 
 float calculate_shadow(t_vec *intersect, t_scene *scene, t_hit *hitlist)
 {
-	t_vec		shadow_dir;
-	t_ray		shadow_ray;
-	t_obj		*obj;
-	float		t;
-	float		shadow_t;
+	t_vec	shadow_dir;
+	t_ray	shadow_ray;
+	t_obj	*obj;
+	float	t;
+	float	shadow_t;
 
 	shadow_dir = vec3_subtract(scene->l.pos, *intersect);
 	shadow_ray = (t_ray){*intersect, vec3_unit_vector(&shadow_dir)};
@@ -116,7 +116,7 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 	t_vec	normal;
 	float	shadow_t;
 
-	px = (t_color){0.3, 0.7, 1.0};
+	px = (t_color){1.0, 1.0, 1.0};
 	hitpoint = find_closest_obj(r, scene);
 	if (hitpoint.objs != NULL)
 	{
