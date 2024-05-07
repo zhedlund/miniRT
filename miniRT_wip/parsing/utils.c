@@ -13,30 +13,31 @@
 #include "../minirt.h"
 //#include "parsing.h"
 
-t_vec	*new_vec(float x, float y, float z)
+void	set_cylinder(t_cyl *cyl)
 {
-	t_vec	*vec;
-
-	vec = (t_vec *)malloc(sizeof(t_vec));
-	if (!vec)
-		return (malloc_error());
-	vec->x = x;
-	vec->y = y;
-	vec->z = z;
-	return (vec);
+	cyl->top_p.x = cyl->center.x - cyl->normal.x * (cyl->h / 2);
+	cyl->top_p.y = cyl->center.y - cyl->normal.y * (cyl->h / 2);
+	cyl->top_p.z = cyl->center.z - cyl->normal.z * (cyl->h / 2);
+	cyl->top.point = cyl->top_p;
+	cyl->top.normal = vec_multiply(&cyl->normal, -1);
+	cyl->top.color = cyl->color;
+	cyl->bottom.point = vec3_add(cyl->center, vec_multiply(&cyl->normal, cyl->h / 2));
+	cyl->bottom.normal = cyl->normal;
+	cyl->bottom.color = cyl->color;
 }
 
-t_color	*new_color(float r, float g, float b)
+void	copy_vec(t_vec *src, t_vec *dst)
 {
-	t_color	*new;
+	dst->x = src->x;
+	dst->y = src->y;
+	dst->z = src->z;
+}
 
-	new = (t_color *)malloc(sizeof(t_color));
-	if (!new)
-		return (malloc_error());
-	new->r = r;
-	new->g = g;
-	new->b = b;
-	return (new);
+void	copy_color(t_color *src, t_color *dst)
+{
+	dst->r = src->r;
+	dst->g = src->g;
+	dst->b = src->b;
 }
 
 int	read_color(t_color *col, char *str)

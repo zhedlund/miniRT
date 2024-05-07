@@ -56,7 +56,6 @@ int	add_light(char *str, t_light *light)
 	free_array(args);
 	return (0);
 }
-//parse str to get real input; protect malloc;
 
 int	add_sphere(char *str, t_scene *scene)
 {
@@ -184,6 +183,9 @@ int	add_cylinder(char *str, t_scene *scene)
 		return (put_error("Invalid color value of cylinder\n"));
 	}
 	free_array(args);
+	set_cylinder(cyl);
+	printf("cylinder top color: %f,%f,%f\n", cyl->top.color.r * 255, cyl->top.color.g * 255, cyl->top.color.b * 255);
+	printf("cylinder bottom normal: %f,%f,%f\n", cyl->bottom.normal.x, cyl->bottom.normal.y, cyl->bottom.normal.z);
 	object->id = CYLINDER;
 	object->obj = cyl;
 	object->next = NULL;

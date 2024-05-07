@@ -116,6 +116,8 @@ typedef struct s_cyl
 	float	r;
 	float	h;
 	t_color	color;
+	t_plane	top;
+	t_plane bottom;
 }	t_cyl;
 
 typedef enum e_shape
@@ -174,7 +176,9 @@ int		add_sphere(char *str, t_scene *scene);
 int		add_plane(char *str, t_scene *scene);
 int		add_cylinder(char *str, t_scene *scene);
 int		check_empty_line(char *str);
-t_vec	*new_vec(float x, float y, float z);
+void	set_cylinder(t_cyl *cyl);
+void	copy_vec(t_vec *src, t_vec *dst);
+void	copy_color(t_color *src, t_color *dst);
 int		is_uns_int(char *str);
 int		is_float(char *str);
 float	is_color(char *str);

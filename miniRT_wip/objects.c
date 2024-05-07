@@ -64,7 +64,7 @@ float hit_plane(const t_plane *pl, const t_ray *r)
 	return (t);
 }
 
-float	hit_object(const t_obj *obj, const t_ray *r)
+float	hit_object(const t_obj *obj, const t_ray *r, t_hit *hit)
 {
 	float t;
 
@@ -74,6 +74,6 @@ float	hit_object(const t_obj *obj, const t_ray *r)
 	else if (obj->id == PLANE)
 		t = hit_plane((const t_plane*)(obj->obj), r);
 	else if (obj->id == CYLINDER)
-		t = hit_cylinder((const t_cyl*)(obj->obj), r);
+		t = hit_cylinder((t_cyl *)(obj->obj), (t_ray *)r, hit);
 	return (t);
 }

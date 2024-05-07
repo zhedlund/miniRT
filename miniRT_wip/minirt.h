@@ -172,8 +172,8 @@ typedef struct s_hit
 t_vec	sphere_normal(const t_sph *sp, const t_vec *intersect);
 float	hit_sphere(const t_vec *center, float radius, const t_ray *r);
 float	hit_plane(const t_plane *pl, const t_ray *r);
-float	hit_cylinder(const t_cyl *cyl, const t_ray *ray);
-float	hit_object(const t_obj *obj, const t_ray *r);
+float	hit_cylinder(t_cyl *cyl, t_ray *ray, t_hit *hit);
+float	hit_object(const t_obj *obj, const t_ray *r, t_hit *hit);
 
 /* color */
 t_color	amb_color(const t_amb *a, const t_color *c);
@@ -194,6 +194,7 @@ float	vec3_length_squared(const t_vec *v);
 t_vec	vec3_unit_vector(const t_vec *v);
 t_vec	vec3_add(const t_vec a, const t_vec b);
 float	vec3_length(const t_vec *v);
+t_vec	vec_multiply(const t_vec *vec, float n);
 
 /* mlx */
 void	mlx_hooks_init(t_data *data);
@@ -204,7 +205,7 @@ void	ft_pixel_put(t_img *img, int x, int y, int color);
 /* lists */
 //void	add_object(t_scene* scene, t_obj* obj);
 void	free_obj_list(t_scene* scene);
-void	free_hitlist(t_hit* hit);
+//void	free_hitlist(t_hit* hit);
 
 /* utils */
 // int		ft_atoi(const char *str);

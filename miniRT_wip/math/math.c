@@ -30,3 +30,8 @@ t_vec	intersect_point(const t_ray *r, float t)
 		r->origin.y + (t * r->dir.y),
 		r->origin.z + (t * r->dir.z)});
 }
+
+t_vec	vec_multiply(const t_vec *vec, float n)
+{
+	return ((const t_vec){vec->x * n, vec->y * n, vec->z * n});
+}
