@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:26:07 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/03 18:58:23 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/07 22:03:06 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,23 @@
 /* 	Calculates the ambient color of a pixel. The ambient color is the color 
 	of the pixel when no light source is illuminating it.
 */
-t_color amb_color(t_amb *a, t_color *c)
+t_color amb_light(t_amb *a, t_color *c)
 {
 	return ((t_color){a->ratio * c->r, a->ratio * c->g, a->ratio * c->b});
 }
 
-/* 	Calculates the diffuse color of a pixel. The diffuse color is the color 
-	of the pixel when illuminated by a light source. 
-	fmax returns the maximum of the two values.
+/* 	Calculate the color of a pixel mixed with the color of the ambient light.
+*/
+t_color amb_color(t_amb *a, t_color *c, float alpha)
+{
+	return ((t_color){c->r * (1 - alpha) + a->color.r * alpha,
+					c->g * (1 - alpha) + a->color.g * alpha,
+					c->b * (1 - alpha) + a->color.b * alpha});
+}
+
+/* 	Calculates the diffuse color of a pixel by multiplying the color of the 
+	pixel by the color of the light. The diffuse color is the color 
+	of the pixel when illuminated by a light source.
 */
 t_color diffuse_color(t_light *l, t_color *c, float diffuse_factor)
 {

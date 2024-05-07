@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/07 16:56:40 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/07 21:40:39 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ float	hit_cylinder(t_cyl *cyl, t_ray *ray, t_hit *hit);
 float	hit_object(t_obj *obj, t_ray *r, t_hit *hit);
 
 /* color */
-t_color	amb_color(t_amb *a, t_color *c);
+t_color	amb_light(t_amb *a, t_color *c);
 t_color	diffuse_color(t_light *l, t_color *c, float diffuse_factor);
 void	write_color(t_color px, t_img *img, int x, int y);
 t_color	blend_color(t_color *c1, t_color *c2);
@@ -188,6 +188,7 @@ void	create_image(t_cam *cam, t_data *data, t_scene *scene);
 t_color	ray_color(t_ray *r, t_scene *scene);
 int		render_image(t_data *data);
 t_color darker_color(t_color *px);
+t_color amb_color(t_amb *a, t_color *c1, float alpha);
 
 /* math */
 float 	dot(t_vec *u, t_vec *v);
@@ -218,7 +219,7 @@ void	free_obj_list(t_scene* scene);
 // size_t	ft_strlen(const char *s);
 
 /* debug */
-void		print_object_list(t_obj *head);
+void	print_object_list(t_obj *head);
 char 	*shape_to_string(t_shape shape);
 
 #endif
