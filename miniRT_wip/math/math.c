@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:04 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/03 21:07:04 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:57:18 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_vec vec3_divide(t_vec vec, float scalar)
 	return (t_vec){ vec.x / scalar, vec.y / scalar, vec.z / scalar };
 }
 
-t_vec	vec_multiply(const t_vec *vec, float n)
+t_vec	vec_multiply(t_vec *vec, float n)
 {
-	return ((const t_vec){vec->x * n, vec->y * n, vec->z * n});
+	return ((t_vec){vec->x * n, vec->y * n, vec->z * n});
 }
