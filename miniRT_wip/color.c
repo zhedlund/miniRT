@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:26:07 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/07 23:18:52 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/07 23:39:53 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ t_color amb_light(t_amb *a, t_color *c)
 
 /* 	Calculate the color of a pixel mixed with the color of the ambient light.
 */
-t_color amb_color(t_amb *a, t_color *c, float alpha)
+t_color amb_color(t_amb a, t_color c, float alpha)
 {
-	return ((t_color){c->r * (1 - alpha) + a->color.r * alpha,
-					c->g * (1 - alpha) + a->color.g * alpha,
-					c->b * (1 - alpha) + a->color.b * alpha});
+	return ((t_color){c.r * (1 - alpha) + a.color.r * alpha,
+					c.g * (1 - alpha) + a.color.g * alpha,
+					c.b * (1 - alpha) + a.color.b * alpha});
 }
 
 /* 	Calculates the diffuse color of a pixel by multiplying the color of the 

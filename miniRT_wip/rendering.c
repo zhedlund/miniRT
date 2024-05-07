@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/07 23:21:20 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/07 23:45:44 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,6 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 	}
 	else
 		px = amb_light(&scene->a, &px);
-	px = amb_color(&scene->a, &px, alpha);
+	px = amb_color(scene->a, px, alpha);
 	return (px);
 }
