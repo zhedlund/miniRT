@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/07 23:40:11 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/08 20:06:21 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,13 +182,14 @@ t_color	amb_light(t_amb *a, t_color *c);
 t_color	diffuse_color(t_light *l, t_color *c, float diffuse_factor);
 void	write_color(t_color px, t_img *img, int x, int y);
 t_color	blend_color(t_color *c1, t_color *c2);
+t_color alpha_color(t_color c1, t_color c2, float alpha);
+t_color amb_color(t_amb a, t_color c1, float alpha);
+t_color darker_color(t_color *px);
 
 /* rendering */
 void	create_image(t_cam *cam, t_data *data, t_scene *scene);
 t_color	ray_color(t_ray *r, t_scene *scene);
 int		render_image(t_data *data);
-t_color darker_color(t_color *px);
-t_color amb_color(t_amb a, t_color c1, float alpha);
 
 /* math */
 float 	dot(t_vec *u, t_vec *v);

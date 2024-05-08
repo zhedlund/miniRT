@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/07 23:45:44 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/08 21:52:23 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ t_color diffuse_lighting(t_color *px, t_light *light, t_vec *normal)
 
 	light_dir = vec3_unit_vector(&light->pos);
 	diffuse_factor = dot(&light_dir, normal);
-	//if (diffuse_factor < 0)
-		//diffuse_factor = 0;
 	diffuse = diffuse_color(light, px, diffuse_factor);
 	*px = blend_color(px, &diffuse);
 	return (*px);
@@ -116,10 +114,8 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 	t_vec	intersect;
 	t_vec	normal;
 	float	shadow_t;
-	float	alpha;
 
-	px = (t_color){0.1, 0.1, 0.1};
-	alpha = 0.1;
+	px = (t_color){0.2, 0.1, 0.7};
 	hitpoint = find_closest_obj(r, scene);
 	if (hitpoint.objs != NULL)
 	{
@@ -130,26 +126,23 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 			normal = sphere_normal((t_sph *)(hitpoint.objs->obj), &intersect);
 			px = amb_light(&scene->a, &((t_sph *)(hitpoint.objs->obj))->color);
 			if (shadow_t < 0.5)
-				px = darker_color(&px);
+				px = alpha_color(px, (t_color){0.1, 0.1, 0.1}, 0.2);
 			else
-			{
 				px = diffuse_lighting(&px, &scene->l, &normal);
-			}
 		}
 		else if (hitpoint.objs->id == PLANE)
 		{
 			px = amb_light(&scene->a, &((t_plane *)(hitpoint.objs->obj))->color);
 			if (shadow_t < 1.0)
-				px = darker_color(&px);
+				px = alpha_color(px, (t_color){0.1, 0.1, 0.1}, 0.2);
 		}
 		else if (hitpoint.objs->id == CYLINDER)
 		{	
 			px = amb_light(&scene->a, &((t_cyl *)(hitpoint.objs->obj))->color);
 		}
-		//return(px);
 	}
 	else
 		px = amb_light(&scene->a, &px);
-	px = amb_color(scene->a, px, alpha);
+	px = alpha_color(px, scene->a.color, 0.1);
 	return (px);
 }

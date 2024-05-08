@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:26:07 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/07 23:39:53 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/08 20:05:41 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@ t_color amb_color(t_amb a, t_color c, float alpha)
 					c.g * (1 - alpha) + a.color.g * alpha,
 					c.b * (1 - alpha) + a.color.b * alpha});
 }
+
+t_color alpha_color(t_color c1, t_color c2, float alpha)
+{
+	return ((t_color){c1.r * (1 - alpha) + c2.r * alpha,
+					c1.g * (1 - alpha) + c2.g * alpha,
+					c1.b * (1 - alpha) + c2.b * alpha});
+}
+
 
 /* 	Calculates the diffuse color of a pixel by multiplying the color of the 
 	pixel by the color of the light. The diffuse color is the color 
