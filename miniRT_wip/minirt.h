@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/07 16:56:40 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:59:34 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ void	create_image(t_cam *cam, t_data *data, t_scene *scene);
 t_color	ray_color(t_ray *r, t_scene *scene);
 int		render_image(t_data *data);
 t_color darker_color(t_color *px);
+t_vec	cyl_normal(t_hit *hit, t_ray *ray);
 
 /* math */
 float 	dot(t_vec *u, t_vec *v);

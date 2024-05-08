@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cylinder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:46:37 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/07 17:12:46 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/08 19:00:50 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,6 @@ float	hit_top(t_cyl *cyl, t_ray *ray)
 	if (vec3_length(&cp) > cyl->r)
 		return (-1);
 	return (t);
-	// if (hit->t < 0 || (hit->t > 0 && t < hit->t))
-	// {
-	// 	hit->t = t;
-	// 	hit->c_part = 1;
-	// }
 }
 
 float	hit_bottom(t_cyl *cyl, t_ray *ray)
@@ -47,11 +42,6 @@ float	hit_bottom(t_cyl *cyl, t_ray *ray)
 	if (vec3_length(&cp) > cyl->r)
 		return (-1);
 	return (t);
-	// if (hit->t < 0 || (hit->t > 0 && t < hit->t))
-	// {
-	// 	hit->t = t;
-	// 	hit->c_part = 2;
-	// }
 }
 
 int	is_valid(float t, t_cyl *cyl, t_ray *ray, t_vec co)
@@ -120,7 +110,6 @@ float	hit_cylinder(t_cyl *cyl, t_ray *ray, t_hit *hit)
 {
 	float	t[3];
 	int		res;
-	//int		part;
 	t_vec	co;
 
 	co = vec3_subtract(ray->origin, cyl->top_p);
@@ -130,7 +119,7 @@ float	hit_cylinder(t_cyl *cyl, t_ray *ray, t_hit *hit)
 	res = get_min(t);
 	if (res < 0)
 		return (-1);
-	if (t[res] < hit->t)
+	if (hit && t[res] < hit->t)
 		hit->c_part = res + 1;
 	return (t[res]);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:32:13 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/07 16:55:49 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:58:59 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ float	hit_object(t_obj *obj, t_ray *r, t_hit *hit)
 
 	t = -1.0;
 	if (obj->id == SPHERE)
-		t = hit_sphere(&((t_sph*)(obj->obj))->center, ((t_sph*)(obj->obj))->radius, r);
+		t = hit_sphere(&((t_sph *)(obj->obj))->center, ((t_sph *)(obj->obj))->radius, r);
 	else if (obj->id == PLANE)
-		t = hit_plane((t_plane*)(obj->obj), r);
+		t = hit_plane((t_plane *)(obj->obj), r);
 	else if (obj->id == CYLINDER)
 		t = hit_cylinder((t_cyl *)(obj->obj), (t_ray *)r, hit);
 	return (t);
