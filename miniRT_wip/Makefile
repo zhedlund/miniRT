@@ -24,6 +24,7 @@ SRC = 	main.c \
 		objects.c \
 		rendering.c \
 		hit_cylinder.c \
+		compute_lighting.c \
 		math/math.c \
 		math/math_vector.c \
 		utils/list_utils.c \

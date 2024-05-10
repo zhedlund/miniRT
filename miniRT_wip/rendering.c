@@ -69,11 +69,13 @@ float	calculate_shadow(t_vec *intersect, t_scene *scene, t_hit *hitlist)
 	t_obj	*obj;
 	float	t;
 	float	shadow_t;
+	float	max_t;
 
 	l_ray = vec3_subtract(scene->l.pos, *intersect);
 	shadow_ray = (t_ray){*intersect, vec3_unit_vector(&l_ray)};
 	obj = scene->objs;
-	shadow_t = vec3_length(&l_ray);
+	max_t = vec3_length(&l_ray);
+	shadow_t = max_t;
 	while (obj != NULL)
 	{
 		if (obj != hitlist->objs)
@@ -84,7 +86,9 @@ float	calculate_shadow(t_vec *intersect, t_scene *scene, t_hit *hitlist)
 		}
 		obj = obj->next;
 	}
-	return (shadow_t);
+	if (shadow_t < max_t)
+		return (shadow_t);
+	return (-1);
 }
 
 t_hit	find_closest_obj(t_ray *r, t_scene *scene)
@@ -134,9 +138,8 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 	t_vec	normal;
 	float	l_dot_n;
 	float	sh_t;
-	float	light_i;
 
-	px = (t_color){1.0, 1.0, 1.0};
+	px = (t_color){scene->a.ratio, scene->a.ratio, scene->a.ratio};
 	hit = find_closest_obj(r, scene);
 	if (!hit.objs)
 		return (px);
@@ -144,10 +147,14 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 	light_r = vec3_subtract(scene->l.pos, hitpoint);
 	normal = get_point_normal(&hit, &hitpoint, r);
 	l_dot_n = dot(&light_r, &normal);
+	sh_t = -1;
 	if (l_dot_n > 0)
-	{
 		sh_t = calculate_shadow(&hitpoint, scene, &hit);
-	}
+	if (sh_t > 0)
+		px = shadow_pixel(sh_t, &hit, scene);
+	else
+		px = light_pixel(l_dot_n, &light_r, &hit, scene);
+	return (px);
 }
 
 // t_color	ray_color(t_ray *r, t_scene *scene)

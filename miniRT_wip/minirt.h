@@ -189,6 +189,8 @@ t_color	ray_color(t_ray *r, t_scene *scene);
 int		render_image(t_data *data);
 t_color darker_color(t_color *px);
 t_vec	cyl_normal(t_hit *hit, t_ray *ray);
+t_color	light_pixel(float l_dot_n, t_vec *light_r, t_hit *hit, t_scene *scene);
+t_color	shadow_pixel(float shadow_t, t_hit *hit, t_scene *scene);
 
 /* math */
 float 	dot(t_vec *u, t_vec *v);
