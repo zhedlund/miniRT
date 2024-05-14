@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/14 14:51:02 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/14 22:37:14 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+	float	offset_x;
+	float	offset_y;
 	t_img	img;
 	t_scene	*scene;
 }	t_data;
@@ -205,6 +207,7 @@ t_vec	vec3_add(t_vec a, t_vec b);
 float	vec3_length(t_vec *v);
 t_vec	vec3_divide(t_vec vec, float scalar);
 t_vec	vec_multiply(t_vec *vec, float n);
+t_vec	vec3_cross(t_vec a, t_vec b);
 
 /* mlx */
 void	mlx_hooks_init(t_data *data);

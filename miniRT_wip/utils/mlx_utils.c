@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:30:12 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/08 22:50:10 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:04:04 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ int key_handler(int keycode, t_data *data)
 		close_window(data);
 	if (keycode == XK_Left)
 		data->scene->c.center.x -= 0.1;
+		//data->offset_x -= 0.1;
 	if (keycode == XK_Right)
 		data->scene->c.center.x += 0.1;
+		//data->offset_x += 0.1;
 	create_image(&data->scene->c, data, data->scene);
 	return (0);
 }
@@ -58,6 +60,8 @@ void	mlx_hooks_init(t_data *data)
 		write(2, "Error: mlx_new_window failed\n", 29);
 		exit(1);
 	}
+	data->offset_x = 0;
+	data->offset_y = 0;
 	data->img.mlx_img = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.mlx_img, &data->img.bpp, &data->img.line_len, &data->img.endian);
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, &key_handler, data); 

@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:04 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/07 16:57:18 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:35:07 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,11 @@ t_vec vec3_divide(t_vec vec, float scalar)
 t_vec	vec_multiply(t_vec *vec, float n)
 {
 	return ((t_vec){vec->x * n, vec->y * n, vec->z * n});
+}
+
+t_vec	vec3_cross(t_vec a, t_vec b)
+{
+	return ((t_vec){(a.y * b.z) - (a.z * b.y),
+					(a.z * b.x) - (a.x * b.z),
+					(a.x * b.y) - (a.y * b.x)});
 }

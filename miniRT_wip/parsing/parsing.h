@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/03 23:34:08 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:05:31 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_cam
 	t_vec	px_delta_u;
 	t_vec	px_delta_v;
 	t_vec	px_00;
+	float	focal_length;
 }	t_cam;
 
 // typedef struct s_sph
