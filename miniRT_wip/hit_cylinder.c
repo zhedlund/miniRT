@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cylinder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:46:37 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/07 16:55:32 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/08 19:00:50 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,6 @@ float	hit_top(t_cyl *cyl, t_ray *ray)
 	if (vec3_length(&cp) > cyl->r)
 		return (-1);
 	return (t);
-	// if (hit->t < 0 || (hit->t > 0 && t < hit->t))
-	// {
-	// 	hit->t = t;
-	// 	hit->c_part = 1;
-	// }
 }
 
 float	hit_bottom(t_cyl *cyl, t_ray *ray)
@@ -47,11 +42,6 @@ float	hit_bottom(t_cyl *cyl, t_ray *ray)
 	if (vec3_length(&cp) > cyl->r)
 		return (-1);
 	return (t);
-	// if (hit->t < 0 || (hit->t > 0 && t < hit->t))
-	// {
-	// 	hit->t = t;
-	// 	hit->c_part = 2;
-	// }
 }
 
 int	is_valid(float t, t_cyl *cyl, t_ray *ray, t_vec co)
@@ -87,42 +77,49 @@ float	hit_side(t_cyl *cyl, t_ray *ray, t_vec co)
 		return (-1);
 	t[0] = (-b + sqrtf(d)) / (2 * a);
 	t[1] = (-b - sqrtf(d)) / (2 * a);
-	if (is_valid(t[0], cyl ,ray, co) && t[0] <= t[1])
+	if (is_valid(t[0], cyl, ray, co) && t[0] <= t[1])
 		return (t[0]);
-	else if (is_valid(t[1], cyl ,ray, co) && t[1] < t[0])
+	else if (is_valid(t[1], cyl, ray, co) && t[1] < t[0])
 		return (t[1]);
 	else
 		return (-1);
 }
 
+int	get_min(float t[3])
+{
+	int		i;
+	int		res;
+	float	min;
+
+	i = 0;
+	res = -1;
+	min = FLT_MAX;
+	while (i < 3)
+	{
+		if (t[i] > 0 && t[i] < min)
+		{
+			res = i;
+			min = t[i];
+		}
+		i++;
+	}
+	return (res);
+}
 // t_hit hit_cylinder(t_obj *obj, t_ray *ray){ if hit return (hit{t, obj, c_part})}
 float	hit_cylinder(t_cyl *cyl, t_ray *ray, t_hit *hit)
 {
-	//t_hit	hit;
-	float	t;
-	float	res;
+	float	t[3];
+	int		res;
 	t_vec	co;
 
-	//hit = (t_hit){-1, 0, (t_obj *)cyl};
-	res = -1;
 	co = vec3_subtract(ray->origin, cyl->top_p);
-	t = hit_top(cyl, ray);
-	if (t > 0)
-	{
-		res = t;
-		hit->c_part = 1;
-	}
-	t = hit_bottom(cyl, ray);
-	if (t > 0 && (t < res || res < 0))
-	{
-		res = t;
-		hit->c_part = 2;
-	}
-	t = hit_side(cyl, ray, co);
-	if (t > 0 && (t < res || res < 0))
-	{
-		res = t;
-		hit->c_part = 3;
-	}
-	return (res);
+	t[0] = hit_top(cyl, ray);
+	t[1] = hit_bottom(cyl, ray);
+	t[2] = hit_side(cyl, ray, co);
+	res = get_min(t);
+	if (res < 0)
+		return (-1);
+	if (hit && t[res] < hit->t)
+		hit->c_part = res + 1;
+	return (t[res]);
 }

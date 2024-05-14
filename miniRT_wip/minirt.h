@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/08 22:30:10 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:51:02 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,10 @@ t_color darker_color(t_color *px);
 void	create_image(t_cam *cam, t_data *data, t_scene *scene);
 t_color	ray_color(t_ray *r, t_scene *scene);
 int		render_image(t_data *data);
+t_color darker_color(t_color *px);
+t_vec	cyl_normal(t_hit *hit, t_ray *ray);
+t_color	light_pixel(float l_dot_n, t_vec *light_r, t_hit *hit, t_scene *scene);
+t_color	shadow_pixel(float shadow_t, t_hit *hit, t_scene *scene);
 
 /* math */
 float 	dot(t_vec *u, t_vec *v);

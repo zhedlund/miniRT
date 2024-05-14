@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/08 21:52:23 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:51:09 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,27 +63,32 @@ t_color diffuse_lighting(t_color *px, t_light *light, t_vec *normal)
 
 float calculate_shadow(t_vec *intersect, t_scene *scene, t_hit *hitpoint)
 {
-	t_vec	shadow_dir;
+	t_vec	l_ray;
 	t_ray	shadow_ray;
 	t_obj	*obj;
 	float	t;
 	float	shadow_t;
+	float	max_t;
 
-	shadow_dir = vec3_subtract(scene->l.pos, *intersect);
-	shadow_ray = (t_ray){*intersect, vec3_unit_vector(&shadow_dir)};
+	l_ray = vec3_subtract(scene->l.pos, *intersect);
+	shadow_ray = (t_ray){*intersect, vec3_unit_vector(&l_ray)};
 	obj = scene->objs;
-	shadow_t = FLT_MAX;
+	max_t = vec3_length(&l_ray);
+	shadow_t = max_t;
 	while (obj != NULL)
 	{
 		if (obj != hitpoint->objs)
 		{
-			t = hit_object(obj, &shadow_ray, hitpoint);
+			//t = hit_object(obj, &shadow_ray, hitpoint);
+			t = hit_object(obj, &shadow_ray, NULL);
 			if (t > 0 && t < shadow_t)
 				shadow_t = t;
 		}
 		obj = obj->next;
 	}
-	return (shadow_t);
+	if (shadow_t < max_t)
+		return (shadow_t);
+	return (-1);
 }
 
 t_hit	find_closest_obj(t_ray *r, t_scene *scene)
@@ -107,42 +112,84 @@ t_hit	find_closest_obj(t_ray *r, t_scene *scene)
 	return (hitpoint);
 }
 
+t_vec	get_point_normal(t_hit *hit, t_vec *hitpoint, t_ray *r)
+{
+	t_vec	normal;
+	t_plane	*plane;
+
+	if (hit->objs->id == SPHERE)
+		normal = sphere_normal((t_sph *)(hit->objs->obj), hitpoint);
+	else if (hit->objs->id == CYLINDER)
+		normal = cyl_normal(hit, r);
+	else
+	{
+		plane = hit->objs->obj;
+		normal = plane->normal;
+	}
+	return (normal);
+}
+
 t_color	ray_color(t_ray *r, t_scene *scene)
 {
 	t_color	px;
-	t_hit	hitpoint;
-	t_vec	intersect;
+	t_hit	hit;
+	t_vec	hitpoint;
+	t_vec	light_r;
 	t_vec	normal;
-	float	shadow_t;
+	float	l_dot_n;
+	float	sh_t;
 
-	px = (t_color){0.2, 0.1, 0.7};
-	hitpoint = find_closest_obj(r, scene);
-	if (hitpoint.objs != NULL)
-	{
-		intersect = intersect_point(r, hitpoint.t);
-		shadow_t = calculate_shadow(&intersect, scene, &hitpoint);
-		if (hitpoint.objs->id == SPHERE)
-		{
-			normal = sphere_normal((t_sph *)(hitpoint.objs->obj), &intersect);
-			px = amb_light(&scene->a, &((t_sph *)(hitpoint.objs->obj))->color);
-			if (shadow_t < 0.5)
-				px = alpha_color(px, (t_color){0.1, 0.1, 0.1}, 0.2);
-			else
-				px = diffuse_lighting(&px, &scene->l, &normal);
-		}
-		else if (hitpoint.objs->id == PLANE)
-		{
-			px = amb_light(&scene->a, &((t_plane *)(hitpoint.objs->obj))->color);
-			if (shadow_t < 1.0)
-				px = alpha_color(px, (t_color){0.1, 0.1, 0.1}, 0.2);
-		}
-		else if (hitpoint.objs->id == CYLINDER)
-		{	
-			px = amb_light(&scene->a, &((t_cyl *)(hitpoint.objs->obj))->color);
-		}
-	}
+	px = (t_color){scene->a.ratio, scene->a.ratio, scene->a.ratio};
+	hit = find_closest_obj(r, scene);
+	if (!hit.objs)
+		return (px);
+	hitpoint = intersect_point(r, hit.t);
+	light_r = vec3_subtract(scene->l.pos, hitpoint);
+	normal = get_point_normal(&hit, &hitpoint, r);
+	l_dot_n = dot(&light_r, &normal);
+	sh_t = -1;
+	if (l_dot_n > 0)
+		sh_t = calculate_shadow(&hitpoint, scene, &hit);
+	if (sh_t > 0)
+		px = shadow_pixel(sh_t, &hit, scene);
 	else
-		px = amb_light(&scene->a, &px);
-	px = alpha_color(px, scene->a.color, 0.1);
+		px = light_pixel(l_dot_n, &light_r, &hit, scene);
 	return (px);
 }
+
+// t_color	ray_color(t_ray *r, t_scene *scene)
+// {
+// 	t_color	px;
+// 	t_hit	hitpoint;
+// 	t_vec	intersect;
+// 	t_vec	normal;
+// 	float	shadow_t;
+
+// 	px = (t_color){1.0, 1.0, 1.0};
+// 	hitpoint = find_closest_obj(r, scene);
+// 	if (hitpoint.objs != NULL)
+// 	{
+// 		intersect = intersect_point(r, hitpoint.t);
+// 		shadow_t = calculate_shadow(&intersect, scene, &hitpoint);
+// 		if (hitpoint.objs->id == SPHERE)
+// 		{
+// 			normal = sphere_normal((t_sph *)(hitpoint.objs->obj), &intersect);
+// 			px = amb_color(&scene->a, &((t_sph *)(hitpoint.objs->obj))->color);
+// 			if (shadow_t < 0.5)
+// 				px = darker_color(&px);
+// 			else
+// 				px = diffuse_lighting(&px, &scene->l, &normal);
+// 		}
+// 		else if (hitpoint.objs->id == PLANE)
+// 		{
+// 			px = amb_color(&scene->a, &((t_plane *)(hitpoint.objs->obj))->color);
+// 			if (shadow_t < 1.0)
+// 				px = darker_color(&px);
+// 		}
+// 		else if (hitpoint.objs->id == CYLINDER)
+// 		{
+// 			px = ((t_cyl *)hitpoint.objs->obj)->color;
+// 		}
+// 	}
+// 	return (px);
+// }
