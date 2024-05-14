@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/14 21:12:01 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/14 22:44:33 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,9 @@ void create_image(t_cam *cam, t_data *data, t_scene *scene)
 		i = 0;
 		while (i < WIDTH)
 		{
-			//px_center = (t_vec){cam->px_00.x + (i * cam->px_delta_u.x),
-								//cam->px_00.y + (j * cam->px_delta_v.y),
-								//cam->px_00.z};
 			px_center = vec3_add(cam->px_00, vec_multiply(&cam->px_delta_u, i));
 			px_center = vec3_add(px_center, vec_multiply(&cam->px_delta_v, j));
-								//cam->px_00.z};
-								//cam->px_00.z * cam->focal_length};
 			ray_dir = vec3_subtract(px_center, cam->center);
-			//ray_dir = vec3_add(ray_dir, vec_multiply(&cam->dir, -1.0));
-			//ray_dir = vec3_add(ray_dir, vec_multiply(&cam->dir, -cam->focal_length));
 			ray = (t_ray){cam->center, ray_dir};
 			px_color = ray_color(&ray, scene);
 			write_color(px_color, &data->img, i, j);
