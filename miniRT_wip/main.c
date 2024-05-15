@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:49:35 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/14 22:43:40 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:04:00 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@ void init_cam(t_cam *cam)
 	t_vec view_up_left;
 	t_vec viewport_u;
 	t_vec viewport_v;
-	//float focal_length;
 	t_vec w;
 	t_vec u;
 	t_vec v;
 	t_vec vup;
 	
-	//cam->dir = vec3_unit_vector(&cam->dir);
 	t_vec length = vec3_subtract(cam->center, cam->dir);
 	cam->focal_length = vec3_length(&length);
 	vup = (t_vec){0, 1, 0};
@@ -46,7 +44,7 @@ void init_cam(t_cam *cam)
 	
 	cam->px_delta_u = vec3_divide(viewport_u, WIDTH);
 	cam->px_delta_v = vec3_divide(viewport_v, HEIGHT);
-	
+	 
 	view_up_left = vec3_subtract(cam->center, vec_multiply(&w, cam->focal_length));
 	view_up_left = vec3_subtract(view_up_left, vec3_divide(viewport_u, 2.0));
 	view_up_left = vec3_subtract(view_up_left, vec3_divide(viewport_v, 2.0));
@@ -66,14 +64,11 @@ int	main(int argc, char **argv)
 	scene = parse_input(argv[1]);
 	if (!scene)
 		return (1);
+	data.scene = scene;
+	print_object_list(scene->objs);
 	init_cam(&scene->c);
 	mlx_hooks_init(&data);
-	print_object_list(scene->objs);
 	create_image(&scene->c, &data, scene);
-	//mlx_loop_hook(data.mlx_ptr, &render_image, &data);
 	mlx_loop(data.mlx_ptr);
-	mlx_destroy_image(data.mlx_ptr, data.img.mlx_img);
-	mlx_destroy_display(data.mlx_ptr);
-	free(data.mlx_ptr);
 	return (0);
 }

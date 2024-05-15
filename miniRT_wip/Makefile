@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+         #
+#    By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/05/02 19:41:12 by kdzhoha          ###   ########.fr        #
+#    Updated: 2024/05/15 20:59:58 by zhedlund         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ LFLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
 DEPS = parsing/parsing.h minirt.h
 #LIBFTDIR = ./libft
 #LIBFT = $(LIBFTDIR)/libft.a
-COMPILED = .compiled
+#COMPILED = .compiled
 
 SRC = 	main.c \
 		color.c \
@@ -51,7 +51,7 @@ $(NAME): $(OBJ) $(LIBFT)
 	@printf "\033[0m] Done\n"
 	@$(CC) $(OBJ) $(LFLAGS) -o $(NAME)
 #-L$(LIBFTDIR) -lft
-	@touch $(COMPILED)
+#@touch $(COMPILED)
 
 progress:
 	@for i in $(shell seq 1 $(words $(SRC))); do \
@@ -63,11 +63,13 @@ progress:
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -rf $(OBJ) $(COMPILED)
+	@rm -rf $(OBJ)
+# $(COMPILED)
 #@make -s -C $(LIBFTDIR) clean
 
 fclean: clean
-	@rm -f $(NAME) $(COMPILED)
+	@rm -f $(NAME)
+#$(COMPILED)
 #@make -s -C $(LIBFTDIR) fclean
 
 re: fclean all

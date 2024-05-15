@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/14 22:37:14 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/15 20:52:49 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,17 +161,8 @@ typedef struct s_hit
 	t_obj			*objs;
 }	t_hit;
 
-
-// char	*get_next_line(int fd);
-// char	**ft_split(char const *s, char c);
-// void	put_error(char *message);
-// t_scene	*parse_input(char *file);
-// void	add_light(char *str, t_scene *scene);
-// void	add_sphere(char *str, t_scene *scene);
-// void	add_plane(char *str, t_scene *scene);
-// void	add_cylinder(char *str, t_scene *scene);
-
 void	init_cam(t_cam *cam);
+void	free_data(t_data *data);
 
 /* objects */
 t_vec	sphere_normal(t_sph *sp, t_vec *intersect);
@@ -189,7 +180,7 @@ t_color alpha_color(t_color c1, t_color c2, float alpha);
 t_color darker_color(t_color *px);
 
 /* rendering */
-void	create_image(t_cam *cam, t_data *data, t_scene *scene);
+int	create_image(t_cam *cam, t_data *data, t_scene *scene);
 t_color	ray_color(t_ray *r, t_scene *scene);
 int		render_image(t_data *data);
 t_color darker_color(t_color *px);
@@ -215,16 +206,6 @@ int		close_window(t_data *data);
 int 	key_handler(int keycode, t_data *data);
 void	ft_pixel_put(t_img *img, int x, int y, int color);
 
-/* lists */
-//void	add_object(t_scene* scene, t_obj* obj);
-void	free_obj_list(t_scene* scene);
-//void	free_hitlist(t_hit* hit);
-
-/* utils */
-// int		ft_atoi(const char *str);
-// float	ft_atof(const char *str);
-// int		ft_isdigit(int c);
-// size_t	ft_strlen(const char *s);
 
 /* debug */
 void	print_object_list(t_obj *head);

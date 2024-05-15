@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/14 22:44:33 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/15 18:49:41 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int render_image(t_data *data)
 	return (0);
 }
 
-void create_image(t_cam *cam, t_data *data, t_scene *scene)
+int create_image(t_cam *cam, t_data *data, t_scene *scene)
 {
 	t_vec	px_center;
 	t_vec	ray_dir;
@@ -44,6 +44,7 @@ void create_image(t_cam *cam, t_data *data, t_scene *scene)
 		j++;
 	}
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
+	return (0);
 }
 
 t_color diffuse_lighting(t_color *px, t_light *light, t_vec *normal)
