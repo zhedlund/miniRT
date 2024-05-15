@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/15 20:52:49 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:45:13 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <X11/keysym.h>
 # include "minilibx-linux/mlx.h"
 # include "parsing/parsing.h"
-//# include "get_next_line.h"
 
 # define WIDTH 960.0
 # define HEIGHT	540.0
@@ -52,58 +51,11 @@ typedef struct s_data
 	t_scene	*scene;
 }	t_data;
 
-// typedef struct s_vec
-// {
-// 	float	x;
-// 	float	y;
-// 	float	z;
-// }	t_vec;
-
 typedef struct s_ray
 {
-	t_vec origin; // Origin point of the ray
-	t_vec dir;  // Direction of the ray
+	t_vec origin;
+	t_vec dir;
 }	t_ray;
-
-// typedef struct s_color
-// {
-// 	float	r;
-// 	float	g;
-// 	float	b;
-// }	t_color;
-
-// typedef struct s_amb
-// {
-// 	float	ratio;
-// 	t_color	color;
-// 	float	diffuse;
-// }	t_amb;
-
-// typedef struct s_light
-// {
-// 	t_vec	pos;
-// 	float	ratio;
-// 	t_color	color;
-// 	float	diffuse;
-// }	t_light;
-
-// typedef struct s_cam
-// {
-// 	t_vec	vec;
-// 	t_vec	dir;
-// 	int		fov;
-// 	t_vec	center;
-// 	float	focal_length;
-// 	t_vec	orientation;
-// 	float	viewport_height;
-// 	float	viewport_width;
-// 	t_vec	viewport_u;
-// 	t_vec	viewport_v;
-// 	t_vec	px_delta_u;
-// 	t_vec	px_delta_v;
-// 	t_vec	viewport_up_left;
-// 	t_vec	px_00;
-// }	t_cam;
 
 typedef struct s_sph
 {
@@ -112,45 +64,6 @@ typedef struct s_sph
 	t_vec	normal;
 	t_color	color;
 }	t_sph;
-
-// typedef struct s_plane
-// {
-// 	t_vec	point;
-// 	t_vec	normal;
-// 	t_color	color;
-// }	t_plane;
-
-// typedef struct s_cyl
-// {
-// 	t_vec	pos;
-// 	t_vec	normal;
-// 	float	r;
-// 	float	h;
-// 	t_color	color;
-// }	t_cyl;
-
-// typedef enum e_shape
-// {
-// 	SPHERE,
-// 	PLANE,
-// 	CYLINDER,
-// } t_shape;
-
-// typedef struct s_obj
-// {
-// 	t_shape			id; // enum to represent the shape type
-// 	//char			id;
-// 	void			*obj;
-// 	struct s_obj	*next;
-// }	t_obj;
-
-// typedef struct s_scene
-// {
-// 	t_amb	a;
-// 	t_cam	c;
-// 	t_light	l;
-// 	t_obj	*objs;
-// }	t_scene;
 
 // c_part = 0, 1, 2, 3:
 // 0 - not a cylinder, 1 - top of cylinder, 2 - bottom of cylinder, 3 - side of cylinder
@@ -161,15 +74,20 @@ typedef struct s_hit
 	t_obj			*objs;
 }	t_hit;
 
-void	init_cam(t_cam *cam);
-void	free_data(t_data *data);
-
 /* objects */
 t_vec	sphere_normal(t_sph *sp, t_vec *intersect);
 float	hit_sphere(t_vec *center, float radius, t_ray *r);
 float	hit_plane(t_plane *pl, t_ray *r);
 float	hit_cylinder(t_cyl *cyl, t_ray *ray, t_hit *hit);
 float	hit_object(t_obj *obj, t_ray *r, t_hit *hit);
+
+/* rendering */
+void	init_cam(t_cam *cam);
+void	create_image(t_cam *cam, t_data *data, t_scene *scene);
+t_color	ray_color(t_ray *r, t_scene *scene);
+t_vec	cyl_normal(t_hit *hit, t_ray *ray);
+t_color	light_pixel(float l_dot_n, t_vec *light_r, t_hit *hit, t_scene *scene);
+t_color	shadow_pixel(float shadow_t, t_hit *hit, t_scene *scene);
 
 /* color */
 t_color	amb_light(t_amb *a, t_color *c);
@@ -178,15 +96,6 @@ void	write_color(t_color px, t_img *img, int x, int y);
 t_color	blend_color(t_color *c1, t_color *c2);
 t_color alpha_color(t_color c1, t_color c2, float alpha);
 t_color darker_color(t_color *px);
-
-/* rendering */
-int	create_image(t_cam *cam, t_data *data, t_scene *scene);
-t_color	ray_color(t_ray *r, t_scene *scene);
-int		render_image(t_data *data);
-t_color darker_color(t_color *px);
-t_vec	cyl_normal(t_hit *hit, t_ray *ray);
-t_color	light_pixel(float l_dot_n, t_vec *light_r, t_hit *hit, t_scene *scene);
-t_color	shadow_pixel(float shadow_t, t_hit *hit, t_scene *scene);
 
 /* math */
 float 	dot(t_vec *u, t_vec *v);
@@ -205,7 +114,7 @@ void	mlx_hooks_init(t_data *data);
 int		close_window(t_data *data);
 int 	key_handler(int keycode, t_data *data);
 void	ft_pixel_put(t_img *img, int x, int y, int color);
-
+void	free_mlx(t_data *data);
 
 /* debug */
 void	print_object_list(t_obj *head);

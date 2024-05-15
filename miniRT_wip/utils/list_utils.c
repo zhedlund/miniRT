@@ -6,25 +6,25 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 11:42:15 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/01 21:53:11 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:41:24 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-void free_obj_list(t_scene* scene)
+void free_obj_list(t_scene *scene)
 {
-    t_obj *current;
+	t_obj *current;
 	t_obj *next;
 
 	current = scene->objs;
-    while (current != NULL)
+	while (current != NULL)
 	{
-        next = current->next;
-        free(current);
-        current = next;
-    }
-    scene->objs = NULL;
+		next = current->next;
+		free(current);
+		current = next;
+	}
+	scene->objs = NULL;
 }
 
 /*void free_hitlist(t_hit* hit)

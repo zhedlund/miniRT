@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:49:35 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/15 21:04:00 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:27:19 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ void init_cam(t_cam *cam)
 	t_vec u;
 	t_vec v;
 	t_vec vup;
+	t_vec length;
 	
-	t_vec length = vec3_subtract(cam->center, cam->dir);
+	length = vec3_subtract(cam->center, cam->dir);
 	cam->focal_length = vec3_length(&length);
 	vup = (t_vec){0, 1, 0};
 	fov_radians = cam->fov * PI / 180.0;

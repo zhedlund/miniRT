@@ -6,48 +6,41 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/15 18:49:41 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:48:12 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int render_image(t_data *data)
-{
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
-	return (0);
-}
-
-int create_image(t_cam *cam, t_data *data, t_scene *scene)
+void	create_image(t_cam *cam, t_data *data, t_scene *scene)
 {
 	t_vec	px_center;
 	t_vec	ray_dir;
 	t_color	px_color;
 	t_ray	ray;
-	float	i;
-	float	j;
+	float	x;
+	float	y;
 
-	j = 0;
-	while (j < HEIGHT)
+	y = 0;
+	while (y < HEIGHT)
 	{
-		i = 0;
-		while (i < WIDTH)
+		x = 0;
+		while (x < WIDTH)
 		{
-			px_center = vec3_add(cam->px_00, vec_multiply(&cam->px_delta_u, i));
-			px_center = vec3_add(px_center, vec_multiply(&cam->px_delta_v, j));
+			px_center = vec3_add(cam->px_00, vec_multiply(&cam->px_delta_u, x));
+			px_center = vec3_add(px_center, vec_multiply(&cam->px_delta_v, y));
 			ray_dir = vec3_subtract(px_center, cam->center);
 			ray = (t_ray){cam->center, ray_dir};
 			px_color = ray_color(&ray, scene);
-			write_color(px_color, &data->img, i, j);
-			i++;
+			write_color(px_color, &data->img, x, y);
+			x++;
 		}
-		j++;
+		y++;
 	}
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
-	return (0);
 }
 
-t_color diffuse_lighting(t_color *px, t_light *light, t_vec *normal)
+t_color	diffuse_lighting(t_color *px, t_light *light, t_vec *normal)
 {
 	t_vec	light_dir;
 	float	diffuse_factor;
@@ -60,7 +53,7 @@ t_color diffuse_lighting(t_color *px, t_light *light, t_vec *normal)
 	return (*px);
 }
 
-float calculate_shadow(t_vec *intersect, t_scene *scene, t_hit *hitpoint)
+float	calculate_shadow(t_vec *intersect, t_scene *scene, t_hit *hitpoint)
 {
 	t_vec	l_ray;
 	t_ray	shadow_ray;
@@ -78,7 +71,6 @@ float calculate_shadow(t_vec *intersect, t_scene *scene, t_hit *hitpoint)
 	{
 		if (obj != hitpoint->objs)
 		{
-			//t = hit_object(obj, &shadow_ray, hitpoint);
 			t = hit_object(obj, &shadow_ray, NULL);
 			if (t > 0 && t < shadow_t)
 				shadow_t = t;
@@ -155,40 +147,3 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 		px = light_pixel(l_dot_n, &light_r, &hit, scene);
 	return (px);
 }
-
-// t_color	ray_color(t_ray *r, t_scene *scene)
-// {
-// 	t_color	px;
-// 	t_hit	hitpoint;
-// 	t_vec	intersect;
-// 	t_vec	normal;
-// 	float	shadow_t;
-
-// 	px = (t_color){1.0, 1.0, 1.0};
-// 	hitpoint = find_closest_obj(r, scene);
-// 	if (hitpoint.objs != NULL)
-// 	{
-// 		intersect = intersect_point(r, hitpoint.t);
-// 		shadow_t = calculate_shadow(&intersect, scene, &hitpoint);
-// 		if (hitpoint.objs->id == SPHERE)
-// 		{
-// 			normal = sphere_normal((t_sph *)(hitpoint.objs->obj), &intersect);
-// 			px = amb_color(&scene->a, &((t_sph *)(hitpoint.objs->obj))->color);
-// 			if (shadow_t < 0.5)
-// 				px = darker_color(&px);
-// 			else
-// 				px = diffuse_lighting(&px, &scene->l, &normal);
-// 		}
-// 		else if (hitpoint.objs->id == PLANE)
-// 		{
-// 			px = amb_color(&scene->a, &((t_plane *)(hitpoint.objs->obj))->color);
-// 			if (shadow_t < 1.0)
-// 				px = darker_color(&px);
-// 		}
-// 		else if (hitpoint.objs->id == CYLINDER)
-// 		{
-// 			px = ((t_cyl *)hitpoint.objs->obj)->color;
-// 		}
-// 	}
-// 	return (px);
-// }

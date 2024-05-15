@@ -6,13 +6,13 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:30:12 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/15 20:57:31 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:43:39 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-void	free_data(t_data *data)
+void	free_mlx(t_data *data)
 {
 	if (!data)
 		return ;
@@ -23,12 +23,11 @@ void	free_data(t_data *data)
 	if (data->mlx_ptr)
 		mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
-	data = NULL;
 }
 
 int	close_window(t_data *data)
 {
-	free_data(data);
+	free_mlx(data);
 	exit(0);
 }
 
