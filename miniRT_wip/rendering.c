@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/15 16:56:13 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/16 14:49:33 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,39 +156,3 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 	return (px);
 }
 
-// t_color	ray_color(t_ray *r, t_scene *scene)
-// {
-// 	t_color	px;
-// 	t_hit	hitpoint;
-// 	t_vec	intersect;
-// 	t_vec	normal;
-// 	float	shadow_t;
-
-// 	px = (t_color){1.0, 1.0, 1.0};
-// 	hitpoint = find_closest_obj(r, scene);
-// 	if (hitpoint.objs != NULL)
-// 	{
-// 		intersect = intersect_point(r, hitpoint.t);
-// 		shadow_t = calculate_shadow(&intersect, scene, &hitpoint);
-// 		if (hitpoint.objs->id == SPHERE)
-// 		{
-// 			normal = sphere_normal((t_sph *)(hitpoint.objs->obj), &intersect);
-// 			px = amb_color(&scene->a, &((t_sph *)(hitpoint.objs->obj))->color);
-// 			if (shadow_t < 0.5)
-// 				px = darker_color(&px);
-// 			else
-// 				px = diffuse_lighting(&px, &scene->l, &normal);
-// 		}
-// 		else if (hitpoint.objs->id == PLANE)
-// 		{
-// 			px = amb_color(&scene->a, &((t_plane *)(hitpoint.objs->obj))->color);
-// 			if (shadow_t < 1.0)
-// 				px = darker_color(&px);
-// 		}
-// 		else if (hitpoint.objs->id == CYLINDER)
-// 		{
-// 			px = ((t_cyl *)hitpoint.objs->obj)->color;
-// 		}
-// 	}
-// 	return (px);
-// }

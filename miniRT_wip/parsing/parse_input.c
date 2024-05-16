@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:16:35 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/01 19:53:48 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:33:16 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,20 @@ int	add_camera(char *str, t_cam *cam)
 	return (0);
 }
 
+void	default_scene(t_scene *scene)
+{
+	scene->a.color = (t_color){0, 0, 0};
+	scene->a.ratio = 0;
+	scene->a.diffuse = 0;
+	scene->c.center = (t_vec){0, 0, 0};
+	scene->c.dir = (t_vec){0, 0, 1};
+	scene->c.fov = 55;
+	scene->l.pos = (t_vec){0, 0, 0};
+	scene->l.color = (t_color){0, 0, 0};
+	scene->l.ratio = 0;
+	scene->l.diffuse = 0;
+	scene->objs = NULL;
+}
 //create functions for each type of ojects to add to scene
 int	fill_scene(char *str, t_scene *scene)
 {
@@ -99,7 +113,7 @@ t_scene	*write_scene(int fd)
 	scene = (t_scene *)malloc(sizeof(t_scene));
 	if (!scene)
 		malloc_error();
-	scene->objs = NULL;
+	default_scene(scene);
 	while (str)
 	{
 		if (fill_scene(str, scene) == -1)

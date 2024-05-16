@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:07:57 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/30 15:02:25 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/16 15:10:36 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,16 @@ int	check_vector(char **vec)
 
 int	is_unit_vec(t_vec *vec)
 {
+	float	sum;
+
 	if (vec->x < -1.0 || vec->x > 1.0)
 		return (0);
 	if (vec->y < -1.0 || vec->y > 1.0)
 		return (0);
 	if (vec->z < -1.0 || vec->z > 1.0)
+		return (0);
+	sum = pow2(vec->x) + pow2(vec->y) + pow2(vec->z);
+	if (sum < 0.99 || sum > 1.01)
 		return (0);
 	return (1);
 }

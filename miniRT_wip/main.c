@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:49:35 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/14 22:43:40 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:50:39 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,33 @@ void init_cam(t_cam *cam)
 	t_vec u;
 	t_vec v;
 	t_vec vup;
-	
+
 	//cam->dir = vec3_unit_vector(&cam->dir);
-	t_vec length = vec3_subtract(cam->center, cam->dir);
-	cam->focal_length = vec3_length(&length);
+	// t_vec length = vec3_subtract(cam->center, cam->dir);
+	// cam->focal_length = vec3_length(&length);
+	cam->focal_length = 1;
 	vup = (t_vec){0, 1, 0};
+	if (cam->dir.x == 0 && cam->dir.z == 0 && fabsf(cam->dir.y) == 1)
+		vup = (t_vec){0, 0, 1};
 	fov_radians = cam->fov * PI / 180.0;
 	view_height = 2.0 * tan(fov_radians / 2.0) * cam->focal_length;
 	view_width = view_height * (WIDTH / HEIGHT);
 
-	w = vec3_subtract(cam->center, cam->dir);
-	w = vec3_unit_vector(&w);
+	//w = vec3_subtract(cam->center, cam->dir);
+	//w = vec3_unit_vector(&w);
+	w = vec_multiply(&cam->dir, -1);
 	u = vec3_cross(vup, w);
 	u = vec3_unit_vector(&u);
 	v = vec3_cross(w, u);
-	
-	viewport_u = vec_multiply(&u, -view_width);
+
+	//viewport_u = vec_multiply(&u, -view_width);
+	viewport_u = vec_multiply(&u, view_width);
 	v = vec_multiply(&v, -1.0);
 	viewport_v = vec_multiply(&v, view_height);
-	
+
 	cam->px_delta_u = vec3_divide(viewport_u, WIDTH);
 	cam->px_delta_v = vec3_divide(viewport_v, HEIGHT);
-	
+
 	view_up_left = vec3_subtract(cam->center, vec_multiply(&w, cam->focal_length));
 	view_up_left = vec3_subtract(view_up_left, vec3_divide(viewport_u, 2.0));
 	view_up_left = vec3_subtract(view_up_left, vec3_divide(viewport_v, 2.0));
