@@ -6,7 +6,7 @@
 #    By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/05/17 23:14:10 by zhedlund         ###   ########.fr        #
+#    Updated: 2024/05/17 23:25:54 by zhedlund         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,6 @@ all: $(NAME)
 $(NAME): $(OBJ) 
 	@printf "Compiling: [\033[0;32m"
 	@$(MAKE) progress -s
-	@$(MAKE) -C minilibx-linux > /dev/null
 	@printf "\033[0m] Done\n"
 	@$(CC) $(OBJ) $(LFLAGS) -o $(NAME)
 
