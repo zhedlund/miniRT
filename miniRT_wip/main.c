@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:49:35 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/17 20:38:02 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/17 21:14:05 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void init_cam(t_cam *cam)
 	//cam->dir = vec3_unit_vector(&cam->dir);
 	// t_vec length = vec3_subtract(cam->center, cam->dir);
 	// cam->focal_length = vec3_length(&length);
-	cam->focal_length = 1;
+	//cam->focal_length = 1;
 	vup = (t_vec){0, 1, 0};
 	if (cam->dir.x == 0 && cam->dir.z == 0 && fabsf(cam->dir.y) == 1)
 		vup = (t_vec){0, 0, 1};
 	fov_radians = cam->fov * PI / 180.0;
 	// view_height = 2.0 * tan(fov_radians / 2.0) * cam->focal_length;
 	// view_width = view_height * (WIDTH / HEIGHT);
-	view_width = 2.0 * tan(fov_radians / 2.0) * cam->focal_length;
+	view_width = 2.0 * tan(fov_radians / 2.0); //* cam->focal_length;
 	view_height = view_width * (HEIGHT / WIDTH);
 
 	//w = vec3_subtract(cam->center, cam->dir);
@@ -52,7 +52,8 @@ void init_cam(t_cam *cam)
 
 	cam->px_delta_u = vec3_divide(viewport_u, WIDTH);
 	cam->px_delta_v = vec3_divide(viewport_v, HEIGHT);
-	view_up_left = vec3_subtract(cam->center, vec_multiply(&w, cam->focal_length));
+	//view_up_left = vec3_subtract(cam->center, vec_multiply(&w, cam->focal_length));
+	view_up_left = vec3_subtract(cam->center, w);
 	view_up_left = vec3_subtract(view_up_left, vec3_divide(viewport_u, 2.0));
 	view_up_left = vec3_subtract(view_up_left, vec3_divide(viewport_v, 2.0));
 
@@ -75,7 +76,7 @@ int	main(int argc, char **argv)
 	print_object_list(scene->objs);
 	init_cam(&scene->c);
 	mlx_hooks_init(&data);
-	create_image(&scene->c, &data, scene);
+	create_image(&data);
 	mlx_loop(data.mlx_ptr);
 	return (0);
 }

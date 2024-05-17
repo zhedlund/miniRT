@@ -6,16 +6,27 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/17 20:39:41 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/17 21:14:51 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	create_image(t_cam *cam, t_data *data, t_scene *scene)
+t_ray	create_ray(t_cam *cam, float x, float y)
 {
 	t_vec	px_center;
 	t_vec	ray_dir;
+	t_ray	ray;
+
+	px_center = vec3_add(cam->px_00, vec_multiply(&cam->px_delta_u, x));
+	px_center = vec3_add(px_center, vec_multiply(&cam->px_delta_v, y));
+	ray_dir = vec3_subtract(px_center, cam->center);
+	ray = (t_ray){cam->center, ray_dir};
+	return (ray);
+}
+
+void	create_image(t_data *data)
+{
 	t_color	px_color;
 	t_ray	ray;
 	float	x;
@@ -27,11 +38,8 @@ void	create_image(t_cam *cam, t_data *data, t_scene *scene)
 		x = 0;
 		while (x < WIDTH)
 		{
-			px_center = vec3_add(cam->px_00, vec_multiply(&cam->px_delta_u, x));
-			px_center = vec3_add(px_center, vec_multiply(&cam->px_delta_v, y));
-			ray_dir = vec3_subtract(px_center, cam->center);
-			ray = (t_ray){cam->center, ray_dir};
-			px_color = ray_color(&ray, scene);
+			ray = create_ray(&data->scene->c, x, y);
+			px_color = ray_color(&ray, data->scene);
 			write_color(px_color, &data->img, x, y);
 			x++;
 		}

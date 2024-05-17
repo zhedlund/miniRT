@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/17 20:38:54 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/17 21:10:06 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ float	hit_object(t_obj *obj, t_ray *r, t_hit *hit);
 
 /* rendering */
 void	init_cam(t_cam *cam);
-void	create_image(t_cam *cam, t_data *data, t_scene *scene);
+void	create_image(t_data *data);
 t_color	ray_color(t_ray *r, t_scene *scene);
 t_vec	cyl_normal(t_hit *hit, t_ray *ray);
 t_color	light_pixel(float l_dot_n, t_vec *light_r, t_hit *hit, t_scene *scene);
