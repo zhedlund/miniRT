@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/17 21:12:43 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/17 22:10:36 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,11 @@ typedef struct s_cam
 	t_vec	px_delta_u;
 	t_vec	px_delta_v;
 	t_vec	px_00;
-	//float	focal_length;
+	float view_height;
+	float view_width;
+	t_vec view_up_l;
+	t_vec view_u;
+	t_vec view_v;
 }	t_cam;
 
 typedef struct s_plane

@@ -6,7 +6,7 @@
 #    By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/05/17 20:38:24 by zhedlund         ###   ########.fr        #
+#    Updated: 2024/05/17 23:14:10 by zhedlund         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,6 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -O3
 LFLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
 DEPS = parsing/parsing.h minirt.h
-#LIBFTDIR = ./libft
-#LIBFT = $(LIBFTDIR)/libft.a
-#COMPILED = .compiled
 
 SRC = 	main.c \
 		color.c \
@@ -25,6 +22,7 @@ SRC = 	main.c \
 		rendering.c \
 		hit_cylinder.c \
 		compute_lighting.c \
+		viewport.c \
 		math/math.c \
 		math/math_vector.c \
 		utils/list_utils.c \
@@ -48,13 +46,12 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT)
+$(NAME): $(OBJ) 
 	@printf "Compiling: [\033[0;32m"
 	@$(MAKE) progress -s
+	@$(MAKE) -C minilibx-linux > /dev/null
 	@printf "\033[0m] Done\n"
 	@$(CC) $(OBJ) $(LFLAGS) -o $(NAME)
-#-L$(LIBFTDIR) -lft
-#@touch $(COMPILED)
 
 progress:
 	@for i in $(shell seq 1 $(words $(SRC))); do \
@@ -67,13 +64,9 @@ progress:
 
 clean:
 	@rm -rf $(OBJ)
-# $(COMPILED)
-#@make -s -C $(LIBFTDIR) clean
 
 fclean: clean
 	@rm -f $(NAME)
-#$(COMPILED)
-#@make -s -C $(LIBFTDIR) fclean
 
 re: fclean all
 

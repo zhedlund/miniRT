@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:30:12 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/17 21:09:43 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/17 21:52:30 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int key_handler(int keycode, t_data *data)
 		printf("Minus key pressed\n");
 		data->scene->c.center.z -= 0.2;
 	}
-	init_cam(&data->scene->c);
+	calculate_viewport(&data->scene->c);
 	create_image(data);
 	return (0);
 }

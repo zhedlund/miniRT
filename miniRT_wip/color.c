@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:26:07 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/08 22:11:03 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/17 23:12:27 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,4 @@ t_color blend_color(t_color *c1, t_color *c2)
 	if (b > 1.0)
 		b = 1.0;
 	return ((t_color){r, g, b});
-}
-
-t_color darker_color(t_color *px)
-{
-	return ((t_color){px->r * 0.7, px->g * 0.7, px->b * 0.7});
 }

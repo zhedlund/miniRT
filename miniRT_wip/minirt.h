@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/17 21:10:06 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/17 23:12:32 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ float	hit_cylinder(t_cyl *cyl, t_ray *ray, t_hit *hit);
 float	hit_object(t_obj *obj, t_ray *r, t_hit *hit);
 
 /* rendering */
-void	init_cam(t_cam *cam);
+void	calculate_viewport(t_cam *cam);
 void	create_image(t_data *data);
 t_color	ray_color(t_ray *r, t_scene *scene);
 t_vec	cyl_normal(t_hit *hit, t_ray *ray);
@@ -95,7 +95,6 @@ t_color	diffuse_color(t_light *l, t_color *c, float diffuse_factor);
 void	write_color(t_color px, t_img *img, int x, int y);
 t_color	blend_color(t_color *c1, t_color *c2);
 t_color alpha_color(t_color c1, t_color c2, float alpha);
-t_color darker_color(t_color *px);
 
 /* math */
 float 	dot(t_vec *u, t_vec *v);
