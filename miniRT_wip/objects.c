@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:32:13 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/15 21:01:02 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:39:08 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ float	hit_sphere(t_vec *center, float radius, t_ray *r)
 	float	half_b; // half dot product of vector oc and the direction vector of the ray.
 	float	c;
 	float	discriminant;
+	float	t[2];
 
 	oc = vec3_subtract(r->origin, *center);
 	a = vec3_length_squared(&r->dir);
@@ -38,9 +39,36 @@ float	hit_sphere(t_vec *center, float radius, t_ray *r)
 	discriminant = half_b * half_b - a * c;
 	if (discriminant < 0)
 		return (-1.0);
+	t[0] = (-half_b - sqrt(discriminant)) / a;
+	t[1] = (-half_b + sqrt(discriminant)) / a;
+	if (t[0] < 0)
+		return (t[1]);
+	if (t[1] < 0)
+		return (t[0]);
+	if (t[0] < t[1])
+		return (t[0]);
 	else
-		return ((-half_b - sqrt(discriminant)) / a);
+		return (t[1]);
 }
+
+// float	hit_sphere(t_vec *center, float radius, t_ray *r)
+// {
+// 	t_vec	oc;
+// 	float	a;
+// 	float	half_b; // half dot product of vector oc and the direction vector of the ray.
+// 	float	c;
+// 	float	discriminant;
+
+// 	oc = vec3_subtract(r->origin, *center);
+// 	a = vec3_length_squared(&r->dir);
+// 	half_b = dot(&oc, &r->dir);
+// 	c = vec3_length_squared(&oc) - radius * radius;
+// 	discriminant = half_b * half_b - a * c;
+// 	if (discriminant < 0)
+// 		return (-1.0);
+// 	else
+// 		return ((-half_b - sqrt(discriminant)) / a);
+// }
 
 /* 	Calculates the point of intersection between a ray and a plane.
 	Returns the distance from the ray origin to the intersection point,

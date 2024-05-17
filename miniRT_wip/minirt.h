@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/15 21:45:13 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:38:54 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ float	vec3_length(t_vec *v);
 t_vec	vec3_divide(t_vec vec, float scalar);
 t_vec	vec_multiply(t_vec *vec, float n);
 t_vec	vec3_cross(t_vec a, t_vec b);
+float	pow2(float n);
 
 /* mlx */
 void	mlx_hooks_init(t_data *data);

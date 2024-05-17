@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:46:37 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/08 19:00:50 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/15 19:11:20 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,38 @@ float	hit_bottom(t_cyl *cyl, t_ray *ray)
 	return (t);
 }
 
-int	is_valid(float t, t_cyl *cyl, t_ray *ray, t_vec co)
+// int	is_valid(float t, t_cyl *cyl, t_ray *ray, t_vec co)
+// {
+// 	float	m;
+// 	t_vec	temp;
+
+// 	if (t < 0)
+// 		return (0);
+// 	temp = vec3_add(vec_multiply(&ray->dir, t), (t_vec) co);
+// 	m = dot(&temp, &cyl->normal);
+// 	if (m < 0 || m > cyl->h)
+// 		return (0);
+// 	m = dot(&ray->dir, &cyl->normal) * t + dot(&co, &cyl->normal);
+// 	if (m < 0 || m > cyl->h)
+// 		return (0);
+// 	return (1);
+// }
+
+float	is_valid(float t, t_cyl *cyl, t_ray *ray, t_vec co)
 {
 	float	m;
 	t_vec	temp;
 
 	if (t < 0)
-		return (0);
+		return (-1);
 	temp = vec3_add(vec_multiply(&ray->dir, t), (t_vec) co);
 	m = dot(&temp, &cyl->normal);
 	if (m < 0 || m > cyl->h)
-		return (0);
+		return (-1);
 	m = dot(&ray->dir, &cyl->normal) * t + dot(&co, &cyl->normal);
 	if (m < 0 || m > cyl->h)
-		return (0);
-	return (1);
+		return (-1);
+	return (t);
 }
 
 float	hit_side(t_cyl *cyl, t_ray *ray, t_vec co)
@@ -77,12 +94,16 @@ float	hit_side(t_cyl *cyl, t_ray *ray, t_vec co)
 		return (-1);
 	t[0] = (-b + sqrtf(d)) / (2 * a);
 	t[1] = (-b - sqrtf(d)) / (2 * a);
-	if (is_valid(t[0], cyl, ray, co) && t[0] <= t[1])
-		return (t[0]);
-	else if (is_valid(t[1], cyl, ray, co) && t[1] < t[0])
+	t[0] = is_valid(t[0], cyl, ray, co);
+	t[1] = is_valid(t[1], cyl, ray, co);
+	if (t[0] < 0)
 		return (t[1]);
+	if (t[1] < 0)
+		return (t[0]);
+	if (t[0] < t[1])
+		return (t[0]);
 	else
-		return (-1);
+		return (t[1]);
 }
 
 int	get_min(float t[3])

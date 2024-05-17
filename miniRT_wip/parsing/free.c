@@ -6,12 +6,11 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:11:27 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/04/30 13:47:32 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/17 16:24:04 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
-//#include "parsing.h"
 
 void	free_array(char **str)
 {

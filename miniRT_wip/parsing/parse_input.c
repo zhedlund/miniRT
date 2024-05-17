@@ -3,40 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:16:35 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/01 19:53:48 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/17 16:23:19 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
-//#include "parsing.h"
-
-int	add_amb_light(char *str, t_amb *amb)
-{
-	char	**args;
-
-	if (!is_numbers(str + 1, ' '))
-		return (put_error("Unexpected arguments after A: ambient light\n"));
-	if (count_words(str, ' ') != 3)
-		return (put_error("Invalid number of arguments for ambient light\n"));
-	args = ft_split(str, ' ');
-	amb->ratio = valid_ratio(args[1]);
-	if (amb->ratio == -1)
-	{
-		free_array(args);
-		return (put_error("Invalid ambient light ratio\n"));
-	}
-	if (read_color(&amb->color, args[2]) == -1)
-	{
-		free_array(args);
-		return (put_error("Invalid color value of ambient light\n"));
-	}
-	amb->diffuse = 0.5;
-	free_array(args);
-	return (0);
-}
 
 int	add_camera(char *str, t_cam *cam)
 {
@@ -67,7 +41,21 @@ int	add_camera(char *str, t_cam *cam)
 	return (0);
 }
 
-//create functions for each type of ojects to add to scene
+void	default_scene(t_scene *scene)
+{
+	scene->a.color = (t_color){0, 0, 0};
+	scene->a.ratio = 0;
+	scene->a.diffuse = 0;
+	scene->c.center = (t_vec){0, 0, 0};
+	scene->c.dir = (t_vec){0, 0, 1};
+	scene->c.fov = 55;
+	scene->l.pos = (t_vec){0, 0, 0};
+	scene->l.color = (t_color){0, 0, 0};
+	scene->l.ratio = 0;
+	scene->l.diffuse = 0;
+	scene->objs = NULL;
+}
+
 int	fill_scene(char *str, t_scene *scene)
 {
 	while (*str == ' ')
@@ -87,7 +75,7 @@ int	fill_scene(char *str, t_scene *scene)
 	else
 		return (check_empty_line(str));
 }
-// all objects in scene should be assigned to zero values
+
 t_scene	*write_scene(int fd)
 {
 	char	*str;
@@ -99,7 +87,7 @@ t_scene	*write_scene(int fd)
 	scene = (t_scene *)malloc(sizeof(t_scene));
 	if (!scene)
 		malloc_error();
-	scene->objs = NULL;
+	default_scene(scene);
 	while (str)
 	{
 		if (fill_scene(str, scene) == -1)

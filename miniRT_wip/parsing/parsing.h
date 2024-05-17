@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/14 19:05:31 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/17 15:09:26 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,6 @@
 //# include "minilibx-linux/mlx.h"
 # include "../minirt.h"
 # include "get_next_line.h"
-
-// typedef struct s_img
-// {
-// 	void	*mlx_img;
-// 	char	*addr;
-// 	int		bpp;
-// 	int		line_len;
-// 	int		endian;
-// }	t_img;
-
-// typedef struct s_data
-// {
-// 	void	*mlx_ptr;
-// 	void	*win_ptr;
-// 	t_img	img;
-// }	t_data;
 
 typedef struct s_vec
 {
@@ -71,12 +55,6 @@ typedef struct s_light
 	float	diffuse;
 }	t_light;
 
-// typedef struct s_cam
-// {
-// 	t_vec	vec;
-// 	t_vec	dir;
-// 	int		fov;
-// }	t_cam;
 
 typedef struct s_cam
 {
@@ -88,13 +66,6 @@ typedef struct s_cam
 	t_vec	px_00;
 	float	focal_length;
 }	t_cam;
-
-// typedef struct s_sph
-// {
-// 	t_vec	pos;
-// 	float	r;
-// 	t_color	color;
-// }	t_sph;
 
 typedef struct s_plane
 {
@@ -112,7 +83,7 @@ typedef struct s_cyl
 	float	h;
 	t_color	color;
 	t_plane	top;
-	t_plane bottom;
+	t_plane	bottom;
 }	t_cyl;
 
 typedef enum e_shape
@@ -124,18 +95,10 @@ typedef enum e_shape
 
 typedef struct s_obj
 {
-	t_shape			id; // enum to represent the shape type
-	//char			id;
+	t_shape			id;
 	void			*obj;
 	struct s_obj	*next;
 }	t_obj;
-
-// typedef struct s_obj
-// {
-// 	char			id;
-// 	void			*obj;
-// 	struct s_obj	*next;
-// }	t_obj;
 
 typedef struct s_scene
 {
@@ -145,15 +108,6 @@ typedef struct s_scene
 	t_obj	*objs;
 }	t_scene;
 
-//c_part = 0, 1, 2, 3:
-//0 - not a cylinder, 1 - top of cylinder, 2 - bottom of cylinder, 3 - side of cylinder
-// typedef struct s_hit_point
-// {
-// 	float				t;
-// 	t_obj				*obj;
-// 	int					c_part;
-// 	struct s_hit_point	*next;
-// }	t_hit_point;
 
 char	*get_next_line(int fd);
 char	**ft_split(char const *s, char c);
@@ -166,14 +120,14 @@ int		is_numbers(char *str, char begin);
 void	*malloc_error(void);
 t_scene	*parse_input(char *file);
 int		read_color(t_color *col, char *str);
+int		add_amb_light(char *str, t_amb *amb);
 int		add_light(char *str, t_light *light);
+void	add_object(t_obj *object, t_scene *scene);
 int		add_sphere(char *str, t_scene *scene);
 int		add_plane(char *str, t_scene *scene);
 int		add_cylinder(char *str, t_scene *scene);
 int		check_empty_line(char *str);
 void	set_cylinder(t_cyl *cyl);
-void	copy_vec(t_vec *src, t_vec *dst);
-void	copy_color(t_color *src, t_color *dst);
 int		is_uns_int(char *str);
 int		is_float(char *str);
 float	is_color(char *str);

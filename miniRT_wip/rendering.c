@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/15 21:48:12 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:39:41 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,10 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 	if (!hit.objs)
 		return (px);
 	hitpoint = intersect_point(r, hit.t);
-	light_r = vec3_subtract(scene->l.pos, hitpoint);
 	normal = get_point_normal(&hit, &hitpoint, r);
+	if (dot(&r->dir, &normal) > 0)
+		return (shadow_pixel(0, &hit, scene));
+	light_r = vec3_subtract(scene->l.pos, hitpoint);
 	l_dot_n = dot(&light_r, &normal);
 	sh_t = -1;
 	if (l_dot_n > 0)
