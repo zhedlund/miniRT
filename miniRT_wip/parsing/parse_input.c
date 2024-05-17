@@ -6,37 +6,11 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:16:35 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/16 15:33:16 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/17 16:23:19 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
-//#include "parsing.h"
-
-int	add_amb_light(char *str, t_amb *amb)
-{
-	char	**args;
-
-	if (!is_numbers(str + 1, ' '))
-		return (put_error("Unexpected arguments after A: ambient light\n"));
-	if (count_words(str, ' ') != 3)
-		return (put_error("Invalid number of arguments for ambient light\n"));
-	args = ft_split(str, ' ');
-	amb->ratio = valid_ratio(args[1]);
-	if (amb->ratio == -1)
-	{
-		free_array(args);
-		return (put_error("Invalid ambient light ratio\n"));
-	}
-	if (read_color(&amb->color, args[2]) == -1)
-	{
-		free_array(args);
-		return (put_error("Invalid color value of ambient light\n"));
-	}
-	amb->diffuse = 0.5;
-	free_array(args);
-	return (0);
-}
 
 int	add_camera(char *str, t_cam *cam)
 {
@@ -81,7 +55,7 @@ void	default_scene(t_scene *scene)
 	scene->l.diffuse = 0;
 	scene->objs = NULL;
 }
-//create functions for each type of ojects to add to scene
+
 int	fill_scene(char *str, t_scene *scene)
 {
 	while (*str == ' ')
@@ -101,7 +75,7 @@ int	fill_scene(char *str, t_scene *scene)
 	else
 		return (check_empty_line(str));
 }
-// all objects in scene should be assigned to zero values
+
 t_scene	*write_scene(int fd)
 {
 	char	*str;

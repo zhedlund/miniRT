@@ -6,7 +6,7 @@
 /*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/16 15:02:44 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/17 15:09:26 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ typedef struct s_cyl
 	float	h;
 	t_color	color;
 	t_plane	top;
-	t_plane bottom;
+	t_plane	bottom;
 }	t_cyl;
 
 typedef enum e_shape
@@ -95,8 +95,7 @@ typedef enum e_shape
 
 typedef struct s_obj
 {
-	t_shape			id; // enum to represent the shape type
-	//char			id;
+	t_shape			id;
 	void			*obj;
 	struct s_obj	*next;
 }	t_obj;
@@ -121,7 +120,9 @@ int		is_numbers(char *str, char begin);
 void	*malloc_error(void);
 t_scene	*parse_input(char *file);
 int		read_color(t_color *col, char *str);
+int		add_amb_light(char *str, t_amb *amb);
 int		add_light(char *str, t_light *light);
+void	add_object(t_obj *object, t_scene *scene);
 int		add_sphere(char *str, t_scene *scene);
 int		add_plane(char *str, t_scene *scene);
 int		add_cylinder(char *str, t_scene *scene);

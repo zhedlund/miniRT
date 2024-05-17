@@ -6,7 +6,7 @@
 #    By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/05/02 19:41:12 by kdzhoha          ###   ########.fr        #
+#    Updated: 2024/05/17 16:28:57 by kdzhoha          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,10 @@ SRC = 	main.c \
 		debug.c \
 		parsing/parse_input.c \
 		parsing/input_check.c \
+		parsing/input_check_2.c \
 		parsing/add_object.c \
+		parsing/add_sphere.c \
+		parsing/add_cylinder.c \
 		parsing/utils.c \
 		parsing/free.c \
 		parsing/ft_split.c \
