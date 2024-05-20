@@ -145,14 +145,14 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 	hitpoint = intersect_point(r, hit.t);
 	normal = get_point_normal(&hit, &hitpoint, r);
 	if (dot(&r->dir, &normal) > 0)
-		return (shadow_pixel(0, &hit, scene));
+		return (shadow_pixel(&hit, scene));
 	light_r = vec3_subtract(scene->l.pos, hitpoint);
 	l_dot_n = dot(&light_r, &normal);
 	sh_t = -1;
 	if (l_dot_n > 0)
 		sh_t = calculate_shadow(&hitpoint, scene, &hit);
 	if (sh_t > 0)
-		px = shadow_pixel(sh_t, &hit, scene);
+		px = shadow_pixel(&hit, scene);
 	else
 		px = light_pixel(l_dot_n, &light_r, &hit, scene);
 	return (px);

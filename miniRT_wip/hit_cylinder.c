@@ -44,23 +44,6 @@ float	hit_bottom(t_cyl *cyl, t_ray *ray)
 	return (t);
 }
 
-// int	is_valid(float t, t_cyl *cyl, t_ray *ray, t_vec co)
-// {
-// 	float	m;
-// 	t_vec	temp;
-
-// 	if (t < 0)
-// 		return (0);
-// 	temp = vec3_add(vec_multiply(&ray->dir, t), (t_vec) co);
-// 	m = dot(&temp, &cyl->normal);
-// 	if (m < 0 || m > cyl->h)
-// 		return (0);
-// 	m = dot(&ray->dir, &cyl->normal) * t + dot(&co, &cyl->normal);
-// 	if (m < 0 || m > cyl->h)
-// 		return (0);
-// 	return (1);
-// }
-
 float	is_valid(float t, t_cyl *cyl, t_ray *ray, t_vec co)
 {
 	float	m;
@@ -126,7 +109,7 @@ int	get_min(float t[3])
 	}
 	return (res);
 }
-// t_hit hit_cylinder(t_obj *obj, t_ray *ray){ if hit return (hit{t, obj, c_part})}
+
 float	hit_cylinder(t_cyl *cyl, t_ray *ray, t_hit *hit)
 {
 	float	t[3];
