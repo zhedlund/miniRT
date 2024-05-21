@@ -6,14 +6,14 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:04 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/21 16:07:05 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:02:57 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-/*	calculates the dot product between two 3D vectors u and v.
-	repr cosine of the angle between them multiplied by the magnitudes of the vectors.
+/*	calculates the dot product between two 3D vectors u and v. repr cosine
+of the angle between them multiplied by the magnitudes of the vectors.
 	u⋅v = ux⋅vx + uy⋅vy + uz⋅vz
 */
 float	dot(t_vec *u, t_vec *v)

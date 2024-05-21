@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:27:02 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/21 17:27:06 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:27:44 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 # define MINIRT_H
 
 # include <unistd.h>
-# include <string.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>
-# include <float.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
@@ -31,6 +29,7 @@
 # define WIDTH 960.0
 # define HEIGHT	540.0
 # define PI M_PI
+# define FLT_MAX 3.402823466e+38F
 
 typedef struct s_img
 {

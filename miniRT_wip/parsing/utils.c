@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:04:05 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/16 15:01:41 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/21 19:05:31 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	set_cylinder(t_cyl *cyl)
 	cyl->top.point = cyl->top_p;
 	cyl->top.normal = vec_multiply(&cyl->normal, -1);
 	cyl->top.color = cyl->color;
-	cyl->bottom.point = vec3_add(cyl->center, vec_multiply(&cyl->normal, cyl->h / 2));
+	cyl->bottom.point = vec3_add(cyl->center,
+			vec_multiply(&cyl->normal, cyl->h / 2));
 	cyl->bottom.normal = cyl->normal;
 	cyl->bottom.color = cyl->color;
 }
@@ -73,17 +74,3 @@ int	read_vector(t_vec *vector, char *str)
 	free_array(vec);
 	return (0);
 }
-
-// void	copy_vec(t_vec *src, t_vec *dst)
-// {
-// 	dst->x = src->x;
-// 	dst->y = src->y;
-// 	dst->z = src->z;
-// }
-
-// void	copy_color(t_color *src, t_color *dst)
-// {
-// 	dst->r = src->r;
-// 	dst->g = src->g;
-// 	dst->b = src->b;
-// }

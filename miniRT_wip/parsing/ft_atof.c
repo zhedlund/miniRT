@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 13:02:59 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/04/30 14:29:40 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/21 19:03:51 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,3 @@ float	ft_atof(const char *str)
 	}
 	return (result * sign / power);
 }
-

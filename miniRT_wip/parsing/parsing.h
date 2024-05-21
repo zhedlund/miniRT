@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/21 15:03:45 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/21 19:06:02 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ typedef struct s_light
 	t_color	color;
 	float	diffuse;
 }	t_light;
-
 
 typedef struct s_cam
 {
@@ -110,7 +109,6 @@ typedef struct s_scene
 	t_light	l;
 	t_obj	*objs;
 }	t_scene;
-
 
 char	*get_next_line(int fd);
 char	**ft_split(char const *s, char c);

@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 14:32:34 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/21 15:34:43 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:25:02 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ t_vec	c_side_normal(t_hit *hit, t_ray *ray)
 {
 	t_cyl	*cyl;
 	t_vec	co;
-	float	m;
 	t_vec	point;
 	float	temp;
 	t_vec	res;
@@ -25,8 +24,8 @@ t_vec	c_side_normal(t_hit *hit, t_ray *ray)
 	co = vec3_subtract(ray->origin, cyl->top_p);
 	point = vec3_add(ray->origin, vec_multiply(&ray->dir, hit->t));
 	temp = dot(&ray->dir, &cyl->normal) * hit->t;
-	m = temp + dot(&co, &cyl->normal);
-	res = vec3_subtract(vec3_subtract(point, cyl->top_p), vec_multiply(&cyl->normal, m));
+	res = vec3_subtract(vec3_subtract(point, cyl->top_p),
+			vec_multiply(&cyl->normal, temp + dot(&co, &cyl->normal)));
 	return (vec3_unit_vector(&res));
 }
 

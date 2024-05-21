@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_object.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:35:45 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/17 16:03:38 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/21 19:03:36 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,3 @@ int	add_plane(char *str, t_scene *scene)
 	add_object(object, scene);
 	return (0);
 }
-
