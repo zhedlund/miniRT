@@ -6,13 +6,13 @@
 #    By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/05/21 15:53:05 by zhedlund         ###   ########.fr        #
+#    Updated: 2024/05/21 16:26:38 by zhedlund         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-O3
+CFLAGS = -Wall -Wextra -Werror -g -O3
 LFLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
 DEPS = parsing/parsing.h minirt.h
 
