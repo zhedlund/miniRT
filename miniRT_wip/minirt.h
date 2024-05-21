@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/17 23:12:32 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 16:09:56 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,11 @@ float	hit_object(t_obj *obj, t_ray *r, t_hit *hit);
 void	calculate_viewport(t_cam *cam);
 void	calc_px_00(t_cam *c, t_vec w);
 void	create_image(t_data *data);
+t_ray	create_ray(t_cam *cam, float x, float y);
 t_color	ray_color(t_ray *r, t_scene *scene);
+t_vec	get_point_normal(t_hit *hit, t_vec *hitpoint, t_ray *r);
 t_vec	cyl_normal(t_hit *hit, t_ray *ray);
+t_color	diffuse_lighting(t_color *px, t_light *light, t_vec *normal);
 t_color	light_pixel(float l_dot_n, t_vec *light_r, t_hit *hit, t_scene *scene);
 t_color	shadow_pixel(t_hit *hit, t_scene *scene);
 

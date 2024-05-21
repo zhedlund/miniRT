@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/17 22:10:36 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:03:45 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <math.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
-//# include "minilibx-linux/mlx.h"
 # include "../minirt.h"
 # include "get_next_line.h"
 
@@ -64,11 +63,11 @@ typedef struct s_cam
 	t_vec	px_delta_u;
 	t_vec	px_delta_v;
 	t_vec	px_00;
-	float view_height;
-	float view_width;
-	t_vec view_up_l;
-	t_vec view_u;
-	t_vec view_v;
+	float	view_height;
+	float	view_width;
+	t_vec	view_up_l;
+	t_vec	view_u;
+	t_vec	view_v;
 }	t_cam;
 
 typedef struct s_plane

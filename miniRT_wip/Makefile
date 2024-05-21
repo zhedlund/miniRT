@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/05/17 23:25:54 by zhedlund         ###   ########.fr        #
+#    Updated: 2024/05/21 16:19:19 by kdzhoha          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-O3
+CFLAGS = -Wall -Wextra -Werror -g -O3
 LFLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
 DEPS = parsing/parsing.h minirt.h
 
@@ -27,6 +27,7 @@ SRC = 	main.c \
 		math/math_vector.c \
 		utils/list_utils.c \
 		utils/mlx_utils.c \
+		utils/rendering_utils.c \
 		debug.c \
 		parsing/parse_input.c \
 		parsing/input_check.c \
@@ -46,7 +47,7 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) 
+$(NAME): $(OBJ)
 	@printf "Compiling: [\033[0;32m"
 	@$(MAKE) progress -s
 	@printf "\033[0m] Done\n"

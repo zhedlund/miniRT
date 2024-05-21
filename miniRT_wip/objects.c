@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:32:13 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/17 22:40:36 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 16:21:09 by kdzhoha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,15 @@ float	hit_sphere(t_vec *center, float radius, t_ray *r)
 {
 	t_vec	oc;
 	float	a;
-	float	half_b; // half dot product of vector oc and the direction vector of the ray.
-	float	c;
+	float	half_b;
 	float	discriminant;
 	float	t[2];
 
 	oc = vec3_subtract(r->origin, *center);
 	a = vec3_length_squared(&r->dir);
 	half_b = dot(&oc, &r->dir);
-	c = vec3_length_squared(&oc) - radius * radius;
-	discriminant = half_b * half_b - a * c;
+	discriminant = half_b * half_b
+		- a * (vec3_length_squared(&oc) - radius * radius);
 	if (discriminant < 0)
 		return (-1.0);
 	t[0] = (-half_b - sqrt(discriminant)) / a;
@@ -51,11 +50,12 @@ float	hit_sphere(t_vec *center, float radius, t_ray *r)
 		return (t[1]);
 }
 
-/* 	Calculates the point of intersection between a ray and a plane.
+/*	Calculates the point of intersection between a ray and a plane.
 	Returns the distance from the ray origin to the intersection point,
-	or -1 if the ray is parallel to the plane, or the intersection point is behind the ray origin.
+	or -1 if the ray is parallel to the plane,
+	or the intersection point is behind the ray origin.
 */
-float hit_plane(t_plane *pl, t_ray *r)
+float	hit_plane(t_plane *pl, t_ray *r)
 {
 	float	denominator;
 	t_vec	origin_to_point;
@@ -63,23 +63,24 @@ float hit_plane(t_plane *pl, t_ray *r)
 
 	denominator = dot(&pl->normal, &r->dir);
 	if (denominator == 0)
-		return (-1.0); // Ray is parallel to the plane
+		return (-1.0);
 	origin_to_point = (t_vec){(pl->point.x - r->origin.x),
-							(pl->point.y - r->origin.y),
-							(pl->point.z - r->origin.z)};
+		(pl->point.y - r->origin.y),
+		(pl->point.z - r->origin.z)};
 	t = dot(&origin_to_point, &pl->normal) / denominator;
 	if (t < 0)
-		return (-1.0); // Intersection point is behind the ray origin
+		return (-1.0);
 	return (t);
 }
 
 float	hit_object(t_obj *obj, t_ray *r, t_hit *hit)
 {
-	float t;
+	float	t;
 
 	t = -1.0;
 	if (obj->id == SPHERE)
-		t = hit_sphere(&((t_sph *)(obj->obj))->center, ((t_sph *)(obj->obj))->radius, r);
+		t = hit_sphere(&((t_sph *)(obj->obj))->center,
+				((t_sph *)(obj->obj))->radius, r);
 	else if (obj->id == PLANE)
 		t = hit_plane((t_plane *)(obj->obj), r);
 	else if (obj->id == CYLINDER)
