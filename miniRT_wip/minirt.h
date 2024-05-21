@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/21 16:09:56 by kdzhoha          ###   ########.fr       */
+/*   Created: 2024/05/21 17:27:02 by zhedlund          #+#    #+#             */
+/*   Updated: 2024/05/21 17:27:06 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ typedef struct s_data
 
 typedef struct s_ray
 {
-	t_vec origin;
-	t_vec dir;
+	t_vec	origin;
+	t_vec	dir;
 }	t_ray;
 
 typedef struct s_sph
@@ -65,8 +65,6 @@ typedef struct s_sph
 	t_color	color;
 }	t_sph;
 
-// c_part = 0, 1, 2, 3:
-// 0 - not a cylinder, 1 - top of cylinder, 2 - bottom of cylinder, 3 - side of cylinder
 typedef struct s_hit
 {
 	float			t;
@@ -94,14 +92,12 @@ t_color	light_pixel(float l_dot_n, t_vec *light_r, t_hit *hit, t_scene *scene);
 t_color	shadow_pixel(t_hit *hit, t_scene *scene);
 
 /* color */
-t_color	amb_light(t_amb *a, t_color *c);
 t_color	diffuse_color(t_light *l, t_color *c, float diffuse_factor);
 void	write_color(t_color px, t_img *img, int x, int y);
 t_color	blend_color(t_color *c1, t_color *c2);
-t_color alpha_color(t_color c1, t_color c2, float alpha);
 
 /* math */
-float 	dot(t_vec *u, t_vec *v);
+float	dot(t_vec *u, t_vec *v);
 t_vec	intersect_point(t_ray *r, float t);
 t_vec	vec3_subtract(t_vec a, t_vec b);
 float	vec3_length_squared(t_vec *v);
@@ -116,12 +112,11 @@ float	pow2(float n);
 /* mlx */
 void	mlx_hooks_init(t_data *data);
 int		close_window(t_data *data);
-int 	key_handler(int keycode, t_data *data);
+int		key_handler(int keycode, t_data *data);
 void	ft_pixel_put(t_img *img, int x, int y, int color);
 void	free_mlx(t_data *data);
 
-/* debug */
-void	print_object_list(t_obj *head);
-char 	*shape_to_string(t_shape shape);
+/* utils */
+int		get_min(float t[3]);
 
 #endif

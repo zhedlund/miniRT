@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+         #
+#    By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/05/21 16:19:19 by kdzhoha          ###   ########.fr        #
+#    Updated: 2024/05/21 17:30:14 by zhedlund         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,9 @@ SRC = 	main.c \
 		viewport.c \
 		math/math.c \
 		math/math_vector.c \
-		utils/list_utils.c \
+		utils/utils.c \
 		utils/mlx_utils.c \
 		utils/rendering_utils.c \
-		debug.c \
 		parsing/parse_input.c \
 		parsing/input_check.c \
 		parsing/input_check_2.c \

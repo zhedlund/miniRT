@@ -6,13 +6,13 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:46:37 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/17 23:11:19 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:58:48 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-float	hit_top(t_cyl *cyl, t_ray *ray)
+static float	hit_top(t_cyl *cyl, t_ray *ray)
 {
 	float	t;
 	t_vec	p;
@@ -28,7 +28,7 @@ float	hit_top(t_cyl *cyl, t_ray *ray)
 	return (t);
 }
 
-float	hit_bottom(t_cyl *cyl, t_ray *ray)
+static float	hit_bottom(t_cyl *cyl, t_ray *ray)
 {
 	float	t;
 	t_vec	p;
@@ -44,7 +44,7 @@ float	hit_bottom(t_cyl *cyl, t_ray *ray)
 	return (t);
 }
 
-float	is_valid(float t, t_cyl *cyl, t_ray *ray, t_vec co)
+static float	is_valid(float t, t_cyl *cyl, t_ray *ray, t_vec co)
 {
 	float	m;
 	t_vec	temp;
@@ -61,7 +61,7 @@ float	is_valid(float t, t_cyl *cyl, t_ray *ray, t_vec co)
 	return (t);
 }
 
-float	hit_side(t_cyl *cyl, t_ray *ray, t_vec co)
+static float	hit_side(t_cyl *cyl, t_ray *ray, t_vec co)
 {
 	float	t[2];
 	float	a;
@@ -70,7 +70,8 @@ float	hit_side(t_cyl *cyl, t_ray *ray, t_vec co)
 	float	d;
 
 	a = dot(&ray->dir, &ray->dir) - powf(dot(&ray->dir, &cyl->normal), 2);
-	b = 2 * (dot(&ray->dir, &co) - dot(&ray->dir, &cyl->normal) * dot(&co, &cyl->normal));
+	b = 2 * (dot(&ray->dir, &co) - dot(&ray->dir, &cyl->normal)
+			* dot(&co, &cyl->normal));
 	c = dot(&co, &co) - powf(dot(&co, &cyl->normal), 2) - powf(cyl->r, 2);
 	d = b * b - (4 * a * c);
 	if (d < 0)
@@ -87,27 +88,6 @@ float	hit_side(t_cyl *cyl, t_ray *ray, t_vec co)
 		return (t[0]);
 	else
 		return (t[1]);
-}
-
-int	get_min(float t[3])
-{
-	int		i;
-	int		res;
-	float	min;
-
-	i = 0;
-	res = -1;
-	min = FLT_MAX;
-	while (i < 3)
-	{
-		if (t[i] > 0 && t[i] < min)
-		{
-			res = i;
-			min = t[i];
-		}
-		i++;
-	}
-	return (res);
 }
 
 float	hit_cylinder(t_cyl *cyl, t_ray *ray, t_hit *hit)

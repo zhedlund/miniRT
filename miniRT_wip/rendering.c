@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 17:36:48 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/21 16:07:38 by kdzhoha          ###   ########.fr       */
+/*   Created: 2024/05/21 16:41:30 by zhedlund          #+#    #+#             */
+/*   Updated: 2024/05/21 16:41:34 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
