@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:30:12 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/21 19:06:45 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 20:08:23 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	free_mlx(t_data *data)
 
 int	close_window(t_data *data)
 {
+	if (data->scene)
+		free_scene(data->scene);
 	free_mlx(data);
 	exit(0);
 }
@@ -86,6 +88,6 @@ void	mlx_hooks_init(t_data *data)
 	data->img.mlx_img = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.mlx_img, &data->img.bpp,
 			&data->img.line_len, &data->img.endian);
-	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, &key_handler, data); 
-	mlx_hook(data->win_ptr, 17, 0, &close_window, NULL);
+	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, key_handler, data); 
+	mlx_hook(data->win_ptr, 17, 0, close_window, data);
 }

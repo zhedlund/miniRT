@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 16:01:17 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/21 16:20:15 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/21 20:10:57 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,36 @@ t_vec	get_point_normal(t_hit *hit, t_vec *hitpoint, t_ray *r)
 	return (normal);
 }
 
-t_color	diffuse_lighting(t_color *px, t_light *light, t_vec *normal)
+/* Calculates t1 and t2 for a quadratic equation.
+   Returns a t_vec struct representing the two solutions.
+*/
+int	get_min(float t[3])
 {
-	t_vec	light_dir;
-	float	diffuse_factor;
-	t_color	diffuse;
+	int		i;
+	int		res;
+	float	min;
 
-	light_dir = vec3_unit_vector(&light->pos);
-	diffuse_factor = dot(&light_dir, normal);
-	diffuse = diffuse_color(light, px, diffuse_factor);
-	*px = blend_color(px, &diffuse);
-	return (*px);
+	i = 0;
+	res = -1;
+	min = FLT_MAX;
+	while (i < 3)
+	{
+		if (t[i] > 0 && t[i] < min)
+		{
+			res = i;
+			min = t[i];
+		}
+		i++;
+	}
+	return (res);
+}
+
+/* calculates intersection point of a ray and a sphere.
+   Returns a t_vec struct representing the intersection point.
+*/
+t_vec	intersect_point(t_ray *r, float t)
+{
+	return ((t_vec){r->origin.x + (t * r->dir.x),
+		r->origin.y + (t * r->dir.y),
+		r->origin.z + (t * r->dir.z)});
 }

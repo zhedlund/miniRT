@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:27:02 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/21 19:27:44 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 20:11:20 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ t_ray	create_ray(t_cam *cam, float x, float y);
 t_color	ray_color(t_ray *r, t_scene *scene);
 t_vec	get_point_normal(t_hit *hit, t_vec *hitpoint, t_ray *r);
 t_vec	cyl_normal(t_hit *hit, t_ray *ray);
-t_color	diffuse_lighting(t_color *px, t_light *light, t_vec *normal);
 t_color	light_pixel(float l_dot_n, t_vec *light_r, t_hit *hit, t_scene *scene);
 t_color	shadow_pixel(t_hit *hit, t_scene *scene);
 
