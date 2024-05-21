@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:30:12 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/17 21:52:30 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:27:22 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,36 +36,24 @@ int key_handler(int keycode, t_data *data)
 	if (keycode == XK_Escape)
 		close_window(data);
 	if (keycode == XK_Left)
-	{
-		printf("Left arrow key pressed\n");
-		data->scene->c.center.x -= 0.2;
-	}
+		data->scene->c.center = vec3_add(data->scene->c.center,
+			vec_multiply(&data->scene->c.view_u, -0.1));
 	else if (keycode == XK_Right)
-	{
-		printf("Right arrow key pressed\n");
-		data->scene->c.center.x += 0.2;
-	}
+		data->scene->c.center = vec3_add(data->scene->c.center,
+			vec_multiply(&data->scene->c.view_u, 0.1));
 	else if (keycode == XK_Up)
-	{
-		printf("Up arrow key pressed\n");
-		data->scene->c.center.y += 0.2;
-	}
+		data->scene->c.center = vec3_add(data->scene->c.center,
+			vec_multiply(&data->scene->c.view_v, -0.1));
 	else if (keycode == XK_Down)
-	{
-		printf("Down arrow key pressed\n");
-		data->scene->c.center.y -= 0.2;
-	}
+		data->scene->c.center = vec3_add(data->scene->c.center,
+			vec_multiply(&data->scene->c.view_v, 0.1));
 	else if (keycode == XK_equal)
-	{
-		printf("Plus/equal key pressed\n");
-		data->scene->c.center.z += 0.2;
-	}
+		data->scene->c.center = vec3_add(data->scene->c.center,
+			vec_multiply(&data->scene->c.dir, 0.2));
 	else if (keycode == XK_minus)
-	{
-		printf("Minus key pressed\n");
-		data->scene->c.center.z -= 0.2;
-	}
-	calculate_viewport(&data->scene->c);
+		data->scene->c.center = vec3_add(data->scene->c.center,
+			vec_multiply(&data->scene->c.dir, -0.2));
+	calc_px_00(&data->scene->c, vec_multiply(&data->scene->c.dir, -1));
 	create_image(data);
 	return (0);
 }

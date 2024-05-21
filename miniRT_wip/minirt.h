@@ -83,11 +83,12 @@ float	hit_object(t_obj *obj, t_ray *r, t_hit *hit);
 
 /* rendering */
 void	calculate_viewport(t_cam *cam);
+void	calc_px_00(t_cam *c, t_vec w);
 void	create_image(t_data *data);
 t_color	ray_color(t_ray *r, t_scene *scene);
 t_vec	cyl_normal(t_hit *hit, t_ray *ray);
 t_color	light_pixel(float l_dot_n, t_vec *light_r, t_hit *hit, t_scene *scene);
-t_color	shadow_pixel(float shadow_t, t_hit *hit, t_scene *scene);
+t_color	shadow_pixel(t_hit *hit, t_scene *scene);
 
 /* color */
 t_color	amb_light(t_amb *a, t_color *c);

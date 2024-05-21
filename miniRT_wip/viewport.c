@@ -31,7 +31,7 @@ static void	calc_view_dimensions(t_cam *c)
 	c->view_height = c->view_width * (HEIGHT / WIDTH);
 }
 
-static void	calc_px_00(t_cam *c, t_vec w)
+void	calc_px_00(t_cam *c, t_vec w)
 {
 	c->view_up_l = vec3_subtract(c->center, w);
 	c->view_up_l = vec3_subtract(c->view_up_l, vec3_divide(c->view_u, 2.0));

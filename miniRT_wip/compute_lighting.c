@@ -65,7 +65,6 @@ t_color	light_pixel(float l_dot_n, t_vec *light_r, t_hit *hit, t_scene *scene)
 	if (l_dot_n < 0)
 		l_dot_n = 0;
 	light_i = l_dot_n / vec3_length(light_r);
-	// light_i = light_i * scene->l.ratio + scene->a.ratio;
 	a_color.r = a_color.r * scene->a.ratio * color.r;
 	a_color.g = a_color.g * scene->a.ratio * color.g;
 	a_color.b = a_color.b * scene->a.ratio * color.b;
@@ -73,28 +72,16 @@ t_color	light_pixel(float l_dot_n, t_vec *light_r, t_hit *hit, t_scene *scene)
 	return (blend_color(&a_color, &l_color));
 }
 
-t_color	shadow_pixel(float shadow_t, t_hit *hit, t_scene *scene)
+t_color	shadow_pixel(t_hit *hit, t_scene *scene)
 {
 	t_color	color;
 	float	shadow_i;
-	(void) shadow_t;
 
 	color = hitobject_color(hit);
-	shadow_i = scene->a.ratio; // + shadow_t / 100;
+	shadow_i = scene->a.ratio;
 	color.r = color.r * shadow_i;
 	color.g = color.g * shadow_i;
 	color.b = color.b * shadow_i;
 	return (color);
 }
 
-// float	get_light_i(t_vec light, t_vec normal, float ratio)
-// {
-// 	float	res;
-// 	float	l_dot_n;
-
-// 	l_dot_n = dot(&normal, &light);
-// 	if (l_dot_n < 0)
-// 		l_dot_n = 0;
-// 	res = ratio * l_dot_n / (vec3_length(&normal) * vec3_length(&light));
-// 	return (res);
-// }
