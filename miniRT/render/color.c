@@ -6,11 +6,11 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:26:07 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/21 21:39:31 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 22:00:44 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../minirt.h"
 
 /* 	Calculates the diffuse color of a pixel by multiplying the color of the 
 	pixel by the color of the light. The diffuse color is the color 

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   objects.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:32:13 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/21 16:21:09 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/21 22:00:12 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../minirt.h"
 
 t_vec	sphere_normal(t_sph *sp, t_vec *intersect)
 {

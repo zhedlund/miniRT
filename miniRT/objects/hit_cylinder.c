@@ -6,11 +6,11 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:46:37 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/21 15:58:48 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 22:00:07 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../minirt.h"
 
 static float	hit_top(t_cyl *cyl, t_ray *ray)
 {

@@ -6,26 +6,26 @@
 #    By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/05/21 21:54:22 by zhedlund         ###   ########.fr        #
+#    Updated: 2024/05/21 23:35:20 by zhedlund         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -O3
-LFLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
+LFLAGS = -L../minilibx-linux -lmlx_Linux -lX11 -lXext -lm
 DEPS = parsing/parsing.h minirt.h
 COMPILED = .compiled
 
 SRC = 	main.c \
-		color.c \
-		objects.c \
-		rendering.c \
-		hit_cylinder.c \
-		compute_lighting.c \
-		viewport.c \
 		math/math.c \
 		math/math_vector.c \
+		objects/objects.c \
+		objects/hit_cylinder.c \
+		render/color.c \
+		render/lighting.c \
+		render/rendering.c \
+		render/viewport.c \
 		utils/mlx_utils.c \
 		utils/rendering_utils.c \
 		parsing/parse_input.c \
@@ -47,7 +47,7 @@ OBJ = $(SRC:.c=.o)
 all: libmlx check_changes $(NAME)
 
 libmlx:
-	@$(MAKE) -C minilibx-linux > /dev/null
+	@$(MAKE) -C ../minilibx-linux > /dev/null
 
 check_changes:
 	@if [ -e $(COMPILED) ] && [ -z "$$(find $(SRC) -newer $(COMPILED))" ]; then \

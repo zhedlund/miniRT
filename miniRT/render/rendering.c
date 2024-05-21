@@ -6,11 +6,11 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 16:41:30 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/21 16:41:34 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 22:00:50 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../minirt.h"
 
 void	create_image(t_data *data)
 {

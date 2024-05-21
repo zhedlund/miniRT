@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:27:02 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/21 20:11:20 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 23:33:58 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <math.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
-# include "minilibx-linux/mlx.h"
+# include "../minilibx-linux/mlx.h"
 # include "parsing/parsing.h"
 
 # define WIDTH 960.0

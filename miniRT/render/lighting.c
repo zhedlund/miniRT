@@ -6,11 +6,11 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 14:32:34 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/21 19:25:02 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 22:00:47 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../minirt.h"
 
 t_vec	c_side_normal(t_hit *hit, t_ray *ray)
 {
