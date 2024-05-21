@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:43:05 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/17 23:12:32 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:52:28 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,9 @@ t_color	light_pixel(float l_dot_n, t_vec *light_r, t_hit *hit, t_scene *scene);
 t_color	shadow_pixel(t_hit *hit, t_scene *scene);
 
 /* color */
-t_color	amb_light(t_amb *a, t_color *c);
 t_color	diffuse_color(t_light *l, t_color *c, float diffuse_factor);
 void	write_color(t_color px, t_img *img, int x, int y);
 t_color	blend_color(t_color *c1, t_color *c2);
-t_color alpha_color(t_color c1, t_color c2, float alpha);
 
 /* math */
 float 	dot(t_vec *u, t_vec *v);
@@ -117,8 +115,7 @@ int 	key_handler(int keycode, t_data *data);
 void	ft_pixel_put(t_img *img, int x, int y, int color);
 void	free_mlx(t_data *data);
 
-/* debug */
-void	print_object_list(t_obj *head);
-char 	*shape_to_string(t_shape shape);
+/* utils */
+int		get_min(float t[3]);
 
 #endif

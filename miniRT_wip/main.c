@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:49:35 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/17 22:36:46 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:53:54 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	main(int argc, char **argv)
 	if (!scene)
 		return (1);
 	data.scene = scene;
-	print_object_list(scene->objs);
 	calculate_viewport(&scene->c);
 	mlx_hooks_init(&data);
 	create_image(&data);

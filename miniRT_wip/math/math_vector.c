@@ -6,14 +6,15 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:28:43 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/03 18:59:15 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:35:20 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
 /*	calculates the length of a vector represented by a t_vec struct,
-	by summing the squares of the components of the vector and taking the square root.
+	by summing the squares of the components of the vector and taking
+	the square root.
 */
 float	vec3_length(t_vec *v)
 {

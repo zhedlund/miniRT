@@ -6,7 +6,7 @@
 #    By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/05/21 15:15:30 by zhedlund         ###   ########.fr        #
+#    Updated: 2024/05/21 15:53:05 by zhedlund         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,9 +25,8 @@ SRC = 	main.c \
 		viewport.c \
 		math/math.c \
 		math/math_vector.c \
-		utils/list_utils.c \
+		utils/utils.c \
 		utils/mlx_utils.c \
-		debug.c \
 		parsing/parse_input.c \
 		parsing/input_check.c \
 		parsing/input_check_2.c \

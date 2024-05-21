@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compute_lighting.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdzhoha <kdzhoha@student.42berlin.de >     +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 14:32:34 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/10 16:11:34 by kdzhoha          ###   ########.fr       */
+/*   Updated: 2024/05/21 15:34:43 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,3 @@ t_color	shadow_pixel(t_hit *hit, t_scene *scene)
 	color.b = color.b * shadow_i;
 	return (color);
 }
-
