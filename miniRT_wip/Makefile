@@ -6,7 +6,7 @@
 #    By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 11:57:37 by zhedlund          #+#    #+#              #
-#    Updated: 2024/05/21 20:09:55 by zhedlund         ###   ########.fr        #
+#    Updated: 2024/05/21 21:54:22 by zhedlund         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -O3
 LFLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
 DEPS = parsing/parsing.h minirt.h
+COMPILED = .compiled
 
 SRC = 	main.c \
 		color.c \
@@ -43,13 +44,22 @@ SRC = 	main.c \
 
 OBJ = $(SRC:.c=.o)
 
-all: $(NAME)
+all: libmlx check_changes $(NAME)
+
+libmlx:
+	@$(MAKE) -C minilibx-linux > /dev/null
+
+check_changes:
+	@if [ -e $(COMPILED) ] && [ -z "$$(find $(SRC) -newer $(COMPILED))" ]; then \
+		echo "make: Nothing to be done for 'all'."; \
+	fi
 
 $(NAME): $(OBJ)
 	@printf "Compiling: [\033[0;32m"
 	@$(MAKE) progress -s
 	@printf "\033[0m] Done\n"
 	@$(CC) $(OBJ) $(LFLAGS) -o $(NAME)
+	@touch $(COMPILED)
 
 progress:
 	@for i in $(shell seq 1 $(words $(SRC))); do \
@@ -61,11 +71,11 @@ progress:
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -rf $(OBJ)
-
+	@rm -rf $(OBJ) $(COMPILED)
+	
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(COMPILED)
 
 re: fclean all
 
-.PHONY: all clean fclean re progress
+.PHONY: all clean fclean re progress check_changes
