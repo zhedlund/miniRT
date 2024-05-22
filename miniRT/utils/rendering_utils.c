@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 16:01:17 by kdzhoha           #+#    #+#             */
-/*   Updated: 2024/05/21 20:10:57 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:58:03 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ t_vec	get_point_normal(t_hit *hit, t_vec *hitpoint, t_ray *r)
 	return (normal);
 }
 
-/* Calculates t1 and t2 for a quadratic equation.
-   Returns a t_vec struct representing the two solutions.
+/* Calculates t values for the cylinder intersection.
+   Returns an array of 3 floats.
 */
 int	get_min(float t[3])
 {

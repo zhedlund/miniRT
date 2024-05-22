@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:27:02 by zhedlund          #+#    #+#             */
-/*   Updated: 2024/05/21 23:33:58 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:53:51 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
-	float	offset_x;
-	float	offset_y;
 	t_img	img;
 	t_scene	*scene;
 }	t_data;
