@@ -167,6 +167,12 @@ This project was developed by:
 
 ---
 
+## **Acknowledgments**
+
+`miniRT` was developed as part of a hands-on exploration of computer graphics at 42 Berlin.
+
+---
+
 ## **License**
 
 This project is licensed under the [MIT License](LICENSE).
