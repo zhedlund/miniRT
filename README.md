@@ -5,6 +5,10 @@
 
 ## **Features**
 
+---
+
+## **Features**
+
 - **Supported Geometric Objects**:
   - Plane
   - Sphere
@@ -15,12 +19,18 @@
   - Ambient lighting
   - Diffuse lighting
 - **Interactive Controls**:
-  - Rotate using arrow keys.
+  - Rotate using:
+    - **Arrow keys**: Rotate around the X and Y axes.
+    - `+` / `-` keys: Rotate around the Z axis.
   - Zoom in/out using the mouse wheel or `+`/`-` keys.
   - Exit with `ESC` or by clicking the window's close button.
 - **Scene Customization**:
   - Define planes, spheres, and cylinders using `.rt` scene files.
   - Example scene files included in the `scenes` folder.
+
+---
+
+Let me know if you’d like further adjustments!
 
 ---
 
