@@ -12,7 +12,7 @@
 
 NAME = miniRT
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -O3
+CFLAGS = -Wall -Wextra -Werror -g -O3 -Wno-unused-result
 LFLAGS = -L../minilibx-linux -lmlx_Linux -lX11 -lXext -lm
 DEPS = parsing/parsing.h minirt.h
 COMPILED = .compiled
