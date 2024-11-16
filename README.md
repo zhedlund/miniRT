@@ -1,5 +1,5 @@
 # miniRT
-`miniRT` is a simple ray tracer written in C that generates 3D images based on a scene description file. Built as a team project, it showcases essential ray tracing concepts such as lighting, shadows, and geometric transformations.  
+`miniRT` is a ray tracer written in C that generates 3D images based on a scene description file. Built as a team project, it showcases essential ray tracing concepts such as lighting, shadows, and geometric transformations.  
 
 ---
 
