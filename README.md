@@ -43,7 +43,7 @@ $ cd miniRT
 ```
 
 ### 2. MinilibX Library
-Ensure the `minilibx-linux` folder is in the root of the repository (already included). No separate download is required.
+Ensure the `minilibx-linux` folder is in the root of the repository.
 
 ### 3. Build the Project
 Use the provided Makefile to compile both `miniRT` and `MinilibX`:
@@ -96,7 +96,7 @@ L -40.0,50.0,0.0 0.6 10,0,255
 - Identifier: `L`
 - Light source coordinates: `-40.0,50.0,0.0`
 - Brightness ratio `[0.0,1.0]`: `0.6`
-- RGB color `[0-255]` (unused in mandatory part): `10,0,255`
+- RGB color `[0-255]`: `10,0,255`
 
 #### **Sphere**
 ```text
@@ -134,7 +134,7 @@ Example `.rt` files can be found in the `scenes` folder.
 ## **Controls**
 
 - **Rotate**: Arrow keys  
-- **Zoom In/Out**: Mouse wheel or `+`/`-` (on an American keyboard)  
+- **Zoom In/Out**: Keys `+`/`-` (American keyboard)  
 - **Exit**: Press `ESC` or click the window’s close button  
 
 ---
@@ -142,8 +142,14 @@ Example `.rt` files can be found in the `scenes` folder.
 ## **Examples**
 
 Generated images from `miniRT`:  
+![Rendered sphere with Ambient and Diffuse Lighting.](images/sphere.png)
 
-*(Include images of rendered scenes here, with captions like "Rendered Cylinder with Ambient and Diffuse Lighting.")*
+![Rendered spheres, cylinders and plane with Ambient and Diffuse Lighting.](images/scene.png)
+
+![Rendered spheres, cylinders and plane with Ambient and Diffuse Lighting.](images/multi_obj.png)
+
+![Rendered snowman made from spheres and a plane with Ambient and Diffuse Lighting.](images/snowman.png)
+
 
 ---
 
